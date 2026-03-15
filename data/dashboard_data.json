@@ -1,0 +1,1571 @@
+{
+  "therapists": [
+    {
+      "therapist_id": 52799,
+      "name": "あみ",
+      "age": 23,
+      "height_cm": 161,
+      "cup_size": "E",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 60001,
+      "name": "いおり",
+      "age": 25,
+      "height_cm": 165,
+      "cup_size": "G",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 58231,
+      "name": "えな",
+      "age": 21,
+      "height_cm": 160,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 59729,
+      "name": "えみ",
+      "age": 25,
+      "height_cm": 167,
+      "cup_size": "E",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 60876,
+      "name": "かりん",
+      "age": null,
+      "height_cm": null,
+      "cup_size": null,
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 54670,
+      "name": "さあや",
+      "age": 24,
+      "height_cm": 156,
+      "cup_size": "E",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 52805,
+      "name": "さき",
+      "age": 25,
+      "height_cm": 160,
+      "cup_size": "G",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 55259,
+      "name": "さつき",
+      "age": 21,
+      "height_cm": 161,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 53772,
+      "name": "さな",
+      "age": 21,
+      "height_cm": 155,
+      "cup_size": "B",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 58233,
+      "name": "さら",
+      "age": 24,
+      "height_cm": 158,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52817,
+      "name": "すい",
+      "age": 24,
+      "height_cm": 153,
+      "cup_size": "F",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 58234,
+      "name": "すず",
+      "age": 24,
+      "height_cm": 151,
+      "cup_size": "E",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 54679,
+      "name": "なぎ",
+      "age": 24,
+      "height_cm": 160,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 52930,
+      "name": "ななせ",
+      "age": 25,
+      "height_cm": 158,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 56249,
+      "name": "ななみ",
+      "age": 23,
+      "height_cm": 145,
+      "cup_size": "F",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52876,
+      "name": "なみ",
+      "age": 21,
+      "height_cm": 164,
+      "cup_size": "C",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 52924,
+      "name": "はのん",
+      "age": 20,
+      "height_cm": 156,
+      "cup_size": "E",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52934,
+      "name": "はるる",
+      "age": 22,
+      "height_cm": 153,
+      "cup_size": "C",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 61448,
+      "name": "ひめか",
+      "age": null,
+      "height_cm": null,
+      "cup_size": null,
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 56364,
+      "name": "ふゆ",
+      "age": 24,
+      "height_cm": 151,
+      "cup_size": "C",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 54672,
+      "name": "ほのか",
+      "age": 26,
+      "height_cm": 156,
+      "cup_size": "F",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 58230,
+      "name": "みれい",
+      "age": 25,
+      "height_cm": 160,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 58235,
+      "name": "めい",
+      "age": 25,
+      "height_cm": 165,
+      "cup_size": "C",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 59733,
+      "name": "める",
+      "age": 20,
+      "height_cm": 165,
+      "cup_size": "C",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 59991,
+      "name": "もも",
+      "age": null,
+      "height_cm": null,
+      "cup_size": null,
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 61144,
+      "name": "ゆき",
+      "age": 21,
+      "height_cm": 165,
+      "cup_size": "D",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    },
+    {
+      "therapist_id": 60693,
+      "name": "ゆのみ",
+      "age": 24,
+      "height_cm": 150,
+      "cup_size": "F",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52874,
+      "name": "りあ",
+      "age": 20,
+      "height_cm": 167,
+      "cup_size": "G",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52925,
+      "name": "りこ",
+      "age": 23,
+      "height_cm": 157,
+      "cup_size": "C",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52828,
+      "name": "るい",
+      "age": 22,
+      "height_cm": 160,
+      "cup_size": "G",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 52878,
+      "name": "るな",
+      "age": 26,
+      "height_cm": 165,
+      "cup_size": "G",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:25"
+    },
+    {
+      "therapist_id": 55258,
+      "name": "るる",
+      "age": 19,
+      "height_cm": 161,
+      "cup_size": "E",
+      "is_active": 1,
+      "first_seen": "2026-03-14 06:54:25",
+      "last_seen": "2026-03-14 06:54:30"
+    }
+  ],
+  "weekly_schedules": [
+    {
+      "id": 1,
+      "therapist_id": 52876,
+      "schedule_date": "2026-03-14",
+      "location": "赤羽",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "なみ"
+    },
+    {
+      "id": 3,
+      "therapist_id": 52805,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さき"
+    },
+    {
+      "id": 4,
+      "therapist_id": 58234,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "すず"
+    },
+    {
+      "id": 5,
+      "therapist_id": 61144,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ゆき"
+    },
+    {
+      "id": 9,
+      "therapist_id": 56364,
+      "schedule_date": "2026-03-14",
+      "location": "西新井",
+      "start_time": "12:00",
+      "end_time": "20:30",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ふゆ"
+    },
+    {
+      "id": 6,
+      "therapist_id": 54670,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さあや"
+    },
+    {
+      "id": 7,
+      "therapist_id": 55258,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "るる"
+    },
+    {
+      "id": 11,
+      "therapist_id": 59991,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 1,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "もも"
+    },
+    {
+      "id": 2,
+      "therapist_id": 54679,
+      "schedule_date": "2026-03-14",
+      "location": "赤羽",
+      "start_time": "20:30",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "なぎ"
+    },
+    {
+      "id": 10,
+      "therapist_id": 53772,
+      "schedule_date": "2026-03-14",
+      "location": "西新井",
+      "start_time": "20:30",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さな"
+    },
+    {
+      "id": 8,
+      "therapist_id": 58231,
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "start_time": "21:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "えな"
+    },
+    {
+      "id": 12,
+      "therapist_id": 56364,
+      "schedule_date": "2026-03-15",
+      "location": "赤羽",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ふゆ"
+    },
+    {
+      "id": 14,
+      "therapist_id": 56249,
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "18:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ななみ"
+    },
+    {
+      "id": 15,
+      "therapist_id": 52805,
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さき"
+    },
+    {
+      "id": 20,
+      "therapist_id": 52934,
+      "schedule_date": "2026-03-15",
+      "location": "西新井",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "はるる"
+    },
+    {
+      "id": 16,
+      "therapist_id": 60876,
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "start_time": "13:30",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "かりん"
+    },
+    {
+      "id": 13,
+      "therapist_id": 55259,
+      "schedule_date": "2026-03-15",
+      "location": "赤羽",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さつき"
+    },
+    {
+      "id": 17,
+      "therapist_id": 52828,
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "るい"
+    },
+    {
+      "id": 18,
+      "therapist_id": 60693,
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ゆのみ"
+    },
+    {
+      "id": 19,
+      "therapist_id": 58235,
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "start_time": "21:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "めい"
+    },
+    {
+      "id": 21,
+      "therapist_id": 52874,
+      "schedule_date": "2026-03-16",
+      "location": "赤羽",
+      "start_time": "12:00",
+      "end_time": "21:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "りあ"
+    },
+    {
+      "id": 23,
+      "therapist_id": 61144,
+      "schedule_date": "2026-03-16",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ゆき"
+    },
+    {
+      "id": 28,
+      "therapist_id": 59733,
+      "schedule_date": "2026-03-16",
+      "location": "西新井",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "める"
+    },
+    {
+      "id": 24,
+      "therapist_id": 60001,
+      "schedule_date": "2026-03-16",
+      "location": "王子",
+      "start_time": "15:00",
+      "end_time": "21:30",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "いおり"
+    },
+    {
+      "id": 25,
+      "therapist_id": 52828,
+      "schedule_date": "2026-03-16",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "るい"
+    },
+    {
+      "id": 29,
+      "therapist_id": 52924,
+      "schedule_date": "2026-03-16",
+      "location": "西新井",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "はのん"
+    },
+    {
+      "id": 22,
+      "therapist_id": 58231,
+      "schedule_date": "2026-03-16",
+      "location": "赤羽",
+      "start_time": "21:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "えな"
+    },
+    {
+      "id": 26,
+      "therapist_id": 58230,
+      "schedule_date": "2026-03-16",
+      "location": "王子",
+      "start_time": "21:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "みれい"
+    },
+    {
+      "id": 27,
+      "therapist_id": 52876,
+      "schedule_date": "2026-03-16",
+      "location": "王子",
+      "start_time": "21:30",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "なみ"
+    },
+    {
+      "id": 30,
+      "therapist_id": 52930,
+      "schedule_date": "2026-03-17",
+      "location": "赤羽",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ななせ"
+    },
+    {
+      "id": 32,
+      "therapist_id": 59729,
+      "schedule_date": "2026-03-17",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "18:30",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "えみ"
+    },
+    {
+      "id": 33,
+      "therapist_id": 58233,
+      "schedule_date": "2026-03-17",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さら"
+    },
+    {
+      "id": 37,
+      "therapist_id": 52817,
+      "schedule_date": "2026-03-17",
+      "location": "西新井",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "すい"
+    },
+    {
+      "id": 31,
+      "therapist_id": 58234,
+      "schedule_date": "2026-03-17",
+      "location": "赤羽",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "すず"
+    },
+    {
+      "id": 34,
+      "therapist_id": 52828,
+      "schedule_date": "2026-03-17",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "るい"
+    },
+    {
+      "id": 35,
+      "therapist_id": 59991,
+      "schedule_date": "2026-03-17",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "もも"
+    },
+    {
+      "id": 38,
+      "therapist_id": 52924,
+      "schedule_date": "2026-03-17",
+      "location": "西新井",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "はのん"
+    },
+    {
+      "id": 36,
+      "therapist_id": 58235,
+      "schedule_date": "2026-03-17",
+      "location": "王子",
+      "start_time": "21:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "めい"
+    },
+    {
+      "id": 39,
+      "therapist_id": 52934,
+      "schedule_date": "2026-03-18",
+      "location": "赤羽",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "はるる"
+    },
+    {
+      "id": 41,
+      "therapist_id": 59729,
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "19:30",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "えみ"
+    },
+    {
+      "id": 42,
+      "therapist_id": 56364,
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "start_time": "13:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ふゆ"
+    },
+    {
+      "id": 43,
+      "therapist_id": 60001,
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "start_time": "15:00",
+      "end_time": "21:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "いおり"
+    },
+    {
+      "id": 40,
+      "therapist_id": 61448,
+      "schedule_date": "2026-03-18",
+      "location": "赤羽",
+      "start_time": "20:00",
+      "end_time": "26:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ひめか"
+    },
+    {
+      "id": 44,
+      "therapist_id": 52878,
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "るな"
+    },
+    {
+      "id": 45,
+      "therapist_id": 55259,
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さつき"
+    },
+    {
+      "id": 47,
+      "therapist_id": 59733,
+      "schedule_date": "2026-03-18",
+      "location": "西新井",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "める"
+    },
+    {
+      "id": 46,
+      "therapist_id": 58235,
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "start_time": "21:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "めい"
+    },
+    {
+      "id": 48,
+      "therapist_id": 52874,
+      "schedule_date": "2026-03-19",
+      "location": "赤羽",
+      "start_time": "12:00",
+      "end_time": "21:30",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "りあ"
+    },
+    {
+      "id": 50,
+      "therapist_id": 59729,
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "18:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "えみ"
+    },
+    {
+      "id": 51,
+      "therapist_id": 54672,
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "start_time": "12:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "ほのか"
+    },
+    {
+      "id": 52,
+      "therapist_id": 52817,
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "start_time": "13:00",
+      "end_time": "20:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "すい"
+    },
+    {
+      "id": 56,
+      "therapist_id": 52878,
+      "schedule_date": "2026-03-19",
+      "location": "西新井",
+      "start_time": "14:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "るな"
+    },
+    {
+      "id": 53,
+      "therapist_id": 52925,
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "りこ"
+    },
+    {
+      "id": 54,
+      "therapist_id": 54670,
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "さあや"
+    },
+    {
+      "id": 55,
+      "therapist_id": 59991,
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "start_time": "20:00",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "もも"
+    },
+    {
+      "id": 49,
+      "therapist_id": 52799,
+      "schedule_date": "2026-03-19",
+      "location": "赤羽",
+      "start_time": "21:30",
+      "end_time": "29:00",
+      "is_fully_booked": 0,
+      "scraped_at": "2026-03-14 06:54:25",
+      "therapist_name": "あみ"
+    }
+  ],
+  "daily_location_summary": [
+    {
+      "schedule_date": "2026-03-14",
+      "location": "王子",
+      "total_staff": 7,
+      "available_staff": 6,
+      "booked_staff": 1
+    },
+    {
+      "schedule_date": "2026-03-14",
+      "location": "西新井",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-14",
+      "location": "赤羽",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-15",
+      "location": "王子",
+      "total_staff": 6,
+      "available_staff": 6,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-15",
+      "location": "西新井",
+      "total_staff": 1,
+      "available_staff": 1,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-15",
+      "location": "赤羽",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-16",
+      "location": "王子",
+      "total_staff": 5,
+      "available_staff": 5,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-16",
+      "location": "西新井",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-16",
+      "location": "赤羽",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-17",
+      "location": "王子",
+      "total_staff": 5,
+      "available_staff": 5,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-17",
+      "location": "西新井",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-17",
+      "location": "赤羽",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-18",
+      "location": "王子",
+      "total_staff": 6,
+      "available_staff": 6,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-18",
+      "location": "西新井",
+      "total_staff": 1,
+      "available_staff": 1,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-18",
+      "location": "赤羽",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-19",
+      "location": "王子",
+      "total_staff": 6,
+      "available_staff": 6,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-19",
+      "location": "西新井",
+      "total_staff": 1,
+      "available_staff": 1,
+      "booked_staff": 0
+    },
+    {
+      "schedule_date": "2026-03-19",
+      "location": "赤羽",
+      "total_staff": 2,
+      "available_staff": 2,
+      "booked_staff": 0
+    }
+  ],
+  "therapist_stats": [
+    {
+      "therapist_id": 52828,
+      "name": "るい",
+      "shift_count": 3,
+      "locations": "王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 56364,
+      "name": "ふゆ",
+      "shift_count": 3,
+      "locations": "西新井,赤羽,王子",
+      "avg_hours": 7.8
+    },
+    {
+      "therapist_id": 58235,
+      "name": "めい",
+      "shift_count": 3,
+      "locations": "王子",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 59729,
+      "name": "えみ",
+      "shift_count": 3,
+      "locations": "王子",
+      "avg_hours": 6.7
+    },
+    {
+      "therapist_id": 59991,
+      "name": "もも",
+      "shift_count": 3,
+      "locations": "王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 52805,
+      "name": "さき",
+      "shift_count": 2,
+      "locations": "王子",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 52817,
+      "name": "すい",
+      "shift_count": 2,
+      "locations": "西新井,王子",
+      "avg_hours": 7.5
+    },
+    {
+      "therapist_id": 52874,
+      "name": "りあ",
+      "shift_count": 2,
+      "locations": "赤羽",
+      "avg_hours": 9.3
+    },
+    {
+      "therapist_id": 52876,
+      "name": "なみ",
+      "shift_count": 2,
+      "locations": "赤羽,王子",
+      "avg_hours": 7.8
+    },
+    {
+      "therapist_id": 52878,
+      "name": "るな",
+      "shift_count": 2,
+      "locations": "王子,西新井",
+      "avg_hours": 12.0
+    },
+    {
+      "therapist_id": 52924,
+      "name": "はのん",
+      "shift_count": 2,
+      "locations": "西新井",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 52934,
+      "name": "はるる",
+      "shift_count": 2,
+      "locations": "西新井,赤羽",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 54670,
+      "name": "さあや",
+      "shift_count": 2,
+      "locations": "王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 55259,
+      "name": "さつき",
+      "shift_count": 2,
+      "locations": "赤羽,王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 58231,
+      "name": "えな",
+      "shift_count": 2,
+      "locations": "王子,赤羽",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 58234,
+      "name": "すず",
+      "shift_count": 2,
+      "locations": "王子,赤羽",
+      "avg_hours": 8.5
+    },
+    {
+      "therapist_id": 59733,
+      "name": "める",
+      "shift_count": 2,
+      "locations": "西新井",
+      "avg_hours": 8.5
+    },
+    {
+      "therapist_id": 60001,
+      "name": "いおり",
+      "shift_count": 2,
+      "locations": "王子",
+      "avg_hours": 6.3
+    },
+    {
+      "therapist_id": 61144,
+      "name": "ゆき",
+      "shift_count": 2,
+      "locations": "王子",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 52799,
+      "name": "あみ",
+      "shift_count": 1,
+      "locations": "赤羽",
+      "avg_hours": 7.5
+    },
+    {
+      "therapist_id": 52925,
+      "name": "りこ",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 52930,
+      "name": "ななせ",
+      "shift_count": 1,
+      "locations": "赤羽",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 53772,
+      "name": "さな",
+      "shift_count": 1,
+      "locations": "西新井",
+      "avg_hours": 8.5
+    },
+    {
+      "therapist_id": 54672,
+      "name": "ほのか",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 54679,
+      "name": "なぎ",
+      "shift_count": 1,
+      "locations": "赤羽",
+      "avg_hours": 8.5
+    },
+    {
+      "therapist_id": 55258,
+      "name": "るる",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 56249,
+      "name": "ななみ",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 6.0
+    },
+    {
+      "therapist_id": 58230,
+      "name": "みれい",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 58233,
+      "name": "さら",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 8.0
+    },
+    {
+      "therapist_id": 60693,
+      "name": "ゆのみ",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 9.0
+    },
+    {
+      "therapist_id": 60876,
+      "name": "かりん",
+      "shift_count": 1,
+      "locations": "王子",
+      "avg_hours": 6.5
+    },
+    {
+      "therapist_id": 61448,
+      "name": "ひめか",
+      "shift_count": 1,
+      "locations": "赤羽",
+      "avg_hours": 6.0
+    }
+  ],
+  "shift_coverage": [
+    {
+      "schedule_date": "2026-03-14",
+      "day_shift": 5,
+      "night_shift": 6,
+      "total": 11
+    },
+    {
+      "schedule_date": "2026-03-15",
+      "day_shift": 5,
+      "night_shift": 4,
+      "total": 9
+    },
+    {
+      "schedule_date": "2026-03-16",
+      "day_shift": 4,
+      "night_shift": 5,
+      "total": 9
+    },
+    {
+      "schedule_date": "2026-03-17",
+      "day_shift": 4,
+      "night_shift": 5,
+      "total": 9
+    },
+    {
+      "schedule_date": "2026-03-18",
+      "day_shift": 4,
+      "night_shift": 5,
+      "total": 9
+    },
+    {
+      "schedule_date": "2026-03-19",
+      "day_shift": 5,
+      "night_shift": 4,
+      "total": 9
+    }
+  ],
+  "today_snapshots": [
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "えな",
+      "location": "王子",
+      "status": "available",
+      "start_time": "21:00",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "さあや",
+      "location": "王子",
+      "status": "available",
+      "start_time": "20:00",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "さき",
+      "location": "王子",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "20:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "さな",
+      "location": "西新井",
+      "status": "available",
+      "start_time": "20:30",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "すず",
+      "location": "王子",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "20:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "なぎ",
+      "location": "赤羽",
+      "status": "available",
+      "start_time": "20:30",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "なみ",
+      "location": "赤羽",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "20:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "ふゆ",
+      "location": "西新井",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "20:30"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "もも",
+      "location": "王子",
+      "status": "fully_booked",
+      "start_time": "20:00",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "ゆき",
+      "location": "王子",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "20:00"
+    },
+    {
+      "checked_at": "2026-03-14 06:54:30",
+      "therapist_name": "るる",
+      "location": "王子",
+      "status": "available",
+      "start_time": "20:00",
+      "end_time": "29:00"
+    }
+  ],
+  "scrape_logs": [
+    {
+      "id": 16,
+      "run_at": "2026-03-14 06:54:30",
+      "task_type": "daily_monitor",
+      "target_date": "2026-03-14",
+      "records_found": 11,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 9,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-14",
+      "records_found": 11,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 10,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-15",
+      "records_found": 9,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 11,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-16",
+      "records_found": 9,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 12,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-17",
+      "records_found": 9,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 13,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-18",
+      "records_found": 9,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 14,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-19",
+      "records_found": 9,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 15,
+      "run_at": "2026-03-14 06:54:25",
+      "task_type": "weekly",
+      "target_date": "2026-03-20",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 8,
+      "run_at": "2026-03-14 06:53:35",
+      "task_type": "weekly",
+      "target_date": null,
+      "records_found": 0,
+      "success": 0,
+      "error_message": "object dict can't be used in 'await' expression"
+    },
+    {
+      "id": 1,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-14",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 2,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-15",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 3,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-16",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 4,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-17",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 5,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-18",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 6,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-19",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 7,
+      "run_at": "2026-03-14 05:32:54",
+      "task_type": "weekly",
+      "target_date": "2026-03-20",
+      "records_found": 0,
+      "success": 1,
+      "error_message": null
+    }
+  ],
+  "generated_at": "2026-03-14 06:54:34"
+}

@@ -1,0 +1,42 @@
+name: Availability Monitor
+
+on:
+  schedule:
+    # 営業時間中（JST 12:00〜翌5:00 = UTC 3:00〜20:00）に30分ごと
+    - cron: '0,30 3-20 * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install httpx beautifulsoup4
+
+      - name: Initialize DB (if needed)
+        run: python scripts/db_setup.py
+
+      - name: Run availability monitor
+        run: python scripts/daily_monitor.py
+
+      - name: Commit snapshot data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/jewelryspa.db
+          git diff-index --quiet HEAD || git commit -m "🔍 Monitor snapshot: $(date -u +%H:%M)"
+          git push

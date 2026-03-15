@@ -1,0 +1,70 @@
+name: Weekly Schedule Collection
+
+on:
+  schedule:
+    # 毎日 JST 6:00 (= UTC 21:00 前日) に実行
+    - cron: '0 21 * * *'
+  workflow_dispatch:  # 手動実行用
+
+jobs:
+  collect-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # DBコミット用
+      pages: write          # GitHub Pages デプロイ用
+      id-token: write       # Pages認証用
+      actions: read         # Artifact読み取り用
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install httpx beautifulsoup4
+
+      - name: Initialize DB (if needed)
+        run: python scripts/db_setup.py
+
+      - name: Run weekly collector
+        run: python scripts/weekly_collector.py
+
+      - name: Run daily monitor (snapshot)
+        run: python scripts/daily_monitor.py
+
+      - name: Export dashboard data
+        run: python scripts/export_data.py
+
+      - name: Build dashboard HTML
+        run: |
+          python -c "
+          import json
+          with open('data/dashboard_data.json', encoding='utf-8') as f:
+              data = json.load(f)
+          with open('dashboards/dashboard_template.html', encoding='utf-8') as f:
+              html = f.read()
+          html = html.replace('DASHBOARD_DATA_PLACEHOLDER', json.dumps(data, ensure_ascii=False))
+          with open('dashboards/dashboard.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+          print('Dashboard built successfully')
+          "
+
+      - name: Prepare GitHub Pages content
+        run: |
+          mkdir -p docs
+          cp dashboards/dashboard.html docs/index.html
+          echo "Dashboard deployed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" > docs/last_updated.txt
+
+      - name: Commit updated data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/jewelryspa.db data/dashboard_data.json docs/
+          git diff-index --quiet HEAD || git commit -m "📊 Auto-update: $(date -u +%Y-%m-%d) schedule data"
+          git push

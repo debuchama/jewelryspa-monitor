@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JewelrySpa Schedule Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg: #0c0c0f;
+  --surface: #16161a;
+  --surface2: #1e1e24;
+  --border: rgba(255,255,255,0.06);
+  --border-bright: rgba(255,255,255,0.12);
+  --text: #e8e6e1;
+  --text-muted: #8a8880;
+  --text-dim: #5a5852;
+  --accent: #c9a96e;
+  --accent-glow: rgba(201,169,110,0.15);
+  --green: #4caf7d;
+  --green-bg: rgba(76,175,125,0.08);
+  --red: #e05555;
+  --red-bg: rgba(224,85,85,0.08);
+  --blue: #5b8fd9;
+  --blue-bg: rgba(91,143,217,0.08);
+  --amber: #d4a43a;
+  --purple: #9b7ed8;
+  --akabane: #e05555;
+  --oji: #5b8fd9;
+  --nishiarai: #4caf7d;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --font: 'DM Sans', 'Noto Sans JP', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+
+/* Header */
+.header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.header h1{font-size:20px;font-weight:500;letter-spacing:-.3px;color:var(--text)}
+.header h1 span{color:var(--accent);font-weight:600}
+.header-meta{font-size:12px;color:var(--text-dim);text-align:right}
+.header-meta strong{color:var(--text-muted);font-weight:500}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:28px;background:var(--surface);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
+.tab{padding:8px 18px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border-radius:7px;transition:all .2s;border:none;background:none;font-family:var(--font);white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--surface2);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+
+/* Panel */
+.panel{display:none}
+.panel.active{display:block}
+
+/* Metric Cards */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
+.metric-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.metric-value{font-size:26px;font-weight:600;letter-spacing:-.5px}
+.metric-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.metric.green .metric-value{color:var(--green)}
+.metric.red .metric-value{color:var(--red)}
+.metric.blue .metric-value{color:var(--blue)}
+.metric.accent .metric-value{color:var(--accent)}
+
+/* Chart containers */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px}
+.chart-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.chart-sub{font-size:12px;color:var(--text-dim);margin-bottom:16px}
+.chart-wrap{position:relative;width:100%}
+
+/* Heatmap */
+.heatmap{overflow-x:auto}
+.heatmap table{width:100%;border-collapse:separate;border-spacing:3px;font-size:12px}
+.heatmap th{color:var(--text-dim);font-weight:400;padding:6px 8px;text-align:center;font-size:11px;white-space:nowrap}
+.heatmap td{text-align:center;padding:8px 6px;border-radius:6px;font-weight:500;font-size:12px;white-space:nowrap;min-width:70px}
+.heatmap .loc-label{text-align:left;color:var(--text-muted);font-weight:400;padding-right:12px;white-space:nowrap;min-width:56px}
+.heat-0{background:var(--surface2);color:var(--text-dim)}
+.heat-1{background:rgba(76,175,125,.08);color:#4caf7d}
+.heat-2{background:rgba(76,175,125,.15);color:#5cbf8d}
+.heat-3{background:rgba(76,175,125,.22);color:#6ccf9d}
+.heat-4{background:rgba(201,169,110,.12);color:var(--accent)}
+.heat-5{background:rgba(201,169,110,.2);color:#d4b87a}
+.heat-6{background:rgba(201,169,110,.3);color:#dfca8e}
+
+/* Staff table */
+.staff-table{width:100%;border-collapse:collapse;font-size:13px}
+.staff-table th{text-align:left;color:var(--text-dim);font-weight:400;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.staff-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.staff-table tr:last-child td{border-bottom:none}
+.staff-table tr:hover td{background:var(--surface2)}
+.staff-name{font-weight:500;color:var(--text)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:.3px}
+.badge-akabane{background:rgba(224,85,85,.1);color:var(--akabane)}
+.badge-oji{background:rgba(91,143,217,.1);color:var(--oji)}
+.badge-nishiarai{background:rgba(76,175,125,.1);color:var(--nishiarai)}
+
+/* Today cards */
+.today-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.today-grid{grid-template-columns:1fr}}
+.loc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;position:relative;overflow:hidden}
+.loc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.loc-card.akabane::before{background:var(--akabane)}
+.loc-card.oji::before{background:var(--oji)}
+.loc-card.nishiarai::before{background:var(--nishiarai)}
+.loc-card h3{font-size:14px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.loc-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.akabane .loc-dot{background:var(--akabane)}
+.oji .loc-dot{background:var(--oji)}
+.nishiarai .loc-dot{background:var(--nishiarai)}
+.staff-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.staff-item:last-child{border-bottom:none}
+.staff-item-name{font-size:13px;font-weight:500}
+.staff-item-time{font-size:12px;color:var(--text-muted)}
+.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:6px}
+.status-avail{background:var(--green)}
+.status-booked{background:var(--red)}
+
+/* Log table */
+.log-table{width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono','DM Sans',monospace}
+.log-table th{text-align:left;color:var(--text-dim);font-weight:400;padding:6px 10px;border-bottom:1px solid var(--border)}
+.log-table td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--text-muted)}
+.log-ok{color:var(--green)}
+.log-err{color:var(--red)}
+
+/* Legend */
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;font-size:12px}
+.legend-item{display:flex;align-items:center;gap:5px;color:var(--text-muted)}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+
+/* Section heading */
+.section-head{font-size:15px;font-weight:500;color:var(--text);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><span>JewelrySpa</span> Schedule Dashboard</h1>
+    <div class="header-meta">
+      Generated: <strong id="gen-time"></strong><br>
+      Data range: <strong id="data-range"></strong>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showPanel('today')">Today</button>
+    <button class="tab" onclick="showPanel('weekly')">Weekly</button>
+    <button class="tab" onclick="showPanel('stats')">Staff Stats</button>
+    <button class="tab" onclick="showPanel('monitor')">Monitor Log</button>
+  </div>
+
+  <!-- TODAY PANEL -->
+  <div id="panel-today" class="panel active">
+    <div class="metrics" id="today-metrics"></div>
+    <div class="today-grid" id="today-grid"></div>
+    <div class="chart-card">
+      <div class="chart-title">Today's shift timeline</div>
+      <div class="chart-sub">Gantt view of all staff shifts</div>
+      <div class="chart-wrap" style="height:320px"><canvas id="chart-gantt"></canvas></div>
+    </div>
+  </div>
+
+  <!-- WEEKLY PANEL -->
+  <div id="panel-weekly" class="panel">
+    <div class="chart-card">
+      <div class="chart-title">Weekly staff count by location</div>
+      <div class="chart-sub">Stacked bar — total headcount per day</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--akabane)"></div>Akabane</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--oji)"></div>Oji</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--nishiarai)"></div>Nishiarai</div>
+      </div>
+      <div class="chart-wrap" style="height:300px"><canvas id="chart-weekly-bar"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Staffing heatmap</div>
+      <div class="chart-sub">Number of staff per location per day</div>
+      <div class="heatmap" id="heatmap-container"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Day / Night shift balance</div>
+      <div class="chart-sub">Day (&lt;18:00 start) vs Night (18:00+ start)</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Day shift</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Night shift</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="chart-shift-balance"></canvas></div>
+    </div>
+  </div>
+
+  <!-- STATS PANEL -->
+  <div id="panel-stats" class="panel">
+    <div class="chart-card">
+      <div class="chart-title">Staff shift frequency (current data)</div>
+      <div class="chart-sub">Number of scheduled shifts per therapist</div>
+      <div class="chart-wrap" style="height:360px"><canvas id="chart-staff-freq"></canvas></div>
+    </div>
+    <div class="section-head">Staff detail table</div>
+    <div class="chart-card" style="padding:0;overflow-x:auto">
+      <table class="staff-table" id="staff-detail-table">
+        <thead><tr><th>Name</th><th>Shifts</th><th>Avg hrs</th><th>Locations</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MONITOR PANEL -->
+  <div id="panel-monitor" class="panel">
+    <div class="section-head">Availability snapshots (today)</div>
+    <div class="chart-card" style="padding:0;overflow-x:auto" id="snapshot-container">
+      <p style="padding:20px;color:var(--text-dim);font-size:13px">No snapshot data yet. Run daily_monitor.py to collect.</p>
+    </div>
+    <div class="section-head">Scrape execution log</div>
+    <div class="chart-card" style="padding:0;overflow-x:auto">
+      <table class="log-table" id="log-table">
+        <thead><tr><th>Time</th><th>Task</th><th>Date</th><th>Records</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========= DATA =========
+const DATA = DASHBOARD_DATA_PLACEHOLDER;
+
+// ========= TABS =========
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ========= HEADER =========
+document.getElementById('gen-time').textContent = DATA.generated_at;
+const dates = DATA.weekly_schedules.map(s => s.schedule_date);
+if (dates.length) {
+  const u = [...new Set(dates)].sort();
+  document.getElementById('data-range').textContent = u[0] + ' ~ ' + u[u.length-1];
+}
+
+// ========= TODAY PANEL =========
+function renderToday() {
+  const today = new Date().toISOString().slice(0,10);
+  const todayData = DATA.weekly_schedules.filter(s => s.schedule_date === today);
+  const total = todayData.length;
+  const avail = todayData.filter(s => !s.is_fully_booked).length;
+  const booked = total - avail;
+
+  const locs = {};
+  todayData.forEach(s => {
+    if (!locs[s.location]) locs[s.location] = {avail:0, booked:0, staff:[]};
+    locs[s.location].staff.push(s);
+    if (s.is_fully_booked) locs[s.location].booked++;
+    else locs[s.location].avail++;
+  });
+
+  document.getElementById('today-metrics').innerHTML = `
+    <div class="metric accent"><div class="metric-label">Total staff</div><div class="metric-value">${total}</div><div class="metric-sub">on schedule today</div></div>
+    <div class="metric green"><div class="metric-label">Available</div><div class="metric-value">${avail}</div><div class="metric-sub">accepting bookings</div></div>
+    <div class="metric red"><div class="metric-label">Fully booked</div><div class="metric-value">${booked}</div><div class="metric-sub">no slots left</div></div>
+    <div class="metric blue"><div class="metric-label">Locations</div><div class="metric-value">${Object.keys(locs).length}</div><div class="metric-sub">active today</div></div>
+  `;
+
+  const locMap = {赤羽:'akabane', 王子:'oji', 西新井:'nishiarai'};
+  let gridHtml = '';
+  ['赤羽','王子','西新井'].forEach(loc => {
+    const d = locs[loc] || {avail:0, booked:0, staff:[]};
+    gridHtml += `<div class="loc-card ${locMap[loc]}">
+      <h3><span class="loc-dot"></span>${loc} <span style="font-size:12px;color:var(--text-dim);font-weight:400">(${d.staff.length})</span></h3>
+      ${d.staff.map(s => `<div class="staff-item">
+        <div><span class="status-dot ${s.is_fully_booked?'status-booked':'status-avail'}"></span><span class="staff-item-name">${s.therapist_name}</span></div>
+        <span class="staff-item-time">${s.start_time||'?'}〜${(s.end_time||'?').replace(/^(\d+):/,(m,h)=>h>24?(h-24)+':':m)}</span>
+      </div>`).join('')}
+    </div>`;
+  });
+  document.getElementById('today-grid').innerHTML = gridHtml;
+
+  // Gantt chart
+  if (todayData.length) {
+    const labels = todayData.map(s => s.therapist_name);
+    const locColors = {赤羽:'#e05555', 王子:'#5b8fd9', 西新井:'#4caf7d'};
+    const parseH = t => { if(!t) return 12; const [h,m]=t.split(':').map(Number); return h+m/60; };
+    const barData = todayData.map(s => [parseH(s.start_time), parseH(s.end_time)||29]);
+    const colors = todayData.map(s => locColors[s.location]||'#c9a96e');
+
+    new Chart(document.getElementById('chart-gantt'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data: barData,
+          backgroundColor: colors.map(c => c+'66'),
+          borderColor: colors,
+          borderWidth: 1,
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.7,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: {display:false}, tooltip: {
+          callbacks: {
+            label: ctx => {
+              const [s,e] = ctx.raw;
+              const fmt = v => Math.floor(v)+':'+(''+(Math.round((v%1)*60))).padStart(2,'0');
+              return fmt(s) + ' 〜 ' + fmt(e>24?e-24:e);
+            }
+          }
+        }},
+        scales: {
+          x: { min:10, max:30, ticks: {
+            callback: v => v > 24 ? (v-24)+':00' : v+':00',
+            color:'#5a5852',stepSize:2
+          }, grid:{color:'rgba(255,255,255,.04)'}},
+          y: { ticks:{color:'#8a8880',font:{size:12}}, grid:{display:false}}
+        }
+      }
+    });
+  }
+}
+
+// ========= WEEKLY PANEL =========
+function renderWeekly() {
+  const summary = DATA.daily_location_summary;
+  const dates = [...new Set(summary.map(s=>s.schedule_date))].sort();
+  const dayLabels = dates.map(d => {
+    const dt = new Date(d+'T00:00:00');
+    return (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
+  });
+
+  const getCount = (date,loc) => {
+    const r = summary.find(s => s.schedule_date===date && s.location===loc);
+    return r ? r.total_staff : 0;
+  };
+
+  new Chart(document.getElementById('chart-weekly-bar'), {
+    type:'bar',
+    data:{
+      labels: dayLabels,
+      datasets:[
+        {label:'赤羽', data:dates.map(d=>getCount(d,'赤羽')), backgroundColor:'#e0555588', borderColor:'#e05555', borderWidth:1, borderRadius:3},
+        {label:'王子', data:dates.map(d=>getCount(d,'王子')), backgroundColor:'#5b8fd988', borderColor:'#5b8fd9', borderWidth:1, borderRadius:3},
+        {label:'西新井', data:dates.map(d=>getCount(d,'西新井')), backgroundColor:'#4caf7d88', borderColor:'#4caf7d', borderWidth:1, borderRadius:3},
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{stacked:true, ticks:{color:'#5a5852'}, grid:{display:false}},
+        y:{stacked:true, ticks:{color:'#5a5852',stepSize:2}, grid:{color:'rgba(255,255,255,.04)'}, beginAtZero:true}
+      }
+    }
+  });
+
+  // Heatmap
+  let html = '<table><thead><tr><th></th>';
+  dates.forEach((d,i) => html += `<th>${dayLabels[i]}</th>`);
+  html += '</tr></thead><tbody>';
+  ['赤羽','王子','西新井'].forEach(loc => {
+    html += `<tr><td class="loc-label">${loc}</td>`;
+    dates.forEach(d => {
+      const cnt = getCount(d, loc);
+      const cls = cnt===0?'heat-0':cnt<=1?'heat-1':cnt<=2?'heat-2':cnt<=3?'heat-3':cnt<=5?'heat-4':cnt<=7?'heat-5':'heat-6';
+      html += `<td class="${cls}">${cnt}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('heatmap-container').innerHTML = html;
+
+  // Shift balance
+  const coverage = DATA.shift_coverage;
+  if (coverage.length) {
+    const cLabels = coverage.map(c => {
+      const dt = new Date(c.schedule_date+'T00:00:00');
+      return (dt.getMonth()+1)+'/'+dt.getDate();
+    });
+    new Chart(document.getElementById('chart-shift-balance'), {
+      type:'bar',
+      data:{
+        labels: cLabels,
+        datasets:[
+          {label:'Day', data:coverage.map(c=>c.day_shift), backgroundColor:'#d4a43a88', borderColor:'#d4a43a', borderWidth:1, borderRadius:3},
+          {label:'Night', data:coverage.map(c=>c.night_shift), backgroundColor:'#9b7ed888', borderColor:'#9b7ed8', borderWidth:1, borderRadius:3},
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{stacked:true, ticks:{color:'#5a5852'}, grid:{display:false}},
+          y:{stacked:true, ticks:{color:'#5a5852',stepSize:2}, grid:{color:'rgba(255,255,255,.04)'}, beginAtZero:true}
+        }
+      }
+    });
+  }
+}
+
+// ========= STATS PANEL =========
+function renderStats() {
+  const stats = DATA.therapist_stats.filter(s => s.shift_count > 0).sort((a,b) => b.shift_count - a.shift_count);
+
+  // Horizontal bar
+  new Chart(document.getElementById('chart-staff-freq'), {
+    type:'bar',
+    data:{
+      labels: stats.map(s=>s.name),
+      datasets:[{
+        data: stats.map(s=>s.shift_count),
+        backgroundColor: stats.map(s => {
+          const locs = s.locations||'';
+          if (locs.includes('赤羽') && !locs.includes('王子') && !locs.includes('西新井')) return '#e0555566';
+          if (locs.includes('王子') && !locs.includes('赤羽') && !locs.includes('西新井')) return '#5b8fd966';
+          if (locs.includes('西新井') && !locs.includes('赤羽') && !locs.includes('王子')) return '#4caf7d66';
+          return '#c9a96e66';
+        }),
+        borderColor: stats.map(s => {
+          const locs = s.locations||'';
+          if (locs.includes('赤羽') && !locs.includes('王子') && !locs.includes('西新井')) return '#e05555';
+          if (locs.includes('王子') && !locs.includes('赤羽') && !locs.includes('西新井')) return '#5b8fd9';
+          if (locs.includes('西新井') && !locs.includes('赤羽') && !locs.includes('王子')) return '#4caf7d';
+          return '#c9a96e';
+        }),
+        borderWidth:1, borderRadius:4, barPercentage:0.7
+      }]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#5a5852',stepSize:1}, grid:{color:'rgba(255,255,255,.04)'}, beginAtZero:true},
+        y:{ticks:{color:'#8a8880',font:{size:12}}, grid:{display:false}}
+      }
+    }
+  });
+
+  // Table
+  const locBadge = loc => {
+    if(!loc) return '';
+    return loc.split(',').map(l => {
+      l = l.trim();
+      const cls = l==='赤羽'?'badge-akabane':l==='王子'?'badge-oji':l==='西新井'?'badge-nishiarai':'';
+      return `<span class="badge ${cls}">${l}</span>`;
+    }).join(' ');
+  };
+  const tbody = document.querySelector('#staff-detail-table tbody');
+  tbody.innerHTML = stats.map(s => `<tr>
+    <td class="staff-name">${s.name}</td>
+    <td>${s.shift_count}</td>
+    <td>${s.avg_hours != null ? s.avg_hours + 'h' : '-'}</td>
+    <td>${locBadge(s.locations)}</td>
+  </tr>`).join('');
+}
+
+// ========= MONITOR LOG =========
+function renderMonitor() {
+  // Snapshots
+  const snaps = DATA.today_snapshots || [];
+  if (snaps.length > 0) {
+    const timeGroups = {};
+    snaps.forEach(s => {
+      if (!timeGroups[s.checked_at]) timeGroups[s.checked_at] = [];
+      timeGroups[s.checked_at].push(s);
+    });
+    let html = '<table class="log-table"><thead><tr><th>Check time</th><th>Name</th><th>Location</th><th>Status</th></tr></thead><tbody>';
+    Object.keys(timeGroups).sort().reverse().forEach(t => {
+      timeGroups[t].forEach((s,i) => {
+        html += `<tr>
+          <td>${i===0 ? t.split(' ')[1] : ''}</td>
+          <td>${s.therapist_name}</td>
+          <td>${s.location}</td>
+          <td class="${s.status==='available'?'log-ok':'log-err'}">${s.status==='available'?'Available':'Fully booked'}</td>
+        </tr>`;
+      });
+    });
+    html += '</tbody></table>';
+    document.getElementById('snapshot-container').innerHTML = html;
+  }
+
+  // Scrape logs
+  const logs = DATA.scrape_logs || [];
+  const tbody = document.querySelector('#log-table tbody');
+  tbody.innerHTML = logs.map(l => `<tr>
+    <td>${l.run_at}</td>
+    <td>${l.task_type}</td>
+    <td>${l.target_date||'-'}</td>
+    <td>${l.records_found}</td>
+    <td class="${l.success?'log-ok':'log-err'}">${l.success?'OK':'ERROR'}</td>
+  </tr>`).join('');
+}
+
+// ========= INIT =========
+renderToday();
+renderWeekly();
+renderStats();
+renderMonitor();
+</script>
+</body>
+</html>
