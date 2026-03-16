@@ -13,6 +13,18 @@ sys.path.insert(0, os.path.dirname(__file__))
 from db_setup import get_connection
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
+FAVORITES_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "favorites.json")
+
+
+def _load_favorites() -> list[dict]:
+    """
+    お気に入りスタッフ設定を読み込む。
+    data/favorites.json が存在しなければ空リスト。
+    """
+    if os.path.exists(FAVORITES_PATH):
+        with open(FAVORITES_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    return []
 
 
 def export_dashboard_data():
@@ -111,6 +123,73 @@ def export_dashboard_data():
         SELECT * FROM scrape_logs ORDER BY run_at DESC LIMIT 20
     """).fetchall()
     data["scrape_logs"] = [dict(r) for r in rows]
+
+    # ── 8. 人気度分析（予約が埋まるスピード）──
+    # 各セラピストの「available → fully_booked」遷移を検出し、
+    # シフト開始からの経過時間で人気度スコアを算出
+    rows = conn.execute("""
+        SELECT
+            av.therapist_id,
+            t.name,
+            av.schedule_date,
+            av.start_time,
+            MIN(CASE WHEN av.status = 'fully_booked' THEN av.checked_at END) as booked_at,
+            MIN(CASE WHEN av.status = 'available' THEN av.checked_at END) as first_seen_at
+        FROM availability_snapshots av
+        JOIN therapists t ON av.therapist_id = t.therapist_id
+        GROUP BY av.therapist_id, av.schedule_date
+        HAVING booked_at IS NOT NULL
+        ORDER BY av.schedule_date DESC, booked_at
+    """).fetchall()
+    data["booking_events"] = [dict(r) for r in rows]
+
+    # セラピスト別の平均埋まり速度（hours from shift start to fully_booked）
+    rows = conn.execute("""
+        WITH booked_times AS (
+            SELECT
+                av.therapist_id,
+                av.schedule_date,
+                av.start_time,
+                MIN(CASE WHEN av.status = 'fully_booked' THEN av.checked_at END) as booked_at,
+                MIN(CASE WHEN av.status = 'available' THEN av.checked_at END) as first_avail
+            FROM availability_snapshots av
+            GROUP BY av.therapist_id, av.schedule_date
+            HAVING booked_at IS NOT NULL AND first_avail IS NOT NULL
+        )
+        SELECT
+            bt.therapist_id,
+            t.name,
+            COUNT(*) as times_booked,
+            ROUND(AVG(
+                (julianday(bt.booked_at) - julianday(bt.first_avail)) * 24.0
+            ), 1) as avg_hours_to_book,
+            GROUP_CONCAT(DISTINCT ds.location) as locations
+        FROM booked_times bt
+        JOIN therapists t ON bt.therapist_id = t.therapist_id
+        LEFT JOIN daily_schedules ds ON bt.therapist_id = ds.therapist_id
+            AND bt.schedule_date = ds.schedule_date
+        GROUP BY bt.therapist_id
+        ORDER BY avg_hours_to_book ASC
+    """).fetchall()
+    data["popularity_ranking"] = [dict(r) for r in rows]
+
+    # ── 9. お気に入りスタッフの今週出勤 ──
+    favorites = _load_favorites()
+    data["favorites_config"] = favorites
+    if favorites:
+        fav_ids = [f["therapist_id"] for f in favorites]
+        placeholders = ",".join("?" * len(fav_ids))
+        rows = conn.execute(f"""
+            SELECT ds.*, t.name as therapist_name
+            FROM daily_schedules ds
+            JOIN therapists t ON ds.therapist_id = t.therapist_id
+            WHERE ds.therapist_id IN ({placeholders})
+              AND ds.schedule_date BETWEEN ? AND ?
+            ORDER BY ds.schedule_date, ds.start_time
+        """, fav_ids + [today, week_end]).fetchall()
+        data["favorites_schedule"] = [dict(r) for r in rows]
+    else:
+        data["favorites_schedule"] = []
 
     data["generated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
