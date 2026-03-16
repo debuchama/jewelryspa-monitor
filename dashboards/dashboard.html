@@ -147,6 +147,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
 .pop-speed-fast .pop-bar-fill{background:var(--red)}
 .pop-speed-med .pop-bar-fill{background:var(--amber)}
 .pop-speed-slow .pop-bar-fill{background:var(--green)}
+
+/* Profile links */
+.profile-link{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-dim);transition:all .15s}
+.profile-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.fav-name .profile-link{color:var(--accent);border-bottom-color:rgba(201,169,110,.3)}
+.fav-name .profile-link:hover{border-bottom-style:solid}
 </style>
 </head>
 <body>
@@ -267,6 +273,15 @@ const fmtH = v => { const h=Math.floor(v); const m=Math.round((v%1)*60); return 
 const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); };
 const nowHour = () => { const d=new Date(); let h=d.getHours()+d.getMinutes()/60; if(h<6) h+=24; return h; };
 
+// Profile link builder
+const PROFILE_BASE = 'https://jewelryspa-nishiarai.com/therapist/';
+const nameLink = (name, tid) => tid ? `<a href="${PROFILE_BASE}${tid}" target="_blank" rel="noopener" class="profile-link">${name}</a>` : name;
+// Build therapist_id lookup by name from all available data
+const tidByName = {};
+(DATA.therapists||[]).forEach(t => { tidByName[t.name] = t.therapist_id; });
+(DATA.weekly_schedules||[]).forEach(s => { if(s.therapist_id && s.therapist_name) tidByName[s.therapist_name] = s.therapist_id; });
+const nl = (name, tid) => nameLink(name, tid || tidByName[name]);
+
 // ========= HEADER =========
 document.getElementById('gen-time').textContent = DATA.generated_at;
 const dates = DATA.weekly_schedules.map(s => s.schedule_date);
@@ -292,7 +307,7 @@ function renderFavorites() {
     todayFavs.forEach(s => {
       const endDisp = (s.end_time||'').replace(/^(\d+):/,(m,h)=>h>24?(h-24)+':':m);
       html += `<div class="fav-item">
-        <div><span class="fav-name">${s.therapist_name}</span> — ${s.location}</div>
+        <div><span class="fav-name">${nl(s.therapist_name, s.therapist_id)}</span> — ${s.location}</div>
         <div><span class="fav-today">TODAY</span> ${s.start_time}〜${endDisp}</div>
       </div>`;
     });
@@ -304,7 +319,7 @@ function renderFavorites() {
       const dayLabel = (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
       const endDisp = (s.end_time||'').replace(/^(\d+):/,(m,h)=>h>24?(h-24)+':':m);
       html += `<div class="fav-item">
-        <div><span class="fav-name">${s.therapist_name}</span> — ${s.location}</div>
+        <div><span class="fav-name">${nl(s.therapist_name, s.therapist_id)}</span> — ${s.location}</div>
         <div class="fav-detail">${dayLabel} ${s.start_time}〜${endDisp}</div>
       </div>`;
     });
@@ -372,7 +387,7 @@ function renderToday() {
         const btTime = bookingTimes[s.therapist_name];
         const btHtml = (s.is_fully_booked && btTime) ? `<span class="booked-time">${btTime}に満了</span>` : '';
         return `<div class="staff-item">
-          <div><span class="status-dot ${s.is_fully_booked?'status-booked':'status-avail'}"></span><span class="staff-item-name">${s.therapist_name}</span>${btHtml}</div>
+          <div><span class="status-dot ${s.is_fully_booked?'status-booked':'status-avail'}"></span><span class="staff-item-name">${nl(s.therapist_name, s.therapist_id)}</span>${btHtml}</div>
           <span class="staff-item-time">${s.start_time||'?'}〜${endDisp}</span>
         </div>`;
       }).join('')}
@@ -589,7 +604,7 @@ function renderStats() {
       const pct = Math.round((p.times_booked / maxBooked) * 100);
       popHtml += `<div class="pop-card pop-speed-${speed}">
         <div class="pop-rank">#${i+1}</div>
-        <div class="pop-name">${p.name}</div>
+        <div class="pop-name">${nl(p.name, p.therapist_id)}</div>
         <div class="pop-stat">${p.avg_hours_to_book}h avg to sell out / ${p.times_booked} times</div>
         <div class="pop-stat" style="color:${speed==='fast'?'var(--red)':speed==='med'?'var(--amber)':'var(--green)'}">${speedLabel}</div>
         <div class="pop-bar"><div class="pop-bar-fill" style="width:${pct}%"></div></div>
@@ -654,7 +669,7 @@ function renderStats() {
       popHtml = `<span style="color:${clr};font-weight:500">${pop.avg_hours_to_book}h</span> <span style="color:var(--text-dim);font-size:11px">(${pop.times_booked}x)</span>`;
     }
     return `<tr>
-      <td class="staff-name">${s.name}</td>
+      <td class="staff-name">${nl(s.name, s.therapist_id)}</td>
       <td>${s.shift_count}</td>
       <td>${s.avg_hours != null ? s.avg_hours + 'h' : '-'}</td>
       <td>${locBadge(s.locations)}</td>
@@ -677,7 +692,7 @@ function renderMonitor() {
       timeGroups[t].forEach((s,i) => {
         html += `<tr>
           <td>${i===0 ? t.split(' ')[1] : ''}</td>
-          <td>${s.therapist_name}</td>
+          <td>${nl(s.therapist_name)}</td>
           <td>${s.location}</td>
           <td class="${s.status==='available'?'log-ok':'log-err'}">${s.status==='available'?'Available':'Fully booked'}</td>
         </tr>`;
