@@ -7,13 +7,16 @@ SQLiteからJSONを生成してダッシュボードに渡す。
 import json
 import sys
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(__file__))
 from db_setup import get_connection
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 FAVORITES_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "favorites.json")
+
+JST = timezone(timedelta(hours=9))
+def _now_jst(): return datetime.now(JST)
 
 
 def _load_favorites() -> list[dict]:
@@ -39,8 +42,8 @@ def export_dashboard_data():
     data["therapists"] = [dict(r) for r in rows]
 
     # ── 2. 今週のスケジュール ──
-    today = datetime.now().strftime("%Y-%m-%d")
-    week_end = (datetime.now() + timedelta(days=6)).strftime("%Y-%m-%d")
+    today = _now_jst().strftime("%Y-%m-%d")
+    week_end = (_now_jst() + timedelta(days=6)).strftime("%Y-%m-%d")
     rows = conn.execute("""
         SELECT ds.*, t.name as therapist_name
         FROM daily_schedules ds
@@ -66,7 +69,7 @@ def export_dashboard_data():
     data["daily_location_summary"] = [dict(r) for r in rows]
 
     # ── 4. セラピスト別出勤回数（直近30日） ──
-    month_ago = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    month_ago = (_now_jst() - timedelta(days=30)).strftime("%Y-%m-%d")
     rows = conn.execute("""
         SELECT
             t.therapist_id, t.name,
@@ -191,7 +194,7 @@ def export_dashboard_data():
     else:
         data["favorites_schedule"] = []
 
-    data["generated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    data["generated_at"] = _now_jst().strftime("%Y-%m-%d %H:%M:%S")
 
     conn.close()
 

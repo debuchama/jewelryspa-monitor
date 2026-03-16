@@ -7,7 +7,7 @@ httpx + BeautifulSoup。Caskan CMS DOM構造に正確に対応。
 
 import re
 import httpx
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://jewelryspa-nishiarai.com/schedule"
@@ -15,6 +15,9 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept-Language": "ja,en;q=0.9",
 }
+
+JST = timezone(timedelta(hours=9))
+def _now_jst(): return datetime.now(JST)
 
 
 def _clean_name(raw: str) -> str:
@@ -38,7 +41,7 @@ def _parse_time_range(text: str):
 
 
 def scrape_day(target_date: str) -> list[dict]:
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = _now_jst().strftime("%Y-%m-%d")
     url = f"{BASE_URL}?day={target_date}&from={today}"
 
     r = httpx.get(url, headers=HEADERS, timeout=30, follow_redirects=True)
@@ -163,7 +166,7 @@ def scrape_day(target_date: str) -> list[dict]:
 
 def scrape_week(start_date: str = None) -> dict[str, list[dict]]:
     if start_date is None:
-        start = datetime.now()
+        start = _now_jst()
     else:
         start = datetime.strptime(start_date, "%Y-%m-%d")
 
@@ -183,7 +186,7 @@ def scrape_week(start_date: str = None) -> dict[str, list[dict]]:
 
 
 def scrape_today() -> list[dict]:
-    return scrape_day(datetime.now().strftime("%Y-%m-%d"))
+    return scrape_day(_now_jst().strftime("%Y-%m-%d"))
 
 
 if __name__ == "__main__":

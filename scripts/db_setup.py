@@ -37,8 +37,8 @@ def init_db():
         height_cm     INTEGER,
         cup_size      TEXT,
         profile_text  TEXT,
-        first_seen    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
-        last_seen     TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+        first_seen    TEXT NOT NULL DEFAULT '',
+        last_seen     TEXT NOT NULL DEFAULT '',
         is_active     INTEGER NOT NULL DEFAULT 1
     )
     """)
@@ -53,7 +53,7 @@ def init_db():
         start_time    TEXT NOT NULL,          -- HH:MM (24h, 翌日の場合は25:00等で正規化)
         end_time      TEXT NOT NULL,          -- HH:MM
         is_fully_booked INTEGER NOT NULL DEFAULT 0,
-        scraped_at    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+        scraped_at    TEXT NOT NULL DEFAULT '',
         UNIQUE(therapist_id, schedule_date)   -- 同一日に重複登録しない
     )
     """)
@@ -62,7 +62,7 @@ def init_db():
     cur.execute("""
     CREATE TABLE IF NOT EXISTS availability_snapshots (
         id            INTEGER PRIMARY KEY AUTOINCREMENT,
-        checked_at    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+        checked_at    TEXT NOT NULL DEFAULT '',
         therapist_id  INTEGER NOT NULL REFERENCES therapists(therapist_id),
         schedule_date TEXT NOT NULL,
         location      TEXT NOT NULL,
@@ -76,7 +76,7 @@ def init_db():
     cur.execute("""
     CREATE TABLE IF NOT EXISTS scrape_logs (
         id            INTEGER PRIMARY KEY AUTOINCREMENT,
-        run_at        TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+        run_at        TEXT NOT NULL DEFAULT '',
         task_type     TEXT NOT NULL,          -- 'weekly' / 'daily_monitor'
         target_date   TEXT,
         records_found INTEGER DEFAULT 0,

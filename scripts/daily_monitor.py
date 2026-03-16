@@ -1,37 +1,34 @@
 """
-当日空き状況モニター（同期版）
-
-当日の予約可否をスナップショットとして記録。
-cron: 15〜30分ごとに実行 or --loop で継続監視。
+当日空き状況モニター（同期版・JST対応）
 
   python daily_monitor.py           # 1回チェック
   python daily_monitor.py --loop 15 # 15分間隔で継続
 """
 
 import argparse, sys, os, time
-from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(__file__))
 
 from db_setup import get_connection, init_db
 from scraper import scrape_today
+from tz import now_jst, now_str, today_str
 
 
 def record_snapshot(conn, records):
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    jst = now_str()
     for rec in records:
         status = "fully_booked" if rec["is_fully_booked"] else "available"
         conn.execute("""
             INSERT INTO availability_snapshots
                 (checked_at, therapist_id, schedule_date, location, status, start_time, end_time)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (now, rec["therapist_id"], rec["schedule_date"],
+        """, (jst, rec["therapist_id"], rec["schedule_date"],
               rec["location"], status, rec["start_time"], rec["end_time"]))
 
 
 def detect_changes(conn, current):
     changes = []
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = today_str()
     for rec in current:
         row = conn.execute("""
             SELECT status FROM availability_snapshots
@@ -52,7 +49,8 @@ def run(loop_minutes=0):
     conn = get_connection()
 
     while True:
-        print(f"\n⏰ チェック: {datetime.now():%H:%M:%S}")
+        t = now_jst()
+        print(f"\n⏰ チェック: {t:%H:%M:%S} JST")
         try:
             records = scrape_today()
             print(f"  📋 {len(records)} staff today")
@@ -67,19 +65,21 @@ def run(loop_minutes=0):
 
             record_snapshot(conn, records)
 
+            jst = now_str()
             for rec in records:
                 conn.execute("""
-                    INSERT INTO therapists (therapist_id, name, name_raw, age, height_cm, cup_size, profile_text)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO therapists (therapist_id, name, name_raw, age, height_cm, cup_size, profile_text, first_seen, last_seen)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT(therapist_id) DO UPDATE SET
-                        last_seen = datetime('now','localtime'), is_active = 1
+                        last_seen = ?, is_active = 1
                 """, (rec["therapist_id"], rec["name"], rec["name_raw"],
-                      rec["age"], rec["height_cm"], rec["cup_size"], rec["profile_text"]))
+                      rec["age"], rec["height_cm"], rec["cup_size"], rec["profile_text"],
+                      jst, jst, jst))
 
             conn.execute("""
-                INSERT INTO scrape_logs (task_type, target_date, records_found, success)
-                VALUES ('daily_monitor', ?, ?, 1)
-            """, (datetime.now().strftime("%Y-%m-%d"), len(records)))
+                INSERT INTO scrape_logs (run_at, task_type, target_date, records_found, success)
+                VALUES (?, 'daily_monitor', ?, ?, 1)
+            """, (jst, today_str(), len(records)))
             conn.commit()
 
             for loc in ["赤羽", "王子", "西新井"]:
@@ -89,10 +89,11 @@ def run(loop_minutes=0):
 
         except Exception as e:
             print(f"  ❌ {e}")
+            jst = now_str()
             conn.execute("""
-                INSERT INTO scrape_logs (task_type, target_date, success, error_message)
-                VALUES ('daily_monitor', ?, 0, ?)
-            """, (datetime.now().strftime("%Y-%m-%d"), str(e)))
+                INSERT INTO scrape_logs (run_at, task_type, target_date, success, error_message)
+                VALUES (?, 'daily_monitor', ?, 0, ?)
+            """, (jst, today_str(), str(e)))
             conn.commit()
 
         if loop_minutes <= 0:
