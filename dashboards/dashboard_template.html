@@ -181,12 +181,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
     <div class="today-grid" id="today-grid"></div>
     <div class="chart-card">
       <div class="chart-title">Today's shift timeline</div>
-      <div class="chart-sub">Red vertical line = current time. Striped bars = fully booked (with time booked shown)</div>
+      <div class="chart-sub">Solid bar = available. Faded dashed bar = fully booked. Red line = when booked.</div>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:var(--akabane)"></div>Akabane</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--oji)"></div>Oji</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--nishiarai)"></div>Nishiarai</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--red);width:2px;height:14px;border-radius:0"></div>Now</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.5;width:2px;height:14px;border-radius:0"></div>Booked at</div>
       </div>
       <div class="chart-wrap" style="height:360px"><canvas id="chart-gantt"></canvas></div>
     </div>
@@ -269,7 +270,10 @@ function showPanel(name) {
 
 // ========= HELPERS =========
 const parseH = t => { if(!t) return 12; const [h,m]=t.split(':').map(Number); return h+m/60; };
-const fmtH = v => { const h=Math.floor(v); const m=Math.round((v%1)*60); return (h>24?h-24:h)+':'+((''+m).padStart(2,'0')); };
+// 24H表記: 25→01, 29→05, always zero-padded
+const fmtH = v => { let h=Math.floor(v); const m=Math.round((v%1)*60); if(h>=24) h-=24; return (''+h).padStart(2,'0')+':'+((''+m).padStart(2,'0')); };
+// Stored time like "25:00" → "01:00", "12:30" → "12:30"
+const fmtTime = t => { if(!t) return '?'; const [h,m]=t.split(':').map(Number); return (''+((h>=24?h-24:h))).padStart(2,'0')+':'+(''+m).padStart(2,'0'); };
 const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); };
 const nowHour = () => { const d=new Date(); let h=d.getHours()+d.getMinutes()/60; if(h<6) h+=24; return h; };
 
@@ -305,10 +309,9 @@ function renderFavorites() {
 
   if (todayFavs.length) {
     todayFavs.forEach(s => {
-      const endDisp = (s.end_time||'').replace(/^(\d+):/,(m,h)=>h>24?(h-24)+':':m);
       html += `<div class="fav-item">
         <div><span class="fav-name">${nl(s.therapist_name, s.therapist_id)}</span> — ${s.location}</div>
-        <div><span class="fav-today">TODAY</span> ${s.start_time}〜${endDisp}</div>
+        <div><span class="fav-today">TODAY</span> ${fmtTime(s.start_time)}〜${fmtTime(s.end_time)}</div>
       </div>`;
     });
   }
@@ -317,10 +320,9 @@ function renderFavorites() {
     weekFavs.forEach(s => {
       const dt = new Date(s.schedule_date+'T00:00:00');
       const dayLabel = (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
-      const endDisp = (s.end_time||'').replace(/^(\d+):/,(m,h)=>h>24?(h-24)+':':m);
       html += `<div class="fav-item">
         <div><span class="fav-name">${nl(s.therapist_name, s.therapist_id)}</span> — ${s.location}</div>
-        <div class="fav-detail">${dayLabel} ${s.start_time}〜${endDisp}</div>
+        <div class="fav-detail">${dayLabel} ${fmtTime(s.start_time)}〜${fmtTime(s.end_time)}</div>
       </div>`;
     });
   }
@@ -383,75 +385,134 @@ function renderToday() {
     gridHtml += `<div class="loc-card ${locMap[loc]}">
       <h3><span class="loc-dot"></span>${loc} <span style="font-size:12px;color:var(--text-dim);font-weight:400">(${d.staff.length})</span></h3>
       ${d.staff.map(s => {
-        const endDisp = (s.end_time||'?').replace(/^(\d+):/,(m,h)=>h>24?(h-24)+':':m);
         const btTime = bookingTimes[s.therapist_name];
         const btHtml = (s.is_fully_booked && btTime) ? `<span class="booked-time">${btTime}に満了</span>` : '';
         return `<div class="staff-item">
           <div><span class="status-dot ${s.is_fully_booked?'status-booked':'status-avail'}"></span><span class="staff-item-name">${nl(s.therapist_name, s.therapist_id)}</span>${btHtml}</div>
-          <span class="staff-item-time">${s.start_time||'?'}〜${endDisp}</span>
+          <span class="staff-item-time">${fmtTime(s.start_time)}〜${fmtTime(s.end_time)}</span>
         </div>`;
       }).join('')}
     </div>`;
   });
   document.getElementById('today-grid').innerHTML = gridHtml;
 
-  // Gantt chart with NOW line and booked markers
+  // Gantt chart with NOW line and split booking visualization
   if (todayData.length) {
     const labels = todayData.map(s => s.therapist_name);
     const locColors = {赤羽:'#e05555', 王子:'#5b8fd9', 西新井:'#4caf7d'};
-    const barData = todayData.map(s => [parseH(s.start_time), parseH(s.end_time)||29]);
     const colors = todayData.map(s => locColors[s.location]||'#c9a96e');
 
-    // Create striped pattern for booked staff
     const ctx = document.getElementById('chart-gantt').getContext('2d');
-    const bgColors = todayData.map((s, i) => {
-      if (s.is_fully_booked) {
-        const p = ctx.createLinearGradient(0,0,20,20);
-        const c = colors[i];
-        p.addColorStop(0, c+'44');
-        p.addColorStop(0.5, c+'44');
-        p.addColorStop(0.5, c+'88');
-        p.addColorStop(1, c+'88');
-        return c + '55';
+    const currentH = nowHour();
+
+    // Build datasets: for booked staff, split into available + booked segments
+    const availSegments = [];   // shift start → booked_at (or full bar if not booked)
+    const bookedSegments = [];  // booked_at → shift end (null if not booked)
+
+    todayData.forEach((s, i) => {
+      const sH = parseH(s.start_time);
+      const eH = parseH(s.end_time) || 29;
+      const bt = bookingTimes[s.therapist_name];
+
+      if (s.is_fully_booked && bt) {
+        const [bh, bm] = bt.split(':').map(Number);
+        let bookedH = bh + bm/60;
+        if (bookedH < 6) bookedH += 24;
+        // Available portion: start → booked time
+        availSegments.push([sH, Math.min(bookedH, eH)]);
+        // Booked portion: booked time → end
+        bookedSegments.push([bookedH, eH]);
+      } else if (s.is_fully_booked) {
+        // Fully booked but no snapshot of when → show entire bar as booked
+        availSegments.push(null);
+        bookedSegments.push([sH, eH]);
+      } else {
+        // Available → full bar, no booked segment
+        availSegments.push([sH, eH]);
+        bookedSegments.push(null);
       }
-      return colors[i] + '66';
     });
 
-    const currentH = nowHour();
+    // Build dynamic annotation lines for each booked-at time
+    const annotations = {
+      nowLine: {
+        type: 'line',
+        xMin: currentH,
+        xMax: currentH,
+        borderColor: '#e0555599',
+        borderWidth: 2,
+        borderDash: [6, 3],
+        label: {
+          display: true,
+          content: 'Now ' + fmtH(currentH),
+          position: 'start',
+          backgroundColor: '#e05555cc',
+          color: '#fff',
+          font: {size: 10, weight: '500'},
+          padding: {x:6, y:2},
+          borderRadius: 4,
+        }
+      }
+    };
+
+    // Add per-staff booked-at marker lines
+    todayData.forEach((s, i) => {
+      if (!s.is_fully_booked) return;
+      const bt = bookingTimes[s.therapist_name];
+      if (!bt) return;
+      const [bh, bm] = bt.split(':').map(Number);
+      let bookedH = bh + bm/60;
+      if (bookedH < 6) bookedH += 24;
+
+      annotations['booked_' + i] = {
+        type: 'line',
+        xMin: bookedH,
+        xMax: bookedH,
+        yMin: i - 0.4,
+        yMax: i + 0.4,
+        borderColor: '#e05555dd',
+        borderWidth: 2,
+        label: {
+          display: true,
+          content: fmtH(bookedH) + ' 満了',
+          position: 'end',
+          backgroundColor: '#e05555cc',
+          color: '#fff',
+          font: {size: 9, weight: '500'},
+          padding: {x:4, y:1},
+          borderRadius: 3,
+        }
+      };
+    });
 
     new Chart(ctx, {
       type: 'bar',
       data: {
         labels,
         datasets: [
+          // Available segment (solid)
           {
-            data: barData,
-            backgroundColor: bgColors,
+            label: 'Available',
+            data: availSegments,
+            backgroundColor: colors.map(c => c + '77'),
             borderColor: colors,
-            borderWidth: todayData.map(s => s.is_fully_booked ? 2 : 1),
+            borderWidth: 1,
             borderRadius: 4,
             borderSkipped: false,
-            barPercentage: 0.7,
-            borderDash: todayData.map(s => s.is_fully_booked ? [4,4] : []),
+            barPercentage: 0.65,
           },
-          // Booked-at markers as thin overlay bars
+          // Booked segment (striped / dimmed)
           {
-            data: todayData.map(s => {
-              if (!s.is_fully_booked) return null;
-              const bt = bookingTimes[s.therapist_name];
-              if (!bt) return null;
-              const [bh,bm] = bt.split(':').map(Number);
-              let bookedH = bh + bm/60;
-              if (bookedH < 6) bookedH += 24;
-              return [bookedH - 0.1, bookedH + 0.1];
-            }),
-            backgroundColor: '#e05555cc',
-            borderColor: '#e05555',
+            label: 'Fully booked',
+            data: bookedSegments,
+            backgroundColor: colors.map(c => c + '30'),
+            borderColor: colors.map(c => c + '66'),
             borderWidth: 1,
-            borderRadius: 2,
+            borderRadius: 4,
             borderSkipped: false,
-            barPercentage: 1.0,
-          }
+            barPercentage: 0.65,
+            borderDash: [4, 4],
+          },
         ]
       },
       options: {
@@ -462,46 +523,26 @@ function renderToday() {
           legend: {display:false},
           tooltip: {
             callbacks: {
-              label: (ctx) => {
-                if (ctx.datasetIndex === 1) {
-                  const name = todayData[ctx.dataIndex]?.therapist_name;
-                  const bt = bookingTimes[name];
-                  return bt ? `Fully booked at ${bt}` : '';
-                }
-                const [s,e] = ctx.raw;
-                return fmtH(s) + ' 〜 ' + fmtH(e);
+              label: (tipCtx) => {
+                if (!tipCtx.raw) return '';
+                const [s,e] = tipCtx.raw;
+                const prefix = tipCtx.datasetIndex === 1 ? '🔴 Booked ' : '';
+                return prefix + fmtH(s) + ' 〜 ' + fmtH(e);
               }
             }
           },
-          annotation: {
-            annotations: {
-              nowLine: {
-                type: 'line',
-                xMin: currentH,
-                xMax: currentH,
-                borderColor: '#e0555599',
-                borderWidth: 2,
-                borderDash: [6, 3],
-                label: {
-                  display: true,
-                  content: 'Now ' + fmtH(currentH),
-                  position: 'start',
-                  backgroundColor: '#e05555cc',
-                  color: '#fff',
-                  font: {size: 10, weight: '500'},
-                  padding: {x:6, y:2},
-                  borderRadius: 4,
-                }
-              }
-            }
-          }
+          annotation: { annotations }
         },
         scales: {
-          x: { min:10, max:30, ticks: {
-            callback: v => fmtH(v),
-            color:'#5a5852',stepSize:2
-          }, grid:{color:'rgba(255,255,255,.04)'}},
-          y: { ticks:{color:'#8a8880',font:{size:12}}, grid:{display:false}}
+          x: { min:10, max:30,
+            ticks: { callback: v => fmtH(v), color:'#5a5852', stepSize:2 },
+            grid: { color:'rgba(255,255,255,.04)' },
+          },
+          y: {
+            stacked: false,
+            ticks: { color:'#8a8880', font:{size:12} },
+            grid: { display:false },
+          }
         }
       }
     });
