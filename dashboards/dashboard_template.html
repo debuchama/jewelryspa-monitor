@@ -153,6 +153,32 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
 .profile-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .fav-name .profile-link{color:var(--accent);border-bottom-color:rgba(201,169,110,.3)}
 .fav-name .profile-link:hover{border-bottom-style:solid}
+
+/* Booking matrix */
+.bmatrix{overflow-x:auto}
+.bmatrix table{width:100%;border-collapse:separate;border-spacing:2px;font-size:12px}
+.bmatrix th{color:var(--text-dim);font-weight:400;padding:5px 6px;text-align:center;font-size:11px;white-space:nowrap}
+.bmatrix td{text-align:center;padding:6px 4px;border-radius:5px;font-size:13px;min-width:60px}
+.bmatrix .bm-name{text-align:left;color:var(--text-muted);font-weight:400;padding-right:8px;white-space:nowrap;font-size:12px;min-width:60px}
+.bm-booked{background:rgba(224,85,85,.12);color:var(--red)}
+.bm-avail{background:var(--surface2);color:var(--text-dim)}
+.bm-none{background:transparent;color:var(--text-dim);opacity:.3}
+.bm-summary{font-size:11px;color:var(--text-dim);margin-top:8px;text-align:right}
+
+/* Pre-booked popularity cards */
+.pb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:16px}
+.pb-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative}
+.pb-card.pb-hot{border-color:rgba(224,85,85,.25)}
+.pb-card.pb-warm{border-color:rgba(212,164,58,.2)}
+.pb-rank{position:absolute;top:10px;right:14px;font-size:18px;font-weight:600;color:var(--text-dim);opacity:.25}
+.pb-name{font-size:14px;font-weight:500;margin-bottom:6px}
+.pb-rate{font-size:22px;font-weight:600;margin-bottom:2px}
+.pb-rate.pb-rate-hot{color:var(--red)}
+.pb-rate.pb-rate-warm{color:var(--amber)}
+.pb-rate.pb-rate-cool{color:var(--text-muted)}
+.pb-detail{font-size:11px;color:var(--text-dim)}
+.pb-bar{height:4px;border-radius:2px;margin-top:8px;background:var(--surface);overflow:hidden}
+.pb-bar-fill{height:100%;border-radius:2px}
 </style>
 </head>
 <body>
@@ -196,6 +222,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
   <!-- WEEKLY -->
   <div id="panel-weekly" class="panel">
     <div class="chart-card">
+      <div class="chart-title">Booking status matrix</div>
+      <div class="chart-sub">●=pre-booked at scrape time (strong popularity signal) ○=available ·=not scheduled</div>
+      <div class="heatmap" id="booking-matrix-container"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Pre-booked rate trend</div>
+      <div class="chart-sub">% of staff already fully booked when schedule was scraped — higher = more popular day</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="chart-prebooked-trend"></canvas></div>
+    </div>
+    <div class="chart-card">
       <div class="chart-title">Weekly staff count by location</div>
       <div class="chart-sub">Stacked bar — total headcount per day</div>
       <div class="legend">
@@ -224,8 +260,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
   <!-- STATS -->
   <div id="panel-stats" class="panel">
     <div class="chart-card">
-      <div class="chart-title">Popularity ranking — booking speed</div>
-      <div class="chart-sub">Faster booking = higher popularity. Based on time from schedule publish to fully booked.</div>
+      <div class="chart-title">Popularity analysis — pre-booked rate</div>
+      <div class="chart-sub">Staff already fully booked at schedule publish time. Higher rate = higher demand. Requires data accumulation over days.</div>
+      <div id="prebooked-cards-container"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Realtime popularity — booking speed</div>
+      <div class="chart-sub">From monitoring snapshots: avg time from available to fully booked. Fewer data points early on.</div>
       <div id="pop-container"></div>
     </div>
     <div class="chart-card">
@@ -236,7 +277,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
     <div class="section-head">Staff detail table</div>
     <div class="chart-card" style="padding:0;overflow-x:auto">
       <table class="staff-table" id="staff-detail-table">
-        <thead><tr><th>Name</th><th>Shifts</th><th>Avg hrs</th><th>Locations</th><th>Popularity</th></tr></thead>
+        <thead><tr><th>Name</th><th>Shifts</th><th>Avg hrs</th><th>Locations</th><th>Pre-booked</th><th>RT Speed</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -625,16 +666,132 @@ function renderWeekly() {
       }
     });
   }
-}
 
-// ========= STATS =========
+  // ── Booking status matrix ──
+  const matrix = DATA.weekly_booked_matrix || [];
+  if (matrix.length) {
+    const mDates = [...new Set(matrix.map(m => m.schedule_date))].sort();
+    const mNames = [...new Set(matrix.map(m => m.therapist_name))].sort();
+    const mDateLabels = mDates.map(d => {
+      const dt = new Date(d+'T00:00:00');
+      return (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
+    });
+
+    // Build lookup: name+date → record
+    const lookup = {};
+    matrix.forEach(m => { lookup[m.therapist_name+'|'+m.schedule_date] = m; });
+
+    // Sort names: pre-booked count desc, then name
+    const nameBookedCount = {};
+    mNames.forEach(n => {
+      nameBookedCount[n] = mDates.reduce((sum, d) => {
+        const r = lookup[n+'|'+d];
+        return sum + (r && r.is_fully_booked ? 1 : 0);
+      }, 0);
+    });
+    mNames.sort((a,b) => nameBookedCount[b] - nameBookedCount[a] || a.localeCompare(b));
+
+    let mHtml = '<table><thead><tr><th></th>';
+    mDates.forEach((d,i) => mHtml += `<th>${mDateLabels[i]}</th>`);
+    mHtml += '</tr></thead><tbody>';
+
+    mNames.forEach(name => {
+      const tid = tidByName[name];
+      mHtml += `<tr><td class="bm-name">${nl(name, tid)}</td>`;
+      mDates.forEach(d => {
+        const r = lookup[name+'|'+d];
+        if (!r) {
+          mHtml += '<td class="bm-none">·</td>';
+        } else if (r.is_fully_booked) {
+          mHtml += `<td class="bm-booked" title="${name} ${fmtTime(r.start_time)}〜${fmtTime(r.end_time)} @${r.location}">●</td>`;
+        } else {
+          mHtml += `<td class="bm-avail" title="${name} ${fmtTime(r.start_time)}〜${fmtTime(r.end_time)} @${r.location}">○</td>`;
+        }
+      });
+      mHtml += '</tr>';
+    });
+    mHtml += '</tbody></table>';
+
+    const bookedTotal = matrix.filter(m => m.is_fully_booked).length;
+    mHtml += `<div class="bm-summary">${bookedTotal} pre-booked / ${matrix.length} total shifts</div>`;
+    document.getElementById('booking-matrix-container').innerHTML = '<div class="bmatrix">' + mHtml + '</div>';
+  }
+
+  // ── Pre-booked rate trend ──
+  const trend = DATA.daily_prebooked_trend || [];
+  if (trend.length) {
+    const tLabels = trend.map(t => {
+      const dt = new Date(t.schedule_date+'T00:00:00');
+      return (dt.getMonth()+1)+'/'+dt.getDate();
+    });
+    new Chart(document.getElementById('chart-prebooked-trend'), {
+      type: 'line',
+      data: {
+        labels: tLabels,
+        datasets: [{
+          label: 'Pre-booked rate',
+          data: trend.map(t => t.prebooked_rate),
+          borderColor: '#e05555',
+          backgroundColor: 'rgba(224,85,85,.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: trend.map(t => t.prebooked_rate > 50 ? '#e05555' : t.prebooked_rate > 0 ? '#d4a43a' : '#5a5852'),
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: {display: false},
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.raw}% (${trend[ctx.dataIndex].prebooked_staff}/${trend[ctx.dataIndex].total_staff})`
+            }
+          }
+        },
+        scales: {
+          x: { ticks:{color:'#5a5852'}, grid:{display:false} },
+          y: { min:0, max:100, ticks:{color:'#5a5852', callback:v=>v+'%'}, grid:{color:'rgba(255,255,255,.04)'} }
+        }
+      }
+    });
+  }
+}
 function renderStats() {
   const stats = DATA.therapist_stats.filter(s => s.shift_count > 0).sort((a,b) => b.shift_count - a.shift_count);
   const popRanking = DATA.popularity_ranking || [];
   const popMap = {};
   popRanking.forEach(p => { popMap[p.therapist_id] = p; });
+  const prebookedRanking = DATA.prebooked_ranking || [];
+  const pbMap = {};
+  prebookedRanking.forEach(p => { pbMap[p.therapist_id] = p; });
 
-  // Popularity cards
+  // ── Pre-booked popularity cards ──
+  const pbContainer = document.getElementById('prebooked-cards-container');
+  const pbWithBookings = prebookedRanking.filter(p => p.prebooked_count > 0);
+  if (pbWithBookings.length) {
+    let pbHtml = '<div class="pb-grid">';
+    pbWithBookings.forEach((p, i) => {
+      const tier = p.prebooked_rate >= 50 ? 'hot' : p.prebooked_rate > 0 ? 'warm' : '';
+      const rateClr = p.prebooked_rate >= 50 ? 'pb-rate-hot' : p.prebooked_rate > 0 ? 'pb-rate-warm' : 'pb-rate-cool';
+      const barClr = p.prebooked_rate >= 50 ? 'var(--red)' : p.prebooked_rate > 0 ? 'var(--amber)' : 'var(--text-dim)';
+      pbHtml += `<div class="pb-card ${tier ? 'pb-'+tier : ''}">
+        <div class="pb-rank">#${i+1}</div>
+        <div class="pb-name">${nl(p.name, p.therapist_id)}</div>
+        <div class="pb-rate ${rateClr}">${p.prebooked_rate}%</div>
+        <div class="pb-detail">${p.prebooked_count}/${p.total_shifts} shifts pre-booked</div>
+        <div class="pb-detail">${p.locations || '-'}</div>
+        <div class="pb-bar"><div class="pb-bar-fill" style="width:${p.prebooked_rate}%;background:${barClr}"></div></div>
+      </div>`;
+    });
+    pbHtml += '</div>';
+    pbContainer.innerHTML = pbHtml;
+  } else {
+    pbContainer.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:8px 0">No pre-booked data yet. After a few days of data collection, popular staff with advance bookings will appear here.</p>';
+  }
+
+  // ── Realtime popularity cards (snapshot-based) ──
   const popContainer = document.getElementById('pop-container');
   if (popRanking.length) {
     const maxBooked = Math.max(...popRanking.map(p => p.times_booked), 1);
@@ -654,10 +811,10 @@ function renderStats() {
     popHtml += '</div>';
     popContainer.innerHTML = popHtml;
   } else {
-    popContainer.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:8px 0">Not enough snapshot data yet. Popularity ranking requires multiple monitoring cycles to detect booking patterns.</p>';
+    popContainer.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:8px 0">Not enough snapshot data yet. Requires multiple monitoring cycles to detect booking speed.</p>';
   }
 
-  // Horizontal bar
+  // ── Horizontal bar chart ──
   new Chart(document.getElementById('chart-staff-freq'), {
     type:'bar',
     data:{
@@ -691,7 +848,7 @@ function renderStats() {
     }
   });
 
-  // Table with popularity column
+  // ── Detail table with pre-booked + RT speed columns ──
   const locBadge = loc => {
     if(!loc) return '';
     return loc.split(',').map(l => {
@@ -700,21 +857,34 @@ function renderStats() {
       return `<span class="badge ${cls}">${l}</span>`;
     }).join(' ');
   };
+  // Sort by pre-booked rate desc, then shift count
+  const sortedStats = [...stats].sort((a,b) => {
+    const pa = pbMap[a.therapist_id]?.prebooked_rate || 0;
+    const pb2 = pbMap[b.therapist_id]?.prebooked_rate || 0;
+    return pb2 - pa || b.shift_count - a.shift_count;
+  });
   const tbody = document.querySelector('#staff-detail-table tbody');
-  tbody.innerHTML = stats.map(s => {
+  tbody.innerHTML = sortedStats.map(s => {
+    const pb = pbMap[s.therapist_id];
+    let pbHtml = '<span style="color:var(--text-dim)">0%</span>';
+    if (pb && pb.prebooked_count > 0) {
+      const clr = pb.prebooked_rate >= 50 ? 'var(--red)' : 'var(--amber)';
+      pbHtml = `<span style="color:${clr};font-weight:500">${pb.prebooked_rate}%</span> <span style="color:var(--text-dim);font-size:11px">(${pb.prebooked_count}/${pb.total_shifts})</span>`;
+    }
     const pop = popMap[s.therapist_id];
-    let popHtml = '<span style="color:var(--text-dim)">-</span>';
+    let rtHtml = '<span style="color:var(--text-dim)">-</span>';
     if (pop) {
       const speed = pop.avg_hours_to_book < 2 ? 'fast' : pop.avg_hours_to_book < 6 ? 'med' : 'slow';
       const clr = speed==='fast'?'var(--red)':speed==='med'?'var(--amber)':'var(--green)';
-      popHtml = `<span style="color:${clr};font-weight:500">${pop.avg_hours_to_book}h</span> <span style="color:var(--text-dim);font-size:11px">(${pop.times_booked}x)</span>`;
+      rtHtml = `<span style="color:${clr};font-weight:500">${pop.avg_hours_to_book}h</span> <span style="color:var(--text-dim);font-size:11px">(${pop.times_booked}x)</span>`;
     }
     return `<tr>
       <td class="staff-name">${nl(s.name, s.therapist_id)}</td>
       <td>${s.shift_count}</td>
       <td>${s.avg_hours != null ? s.avg_hours + 'h' : '-'}</td>
       <td>${locBadge(s.locations)}</td>
-      <td>${popHtml}</td>
+      <td>${pbHtml}</td>
+      <td>${rtHtml}</td>
     </tr>`;
   }).join('');
 }

@@ -194,6 +194,51 @@ def export_dashboard_data():
     else:
         data["favorites_schedule"] = []
 
+    # ── 10. 事前満了率による人気度分析 ──
+    # 週次スクレイプ時点で既に予約満了 = スケジュール公開前〜直後に埋まった
+    rows = conn.execute("""
+        SELECT
+            t.therapist_id, t.name,
+            COUNT(*) as total_shifts,
+            SUM(ds.is_fully_booked) as prebooked_count,
+            ROUND(100.0 * SUM(ds.is_fully_booked) / COUNT(*), 1) as prebooked_rate,
+            GROUP_CONCAT(DISTINCT ds.location) as locations
+        FROM daily_schedules ds
+        JOIN therapists t ON ds.therapist_id = t.therapist_id
+        GROUP BY t.therapist_id
+        HAVING total_shifts >= 1
+        ORDER BY prebooked_rate DESC, prebooked_count DESC
+    """).fetchall()
+    data["prebooked_ranking"] = [dict(r) for r in rows]
+
+    # ── 11. 週間満了マトリクス（全日程×全セラピスト）──
+    rows = conn.execute("""
+        SELECT
+            ds.schedule_date,
+            t.therapist_id, t.name as therapist_name,
+            ds.location,
+            ds.start_time, ds.end_time,
+            ds.is_fully_booked
+        FROM daily_schedules ds
+        JOIN therapists t ON ds.therapist_id = t.therapist_id
+        WHERE ds.schedule_date BETWEEN ? AND ?
+        ORDER BY t.name, ds.schedule_date
+    """, (today, week_end)).fetchall()
+    data["weekly_booked_matrix"] = [dict(r) for r in rows]
+
+    # ── 12. 過去全期間の事前満了履歴（トレンド用）──
+    rows = conn.execute("""
+        SELECT
+            ds.schedule_date,
+            COUNT(*) as total_staff,
+            SUM(ds.is_fully_booked) as prebooked_staff,
+            ROUND(100.0 * SUM(ds.is_fully_booked) / COUNT(*), 1) as prebooked_rate
+        FROM daily_schedules ds
+        GROUP BY ds.schedule_date
+        ORDER BY ds.schedule_date
+    """).fetchall()
+    data["daily_prebooked_trend"] = [dict(r) for r in rows]
+
     data["generated_at"] = _now_jst().strftime("%Y-%m-%d %H:%M:%S")
 
     conn.close()
