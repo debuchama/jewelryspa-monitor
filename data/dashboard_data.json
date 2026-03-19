@@ -3736,17 +3736,13 @@
       {
         "therapist_id": 52874,
         "schedule_date": "2026-03-19",
-        "total_slots": 35,
+        "total_slots": 34,
         "booked_slots": 0,
         "occupancy_pct": 0.0,
-        "first_slot": "17:20",
+        "first_slot": "17:25",
         "last_slot": "20:10",
         "booked_ranges": [],
         "slot_detail": [
-          {
-            "time": "17:20",
-            "booked": 0
-          },
           {
             "time": "17:25",
             "booked": 0
@@ -4202,22 +4198,18 @@
       {
         "therapist_id": 52817,
         "schedule_date": "2026-03-19",
-        "total_slots": 17,
-        "booked_slots": 9,
-        "occupancy_pct": 52.9,
-        "first_slot": "17:20",
+        "total_slots": 16,
+        "booked_slots": 8,
+        "occupancy_pct": 50.0,
+        "first_slot": "17:25",
         "last_slot": "18:40",
         "booked_ranges": [
           [
-            "17:20",
+            "17:25",
             "18:00"
           ]
         ],
         "slot_detail": [
-          {
-            "time": "17:20",
-            "booked": 1
-          },
           {
             "time": "17:25",
             "booked": 1
@@ -5452,17 +5444,13 @@
       {
         "therapist_id": 52878,
         "schedule_date": "2026-03-19",
-        "total_slots": 125,
+        "total_slots": 124,
         "booked_slots": 0,
         "occupancy_pct": 0.0,
-        "first_slot": "17:20",
+        "first_slot": "17:25",
         "last_slot": "3:40",
         "booked_ranges": [],
         "slot_detail": [
-          {
-            "time": "17:20",
-            "booked": 0
-          },
           {
             "time": "17:25",
             "booked": 0
@@ -5965,22 +5953,18 @@
       {
         "therapist_id": 54672,
         "schedule_date": "2026-03-19",
-        "total_slots": 17,
-        "booked_slots": 17,
+        "total_slots": 16,
+        "booked_slots": 16,
         "occupancy_pct": 100.0,
-        "first_slot": "17:20",
+        "first_slot": "17:25",
         "last_slot": "18:40",
         "booked_ranges": [
           [
-            "17:20",
+            "17:25",
             "18:40"
           ]
         ],
         "slot_detail": [
-          {
-            "time": "17:20",
-            "booked": 1
-          },
           {
             "time": "17:25",
             "booked": 1
@@ -16674,17 +16658,13 @@
     {
       "therapist_id": 52874,
       "schedule_date": "2026-03-19",
-      "total_slots": 35,
+      "total_slots": 34,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "17:20",
+      "first_slot": "17:25",
       "last_slot": "20:10",
       "booked_ranges": [],
       "slot_detail": [
-        {
-          "time": "17:20",
-          "booked": 0
-        },
         {
           "time": "17:25",
           "booked": 0
@@ -17140,22 +17120,18 @@
     {
       "therapist_id": 52817,
       "schedule_date": "2026-03-19",
-      "total_slots": 17,
-      "booked_slots": 9,
-      "occupancy_pct": 52.9,
-      "first_slot": "17:20",
+      "total_slots": 16,
+      "booked_slots": 8,
+      "occupancy_pct": 50.0,
+      "first_slot": "17:25",
       "last_slot": "18:40",
       "booked_ranges": [
         [
-          "17:20",
+          "17:25",
           "18:00"
         ]
       ],
       "slot_detail": [
-        {
-          "time": "17:20",
-          "booked": 1
-        },
         {
           "time": "17:25",
           "booked": 1
@@ -18390,17 +18366,13 @@
     {
       "therapist_id": 52878,
       "schedule_date": "2026-03-19",
-      "total_slots": 125,
+      "total_slots": 124,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "17:20",
+      "first_slot": "17:25",
       "last_slot": "3:40",
       "booked_ranges": [],
       "slot_detail": [
-        {
-          "time": "17:20",
-          "booked": 0
-        },
         {
           "time": "17:25",
           "booked": 0
@@ -18903,22 +18875,18 @@
     {
       "therapist_id": 54672,
       "schedule_date": "2026-03-19",
-      "total_slots": 17,
-      "booked_slots": 17,
+      "total_slots": 16,
+      "booked_slots": 16,
       "occupancy_pct": 100.0,
-      "first_slot": "17:20",
+      "first_slot": "17:25",
       "last_slot": "18:40",
       "booked_ranges": [
         [
-          "17:20",
+          "17:25",
           "18:40"
         ]
       ],
       "slot_detail": [
-        {
-          "time": "17:20",
-          "booked": 1
-        },
         {
           "time": "17:25",
           "booked": 1
@@ -26050,5 +26018,5 @@
     "active_now": 84,
     "retired": 1
   },
-  "generated_at": "2026-03-19 17:03:16"
+  "generated_at": "2026-03-19 17:09:01"
 }
