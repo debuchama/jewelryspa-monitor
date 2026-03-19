@@ -67,6 +67,15 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;-w
 .sdt-btn.active{background:var(--s2);color:var(--acc);border-color:var(--acc)}
 .sdt-btn .sdt-occ{font-size:10px;display:block;margin-top:1px}
 .sdt-btn.sdt-today{border-color:var(--acc);color:var(--acc)}
+/* Time slider */
+.ss-wrap{margin:12px 0 16px;padding:0 4px}
+.ss-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:var(--td)}
+.ss-cur{font-size:14px;font-weight:600;color:var(--acc);background:var(--s2);padding:2px 10px;border-radius:12px}
+.ss-range{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--s2);outline:none;cursor:pointer}
+.ss-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 4px rgba(201,169,110,.4)}
+.ss-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg)}
+.ss-ticks{display:flex;justify-content:space-between;margin-top:2px;padding:0 8px}
+.ss-ticks span{font-size:9px;color:var(--td)}
 /* Location cards */
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
 @media(max-width:700px){.tg{grid-template-columns:1fr}}
@@ -139,7 +148,17 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
   <div id="p-today" class="pn active">
     <div class="mc" id="t-metrics"></div>
     <div class="cc"><div class="ct2">Slot occupancy — realtime</div><div class="cs">Bar = booked%. Arrow = velocity since last check.</div><div id="t-occ-meters"></div></div>
-    <div class="cc"><div class="ct2">Slot timeline</div><div class="cs">Each cell = 5min slot. <span style="color:var(--red)">Red</span>=booked, <span style="color:var(--grn)">green</span>=available. Hover for time. Select date below.</div><div id="slot-date-tabs" class="sdt"></div><div id="slot-hm-body"></div></div>
+    <div class="cc">
+      <div class="ct2">Slot timeline</div>
+      <div class="cs">Each cell = 5min slot. <span style="color:var(--red)">Red</span>=booked, <span style="color:var(--grn)">green</span>=available, <span style="color:var(--s2)">dark</span>=off-shift. Drag slider to replay how bookings filled up.</div>
+      <div id="slot-date-tabs" class="sdt"></div>
+      <div id="slot-slider-wrap" class="ss-wrap" style="display:none">
+        <div class="ss-labels"><span id="ss-label-start"></span><span id="ss-label-current" class="ss-cur"></span><span id="ss-label-end"></span></div>
+        <input type="range" id="ss-slider" class="ss-range" min="0" max="0" value="0">
+        <div class="ss-ticks" id="ss-ticks"></div>
+      </div>
+      <div id="slot-hm-body"></div>
+    </div>
     <div class="tg" id="t-grid"></div>
     <div class="cc"><div class="ct2">Shift timeline</div><div class="cs">Solid=available, faded=booked. Red dashed=now.</div>
       <div class="lg"><div class="li"><div style="background:var(--aka)"></div>赤羽</div><div class="li"><div style="background:var(--oji)"></div>王子</div><div class="li"><div style="background:var(--nsh)"></div>西新井</div><div class="li"><div style="background:var(--red);width:2px;height:14px;border-radius:0"></div>Now</div></div>
@@ -281,130 +300,212 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
 })();
 // ===== SLOT HEATMAP =====
 (function(){
-  window.renderSlotHeatmap = function(containerId, slotsData, dateLabel) {
-    if (!slotsData || !slotsData.length) {
-      document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data for this date.</p>';
+  const timeToNum = t => { const [h,m] = t.split(':').map(Number); return (h < 6 ? h + 24 : h) * 60 + m; };
+
+  // Generate 5-min slots from first_slot to last_slot
+  function genSlots(fs, ls) {
+    if (!fs || !ls) return [];
+    const slots = [];
+    let cur = timeToNum(fs), end = timeToNum(ls);
+    while (cur <= end) {
+      const h = Math.floor(cur / 60) % 24;
+      const m = cur % 60;
+      slots.push((''+h).padStart(2,'0') + ':' + (''+m).padStart(2,'0'));
+      cur += 5;
+    }
+    return slots;
+  }
+
+  // Check if a time falls within any of the booked ranges
+  function isInRanges(time, ranges) {
+    const t = timeToNum(time);
+    for (const [rs, re] of ranges) {
+      if (t >= timeToNum(rs) && t <= timeToNum(re)) return true;
+    }
+    return false;
+  }
+
+  // Core renderer: takes abstract therapist list with {name, tid, slotMap, occ, booked, total}
+  function renderCore(containerId, therapists, allTimes, dateStr) {
+    if (!therapists.length || !allTimes.length) {
+      document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data.</p>';
       return;
     }
-    // Sort: booked first, then by occupancy desc
-    const sorted = [...slotsData].sort((a,b) => b.occupancy_pct - a.occupancy_pct || a.name.localeCompare(b.name));
-
-    // Build a unified time axis (union of all therapists' slot times)
-    const allTimesSet = new Set();
-    sorted.forEach(s => s.slot_detail.forEach(d => allTimesSet.add(d.time)));
-    // Sort times: convert to comparable numbers (handle midnight wraparound)
-    const timeToNum = t => { const [h,m] = t.split(':').map(Number); return (h < 6 ? h + 24 : h) * 60 + m; };
-    const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
-
-    // Build lookup per therapist: time → booked status
-    const therapistSlots = sorted.map(s => {
-      const map = {};
-      s.slot_detail.forEach(d => { map[d.time] = d.booked; });
-      return { ...s, slotMap: map };
-    });
-
-    // Time axis labels (every 30 min)
+    const sorted = [...therapists].sort((a,b) => b.occ - a.occ || a.name.localeCompare(b.name));
     const axisLabels = allTimes.filter((_, i) => i % 6 === 0).map(t => fT(t));
-
-    // Current time marker position (fraction within axis)
-    const isToday = dateLabel === tS();
+    const isToday = dateStr === tS();
     const nowMin = isToday ? (() => { const d = new Date(); let h = d.getHours(); if (h < 6) h += 24; return h * 60 + d.getMinutes(); })() : null;
-    const axisStart = timeToNum(allTimes[0]);
-    const axisEnd = timeToNum(allTimes[allTimes.length - 1]);
-    const nowPct = nowMin !== null ? Math.max(0, Math.min(100, ((nowMin - axisStart) / (axisEnd - axisStart)) * 100)) : null;
+    const axStart = timeToNum(allTimes[0]), axEnd = timeToNum(allTimes[allTimes.length - 1]);
+    const nowPct = nowMin !== null ? Math.max(0, Math.min(100, ((nowMin - axStart) / (axEnd - axStart)) * 100)) : null;
 
     let h = '<div class="sh-wrap">';
-
-    // Time axis
-    h += '<div class="sh-axis">';
-    axisLabels.forEach(t => { h += `<span>${t}</span>`; });
-    h += '</div>';
-
-    // Now marker (positioned over the grid)
+    h += '<div class="sh-axis">'; axisLabels.forEach(t => { h += `<span>${t}</span>`; }); h += '</div>';
     if (nowPct !== null && nowPct > 0 && nowPct < 100) {
       h += `<div style="position:relative;height:0;margin-left:66px;margin-right:46px">`;
       h += `<div style="position:absolute;left:${nowPct}%;top:-4px;width:2px;height:${sorted.length * 24 + 8}px;background:var(--red);opacity:.5;z-index:5;pointer-events:none"></div>`;
       h += `<div style="position:absolute;left:calc(${nowPct}% - 14px);top:-16px;font-size:9px;color:var(--red);white-space:nowrap;z-index:6">now</div>`;
       h += `</div>`;
     }
-
-    // Rows
     let totalSlots = 0, totalBooked = 0;
-    therapistSlots.forEach(s => {
-      const tid = s.therapist_id;
-      const occ = Math.round(s.occupancy_pct);
-      totalSlots += s.total_slots;
-      totalBooked += s.booked_slots;
-
-      h += `<div class="sh-row">`;
-      h += `<div class="sh-name">${nl(s.name, tid)}</div>`;
-      h += `<div class="sh-slots">`;
-
+    sorted.forEach(s => {
+      totalSlots += s.total; totalBooked += s.booked;
+      h += `<div class="sh-row"><div class="sh-name">${nl(s.name, s.tid)}</div><div class="sh-slots">`;
       allTimes.forEach(time => {
-        const status = s.slotMap[time];
-        if (status === undefined) {
-          // This therapist doesn't have this time slot (outside their shift)
-          h += `<div class="sh-cell off"></div>`;
-        } else if (status) {
-          h += `<div class="sh-cell booked"><div class="sh-tip">${fT(time)} 予約済</div></div>`;
-        } else {
-          h += `<div class="sh-cell free"><div class="sh-tip">${fT(time)} 空き</div></div>`;
-        }
+        const st = s.slotMap[time];
+        if (st === undefined) h += `<div class="sh-cell off"></div>`;
+        else if (st) h += `<div class="sh-cell booked"><div class="sh-tip">${fT(time)} 予約済</div></div>`;
+        else h += `<div class="sh-cell free"><div class="sh-tip">${fT(time)} 空き</div></div>`;
       });
-
-      h += `</div>`;
-      h += `<div class="sh-occ" style="color:${occClr(occ)}">${occ}%</div>`;
-      h += `</div>`;
+      h += `</div><div class="sh-occ" style="color:${occClr(s.occ)}">${Math.round(s.occ)}%</div></div>`;
     });
-
-    // Summary
     const totalOcc = totalSlots > 0 ? Math.round(100 * totalBooked / totalSlots) : 0;
     h += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:0 4px">`;
     h += `<span style="font-size:11px;color:var(--td)">${sorted.length} therapists</span>`;
-    h += `<span style="font-size:11px;color:var(--tm)">${totalBooked}/${totalSlots} slots booked (${totalOcc}%)</span>`;
-    h += `</div>`;
-    h += '</div>';
-
+    h += `<span style="font-size:11px;color:var(--tm)">${totalBooked}/${totalSlots} booked (${totalOcc}%)</span>`;
+    h += `</div></div>`;
     document.getElementById(containerId).innerHTML = h;
+  }
+
+  // Convert live scrape data (with slot_detail) → abstract format
+  function fromLiveData(slotsData) {
+    const allTimesSet = new Set();
+    slotsData.forEach(s => (s.slot_detail||[]).forEach(d => allTimesSet.add(d.time)));
+    const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
+    const therapists = slotsData.map(s => {
+      const map = {}; (s.slot_detail||[]).forEach(d => { map[d.time] = d.booked; });
+      return { name: s.name, tid: s.therapist_id, slotMap: map, occ: s.occupancy_pct, booked: s.booked_slots, total: s.total_slots };
+    });
+    return { therapists, allTimes };
+  }
+
+  // Convert snapshot data (booked_ranges + first/last slot) → abstract format
+  function fromSnapshot(snapList) {
+    const allTimesSet = new Set();
+    const therapists = snapList.map(s => {
+      const slots = genSlots(s.fs, s.ls);
+      const map = {};
+      slots.forEach(t => { allTimesSet.add(t); map[t] = isInRanges(t, s.ranges || []) ? 1 : 0; });
+      return { name: s.n, tid: s.tid, slotMap: map, occ: s.occ, booked: s.bk, total: s.tot };
+    });
+    const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
+    return { therapists, allTimes };
+  }
+
+  // Expose for date tabs
+  window.renderSlotHeatmap = function(containerId, slotsData, dateStr) {
+    if (!slotsData || !slotsData.length) {
+      document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data for this date.</p>';
+      return;
+    }
+    const { therapists, allTimes } = fromLiveData(slotsData);
+    renderCore(containerId, therapists, allTimes, dateStr);
   };
 
-  renderSlotHeatmap('slot-hm-body', D.realtime_slots_today, tS());
+  // Expose snapshot renderer for global slider handler
+  window._renderSnapshot = function(containerId, snapList, dateStr) {
+    const { therapists, allTimes } = fromSnapshot(snapList);
+    renderCore(containerId, therapists, allTimes, dateStr);
+  };
 
-  // ── Multi-date slot tabs ──
+  // ── Date tabs ──
   const slotDates = D.slot_dates || [];
   const slotsByDate = D.slots_by_date || {};
+  const slotHistory = D.slot_history || {};
   const tabsEl = document.getElementById('slot-date-tabs');
-  const bodyEl = document.getElementById('slot-hm-body');
 
-  if (slotDates.length > 0) {
-    // Build tabs
+  // Merge dates from live scrape and history
+  const allDatesSet = new Set([...slotDates, ...Object.keys(slotHistory)]);
+  const allDates = [...allDatesSet].sort();
+
+  if (allDates.length > 0) {
     let tabsHtml = '';
-    slotDates.forEach((d, i) => {
-      const slots = slotsByDate[d] || [];
-      const avgOcc = slots.length ? Math.round(slots.reduce((s, t) => s + t.occupancy_pct, 0) / slots.length) : 0;
+    allDates.forEach((d, i) => {
+      const liveSlots = slotsByDate[d] || [];
+      const hist = slotHistory[d];
+      const snapCount = hist ? hist.check_times.length : 0;
+      const avgOcc = liveSlots.length ? Math.round(liveSlots.reduce((s, t) => s + t.occupancy_pct, 0) / liveSlots.length) : 0;
       const isToday = d === tS();
       const occClrV = avgOcc >= 70 ? 'var(--red)' : avgOcc >= 30 ? 'var(--amb)' : avgOcc > 0 ? 'var(--grn)' : 'var(--td)';
+      const staffCount = liveSlots.length || (hist ? Math.max(...hist.check_times.map(t => (hist.snapshots[t]||[]).length), 0) : 0);
       tabsHtml += `<button class="sdt-btn ${i === 0 ? 'active' : ''} ${isToday ? 'sdt-today' : ''}" onclick="switchSlotDate('${d}', this)">`;
-      tabsHtml += `${dL(d)}`;
-      tabsHtml += `<span class="sdt-occ" style="color:${occClrV}">${slots.length}名 ${avgOcc}%</span>`;
+      tabsHtml += dL(d);
+      tabsHtml += `<span class="sdt-occ" style="color:${occClrV}">${staffCount}名 ${snapCount > 1 ? snapCount + 'snaps' : ''}</span>`;
       tabsHtml += `</button>`;
     });
     tabsEl.innerHTML = tabsHtml;
 
-    // Initial render (first date = today)
-    renderSlotHeatmap('slot-hm-body', slotsByDate[slotDates[0]] || [], slotDates[0]);
+    // Initial render via switchSlotDate (sets up both heatmap and slider)
+    switchSlotDate(allDates[0], tabsEl.querySelector('.sdt-btn'));
   }
 })();
 
 // Global: switch slot date tab
 function switchSlotDate(date, btn) {
-  // Update tab styles
   document.querySelectorAll('.sdt-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  // Re-render heatmap
+
   const slotsByDate = D.slots_by_date || {};
-  renderSlotHeatmap('slot-hm-body', slotsByDate[date] || [], date);
+  const slotHistory = D.slot_history || {};
+  const liveData = slotsByDate[date];
+
+  // Render latest data
+  if (liveData && liveData.length) {
+    renderSlotHeatmap('slot-hm-body', liveData, date);
+  } else {
+    document.getElementById('slot-hm-body').innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No live slot data for this date.</p>';
+  }
+
+  // Setup slider
+  const hist = slotHistory[date];
+  const wrap = document.getElementById('slot-slider-wrap');
+  const slider = document.getElementById('ss-slider');
+
+  if (hist && hist.check_times.length > 1) {
+    const times = hist.check_times;
+    window._sliderDate = date;
+    window._sliderTimes = times;
+    window._sliderHistory = hist;
+    slider.min = 0; slider.max = times.length - 1; slider.value = times.length - 1;
+    document.getElementById('ss-label-start').textContent = times[0];
+    document.getElementById('ss-label-end').textContent = times[times.length - 1];
+    document.getElementById('ss-label-current').textContent = times[times.length - 1] + ' (latest)';
+    // Ticks
+    let tH = '';
+    const step = Math.max(1, Math.floor(times.length / 8));
+    times.forEach((t, i) => { tH += `<span>${(i === 0 || i === times.length-1 || i % step === 0) ? t : ''}</span>`; });
+    document.getElementById('ss-ticks').innerHTML = tH;
+    wrap.style.display = 'block';
+  } else {
+    wrap.style.display = 'none';
+  }
 }
+
+// Slider event: replay snapshots
+document.getElementById('ss-slider').addEventListener('input', function() {
+  const idx = parseInt(this.value);
+  const times = window._sliderTimes || [];
+  const hist = window._sliderHistory;
+  const date = window._sliderDate;
+  if (!times.length || !hist) return;
+
+  const checkTime = times[idx];
+  const isLatest = idx === times.length - 1;
+  document.getElementById('ss-label-current').textContent = checkTime + (isLatest ? ' (latest)' : '');
+
+  if (isLatest) {
+    const liveData = (D.slots_by_date || {})[date];
+    if (liveData && liveData.length) {
+      renderSlotHeatmap('slot-hm-body', liveData, date);
+      return;
+    }
+  }
+
+  // Render historical snapshot
+  const snapList = hist.snapshots[checkTime];
+  if (snapList && snapList.length) {
+    window._renderSnapshot('slot-hm-body', snapList, date);
+  }
+});
 // ===== WEEKLY =====
 (function(){
   const sum=D.daily_location_summary,dates=[...new Set(sum.map(s=>s.schedule_date))].sort(),dls=dates.map(dL);

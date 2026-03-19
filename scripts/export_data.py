@@ -155,6 +155,48 @@ def export_dashboard_data():
         data["realtime_slots_tomorrow"] = []
         print(f"  ⚠️ slot fetch skipped: {e}")
 
+    # ── 7c. スロット履歴（日ごとのスナップショット時系列）──
+    # 同じ日の中で時間経過とともにどう埋まったかを復元可能にする
+    tid_name = {t["therapist_id"]: t["name"] for t in data["therapists"]}
+    slot_history = {}
+    hist_rows = conn.execute("""
+        SELECT ss.schedule_date, ss.checked_at, ss.therapist_id,
+               ss.occupancy_pct, ss.booked_slots, ss.total_slots,
+               ss.booked_ranges, ss.first_slot, ss.last_slot
+        FROM slot_summaries ss
+        ORDER BY ss.schedule_date, ss.checked_at, ss.therapist_id
+    """).fetchall()
+
+    for r in hist_rows:
+        date = r["schedule_date"]
+        check_time = r["checked_at"].split(" ")[1][:5]  # HH:MM
+        if date not in slot_history:
+            slot_history[date] = {"check_times": [], "snapshots": {}}
+        sh = slot_history[date]
+        if check_time not in sh["snapshots"]:
+            sh["check_times"].append(check_time)
+            sh["snapshots"][check_time] = []
+        sh["snapshots"][check_time].append({
+            "tid": r["therapist_id"],
+            "n": tid_name.get(r["therapist_id"], f"ID:{r['therapist_id']}"),
+            "occ": r["occupancy_pct"],
+            "bk": r["booked_slots"],
+            "tot": r["total_slots"],
+            "ranges": json.loads(r["booked_ranges"]) if r["booked_ranges"] else [],
+            "fs": r["first_slot"],
+            "ls": r["last_slot"],
+        })
+
+    # deduplicate check_times
+    for date in slot_history:
+        sh = slot_history[date]
+        sh["check_times"] = sorted(set(sh["check_times"]))
+
+    data["slot_history"] = slot_history
+    hist_dates = list(slot_history.keys())
+    hist_total = sum(len(v["check_times"]) for v in slot_history.values())
+    print(f"  slot_history: {len(hist_dates)} dates, {hist_total} total snapshots")
+
     # ── 8. 人気度分析（予約が埋まるスピード）──
     # 各セラピストの「available → fully_booked」遷移を検出し、
     # シフト開始からの経過時間で人気度スコアを算出
