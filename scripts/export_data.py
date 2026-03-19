@@ -157,6 +157,7 @@ def export_dashboard_data():
 
     # ── 7c. スロット履歴（日ごとのスナップショット時系列）──
     # 同じ日の中で時間経過とともにどう埋まったかを復元可能にする
+    # full_range: セラピストごとの最初のスナップショットのfirst_slot〜last_slot（フルシフト範囲）
     tid_name = {t["therapist_id"]: t["name"] for t in data["therapists"]}
     slot_history = {}
     hist_rows = conn.execute("""
@@ -167,18 +168,28 @@ def export_dashboard_data():
         ORDER BY ss.schedule_date, ss.checked_at, ss.therapist_id
     """).fetchall()
 
+    # Pass 1: collect full_range per therapist per date (earliest snapshot has widest range)
+    full_ranges = {}  # (date, tid) → {"fs": ..., "ls": ...}
+    for r in hist_rows:
+        key = (r["schedule_date"], r["therapist_id"])
+        if key not in full_ranges and r["first_slot"] and r["last_slot"]:
+            full_ranges[key] = {"fs": r["first_slot"], "ls": r["last_slot"]}
+
+    # Pass 2: build history structure
     for r in hist_rows:
         date = r["schedule_date"]
         check_time = r["checked_at"].split(" ")[1][:5]  # HH:MM
         if date not in slot_history:
-            slot_history[date] = {"check_times": [], "snapshots": {}}
+            slot_history[date] = {"check_times": [], "snapshots": {}, "full_ranges": {}}
         sh = slot_history[date]
         if check_time not in sh["snapshots"]:
             sh["check_times"].append(check_time)
             sh["snapshots"][check_time] = []
+
+        tid = r["therapist_id"]
         sh["snapshots"][check_time].append({
-            "tid": r["therapist_id"],
-            "n": tid_name.get(r["therapist_id"], f"ID:{r['therapist_id']}"),
+            "tid": tid,
+            "n": tid_name.get(tid, f"ID:{tid}"),
             "occ": r["occupancy_pct"],
             "bk": r["booked_slots"],
             "tot": r["total_slots"],
@@ -186,6 +197,11 @@ def export_dashboard_data():
             "fs": r["first_slot"],
             "ls": r["last_slot"],
         })
+
+        # Store full_range per therapist (stringify tid for JSON key)
+        fr = full_ranges.get((date, tid))
+        if fr and str(tid) not in sh["full_ranges"]:
+            sh["full_ranges"][str(tid)] = fr
 
     # deduplicate check_times
     for date in slot_history:

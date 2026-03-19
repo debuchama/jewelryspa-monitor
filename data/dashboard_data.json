@@ -4080,119 +4080,6 @@
   "slots_by_date": {
     "2026-03-19": [
       {
-        "therapist_id": 52874,
-        "schedule_date": "2026-03-19",
-        "total_slots": 25,
-        "booked_slots": 0,
-        "occupancy_pct": 0.0,
-        "first_slot": "18:10",
-        "last_slot": "20:10",
-        "booked_ranges": [],
-        "slot_detail": [
-          {
-            "time": "18:10",
-            "booked": 0
-          },
-          {
-            "time": "18:15",
-            "booked": 0
-          },
-          {
-            "time": "18:20",
-            "booked": 0
-          },
-          {
-            "time": "18:25",
-            "booked": 0
-          },
-          {
-            "time": "18:30",
-            "booked": 0
-          },
-          {
-            "time": "18:35",
-            "booked": 0
-          },
-          {
-            "time": "18:40",
-            "booked": 0
-          },
-          {
-            "time": "18:45",
-            "booked": 0
-          },
-          {
-            "time": "18:50",
-            "booked": 0
-          },
-          {
-            "time": "18:55",
-            "booked": 0
-          },
-          {
-            "time": "19:00",
-            "booked": 0
-          },
-          {
-            "time": "19:05",
-            "booked": 0
-          },
-          {
-            "time": "19:10",
-            "booked": 0
-          },
-          {
-            "time": "19:15",
-            "booked": 0
-          },
-          {
-            "time": "19:20",
-            "booked": 0
-          },
-          {
-            "time": "19:25",
-            "booked": 0
-          },
-          {
-            "time": "19:30",
-            "booked": 0
-          },
-          {
-            "time": "19:35",
-            "booked": 0
-          },
-          {
-            "time": "19:40",
-            "booked": 0
-          },
-          {
-            "time": "19:45",
-            "booked": 0
-          },
-          {
-            "time": "19:50",
-            "booked": 0
-          },
-          {
-            "time": "19:55",
-            "booked": 0
-          },
-          {
-            "time": "20:00",
-            "booked": 0
-          },
-          {
-            "time": "20:05",
-            "booked": 0
-          },
-          {
-            "time": "20:10",
-            "booked": 0
-          }
-        ],
-        "name": "りあ"
-      },
-      {
         "therapist_id": 52799,
         "schedule_date": "2026-03-19",
         "total_slots": 75,
@@ -4506,57 +4393,16 @@
         "name": "あみ"
       },
       {
-        "therapist_id": 52817,
-        "schedule_date": "2026-03-19",
-        "total_slots": 7,
-        "booked_slots": 0,
-        "occupancy_pct": 0.0,
-        "first_slot": "18:10",
-        "last_slot": "18:40",
-        "booked_ranges": [],
-        "slot_detail": [
-          {
-            "time": "18:10",
-            "booked": 0
-          },
-          {
-            "time": "18:15",
-            "booked": 0
-          },
-          {
-            "time": "18:20",
-            "booked": 0
-          },
-          {
-            "time": "18:25",
-            "booked": 0
-          },
-          {
-            "time": "18:30",
-            "booked": 0
-          },
-          {
-            "time": "18:35",
-            "booked": 0
-          },
-          {
-            "time": "18:40",
-            "booked": 0
-          }
-        ],
-        "name": "すい"
-      },
-      {
         "therapist_id": 52925,
         "schedule_date": "2026-03-19",
-        "total_slots": 93,
-        "booked_slots": 64,
-        "occupancy_pct": 68.8,
-        "first_slot": "20:00",
+        "total_slots": 84,
+        "booked_slots": 55,
+        "occupancy_pct": 65.5,
+        "first_slot": "20:45",
         "last_slot": "3:40",
         "booked_ranges": [
           [
-            "20:00",
+            "20:45",
             "21:50"
           ],
           [
@@ -4565,42 +4411,6 @@
           ]
         ],
         "slot_detail": [
-          {
-            "time": "20:00",
-            "booked": 1
-          },
-          {
-            "time": "20:05",
-            "booked": 1
-          },
-          {
-            "time": "20:10",
-            "booked": 1
-          },
-          {
-            "time": "20:15",
-            "booked": 1
-          },
-          {
-            "time": "20:20",
-            "booked": 1
-          },
-          {
-            "time": "20:25",
-            "booked": 1
-          },
-          {
-            "time": "20:30",
-            "booked": 1
-          },
-          {
-            "time": "20:35",
-            "booked": 1
-          },
-          {
-            "time": "20:40",
-            "booked": 1
-          },
           {
             "time": "20:45",
             "booked": 1
@@ -4943,49 +4753,13 @@
       {
         "therapist_id": 54670,
         "schedule_date": "2026-03-19",
-        "total_slots": 93,
+        "total_slots": 84,
         "booked_slots": 0,
         "occupancy_pct": 0.0,
-        "first_slot": "20:00",
+        "first_slot": "20:45",
         "last_slot": "3:40",
         "booked_ranges": [],
         "slot_detail": [
-          {
-            "time": "20:00",
-            "booked": 0
-          },
-          {
-            "time": "20:05",
-            "booked": 0
-          },
-          {
-            "time": "20:10",
-            "booked": 0
-          },
-          {
-            "time": "20:15",
-            "booked": 0
-          },
-          {
-            "time": "20:20",
-            "booked": 0
-          },
-          {
-            "time": "20:25",
-            "booked": 0
-          },
-          {
-            "time": "20:30",
-            "booked": 0
-          },
-          {
-            "time": "20:35",
-            "booked": 0
-          },
-          {
-            "time": "20:40",
-            "booked": 0
-          },
           {
             "time": "20:45",
             "booked": 0
@@ -5328,12 +5102,16 @@
       {
         "therapist_id": 59991,
         "schedule_date": "2026-03-19",
-        "total_slots": 93,
-        "booked_slots": 41,
-        "occupancy_pct": 44.1,
-        "first_slot": "20:00",
+        "total_slots": 84,
+        "booked_slots": 51,
+        "occupancy_pct": 60.7,
+        "first_slot": "20:45",
         "last_slot": "3:40",
         "booked_ranges": [
+          [
+            "20:45",
+            "21:30"
+          ],
           [
             "22:30",
             "1:50"
@@ -5341,80 +5119,44 @@
         ],
         "slot_detail": [
           {
-            "time": "20:00",
-            "booked": 0
-          },
-          {
-            "time": "20:05",
-            "booked": 0
-          },
-          {
-            "time": "20:10",
-            "booked": 0
-          },
-          {
-            "time": "20:15",
-            "booked": 0
-          },
-          {
-            "time": "20:20",
-            "booked": 0
-          },
-          {
-            "time": "20:25",
-            "booked": 0
-          },
-          {
-            "time": "20:30",
-            "booked": 0
-          },
-          {
-            "time": "20:35",
-            "booked": 0
-          },
-          {
-            "time": "20:40",
-            "booked": 0
-          },
-          {
             "time": "20:45",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "20:50",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "20:55",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:00",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:05",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:10",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:15",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:20",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:25",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:30",
-            "booked": 0
+            "booked": 1
           },
           {
             "time": "21:35",
@@ -5718,137 +5460,13 @@
       {
         "therapist_id": 52878,
         "schedule_date": "2026-03-19",
-        "total_slots": 115,
+        "total_slots": 84,
         "booked_slots": 0,
         "occupancy_pct": 0.0,
-        "first_slot": "18:10",
+        "first_slot": "20:45",
         "last_slot": "3:40",
         "booked_ranges": [],
         "slot_detail": [
-          {
-            "time": "18:10",
-            "booked": 0
-          },
-          {
-            "time": "18:15",
-            "booked": 0
-          },
-          {
-            "time": "18:20",
-            "booked": 0
-          },
-          {
-            "time": "18:25",
-            "booked": 0
-          },
-          {
-            "time": "18:30",
-            "booked": 0
-          },
-          {
-            "time": "18:35",
-            "booked": 0
-          },
-          {
-            "time": "18:40",
-            "booked": 0
-          },
-          {
-            "time": "18:45",
-            "booked": 0
-          },
-          {
-            "time": "18:50",
-            "booked": 0
-          },
-          {
-            "time": "18:55",
-            "booked": 0
-          },
-          {
-            "time": "19:00",
-            "booked": 0
-          },
-          {
-            "time": "19:05",
-            "booked": 0
-          },
-          {
-            "time": "19:10",
-            "booked": 0
-          },
-          {
-            "time": "19:15",
-            "booked": 0
-          },
-          {
-            "time": "19:20",
-            "booked": 0
-          },
-          {
-            "time": "19:25",
-            "booked": 0
-          },
-          {
-            "time": "19:30",
-            "booked": 0
-          },
-          {
-            "time": "19:35",
-            "booked": 0
-          },
-          {
-            "time": "19:40",
-            "booked": 0
-          },
-          {
-            "time": "19:45",
-            "booked": 0
-          },
-          {
-            "time": "19:50",
-            "booked": 0
-          },
-          {
-            "time": "19:55",
-            "booked": 0
-          },
-          {
-            "time": "20:00",
-            "booked": 0
-          },
-          {
-            "time": "20:05",
-            "booked": 0
-          },
-          {
-            "time": "20:10",
-            "booked": 0
-          },
-          {
-            "time": "20:15",
-            "booked": 0
-          },
-          {
-            "time": "20:20",
-            "booked": 0
-          },
-          {
-            "time": "20:25",
-            "booked": 0
-          },
-          {
-            "time": "20:30",
-            "booked": 0
-          },
-          {
-            "time": "20:35",
-            "booked": 0
-          },
-          {
-            "time": "20:40",
-            "booked": 0
-          },
           {
             "time": "20:45",
             "booked": 0
@@ -6187,52 +5805,6 @@
           }
         ],
         "name": "るな"
-      },
-      {
-        "therapist_id": 54672,
-        "schedule_date": "2026-03-19",
-        "total_slots": 7,
-        "booked_slots": 7,
-        "occupancy_pct": 100.0,
-        "first_slot": "18:10",
-        "last_slot": "18:40",
-        "booked_ranges": [
-          [
-            "18:10",
-            "18:40"
-          ]
-        ],
-        "slot_detail": [
-          {
-            "time": "18:10",
-            "booked": 1
-          },
-          {
-            "time": "18:15",
-            "booked": 1
-          },
-          {
-            "time": "18:20",
-            "booked": 1
-          },
-          {
-            "time": "18:25",
-            "booked": 1
-          },
-          {
-            "time": "18:30",
-            "booked": 1
-          },
-          {
-            "time": "18:35",
-            "booked": 1
-          },
-          {
-            "time": "18:40",
-            "booked": 1
-          }
-        ],
-        "name": "ほのか"
       }
     ],
     "2026-03-20": [
@@ -16860,119 +16432,6 @@
   },
   "realtime_slots_today": [
     {
-      "therapist_id": 52874,
-      "schedule_date": "2026-03-19",
-      "total_slots": 25,
-      "booked_slots": 0,
-      "occupancy_pct": 0.0,
-      "first_slot": "18:10",
-      "last_slot": "20:10",
-      "booked_ranges": [],
-      "slot_detail": [
-        {
-          "time": "18:10",
-          "booked": 0
-        },
-        {
-          "time": "18:15",
-          "booked": 0
-        },
-        {
-          "time": "18:20",
-          "booked": 0
-        },
-        {
-          "time": "18:25",
-          "booked": 0
-        },
-        {
-          "time": "18:30",
-          "booked": 0
-        },
-        {
-          "time": "18:35",
-          "booked": 0
-        },
-        {
-          "time": "18:40",
-          "booked": 0
-        },
-        {
-          "time": "18:45",
-          "booked": 0
-        },
-        {
-          "time": "18:50",
-          "booked": 0
-        },
-        {
-          "time": "18:55",
-          "booked": 0
-        },
-        {
-          "time": "19:00",
-          "booked": 0
-        },
-        {
-          "time": "19:05",
-          "booked": 0
-        },
-        {
-          "time": "19:10",
-          "booked": 0
-        },
-        {
-          "time": "19:15",
-          "booked": 0
-        },
-        {
-          "time": "19:20",
-          "booked": 0
-        },
-        {
-          "time": "19:25",
-          "booked": 0
-        },
-        {
-          "time": "19:30",
-          "booked": 0
-        },
-        {
-          "time": "19:35",
-          "booked": 0
-        },
-        {
-          "time": "19:40",
-          "booked": 0
-        },
-        {
-          "time": "19:45",
-          "booked": 0
-        },
-        {
-          "time": "19:50",
-          "booked": 0
-        },
-        {
-          "time": "19:55",
-          "booked": 0
-        },
-        {
-          "time": "20:00",
-          "booked": 0
-        },
-        {
-          "time": "20:05",
-          "booked": 0
-        },
-        {
-          "time": "20:10",
-          "booked": 0
-        }
-      ],
-      "name": "りあ"
-    },
-    {
       "therapist_id": 52799,
       "schedule_date": "2026-03-19",
       "total_slots": 75,
@@ -17286,57 +16745,16 @@
       "name": "あみ"
     },
     {
-      "therapist_id": 52817,
-      "schedule_date": "2026-03-19",
-      "total_slots": 7,
-      "booked_slots": 0,
-      "occupancy_pct": 0.0,
-      "first_slot": "18:10",
-      "last_slot": "18:40",
-      "booked_ranges": [],
-      "slot_detail": [
-        {
-          "time": "18:10",
-          "booked": 0
-        },
-        {
-          "time": "18:15",
-          "booked": 0
-        },
-        {
-          "time": "18:20",
-          "booked": 0
-        },
-        {
-          "time": "18:25",
-          "booked": 0
-        },
-        {
-          "time": "18:30",
-          "booked": 0
-        },
-        {
-          "time": "18:35",
-          "booked": 0
-        },
-        {
-          "time": "18:40",
-          "booked": 0
-        }
-      ],
-      "name": "すい"
-    },
-    {
       "therapist_id": 52925,
       "schedule_date": "2026-03-19",
-      "total_slots": 93,
-      "booked_slots": 64,
-      "occupancy_pct": 68.8,
-      "first_slot": "20:00",
+      "total_slots": 84,
+      "booked_slots": 55,
+      "occupancy_pct": 65.5,
+      "first_slot": "20:45",
       "last_slot": "3:40",
       "booked_ranges": [
         [
-          "20:00",
+          "20:45",
           "21:50"
         ],
         [
@@ -17345,42 +16763,6 @@
         ]
       ],
       "slot_detail": [
-        {
-          "time": "20:00",
-          "booked": 1
-        },
-        {
-          "time": "20:05",
-          "booked": 1
-        },
-        {
-          "time": "20:10",
-          "booked": 1
-        },
-        {
-          "time": "20:15",
-          "booked": 1
-        },
-        {
-          "time": "20:20",
-          "booked": 1
-        },
-        {
-          "time": "20:25",
-          "booked": 1
-        },
-        {
-          "time": "20:30",
-          "booked": 1
-        },
-        {
-          "time": "20:35",
-          "booked": 1
-        },
-        {
-          "time": "20:40",
-          "booked": 1
-        },
         {
           "time": "20:45",
           "booked": 1
@@ -17723,49 +17105,13 @@
     {
       "therapist_id": 54670,
       "schedule_date": "2026-03-19",
-      "total_slots": 93,
+      "total_slots": 84,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "20:00",
+      "first_slot": "20:45",
       "last_slot": "3:40",
       "booked_ranges": [],
       "slot_detail": [
-        {
-          "time": "20:00",
-          "booked": 0
-        },
-        {
-          "time": "20:05",
-          "booked": 0
-        },
-        {
-          "time": "20:10",
-          "booked": 0
-        },
-        {
-          "time": "20:15",
-          "booked": 0
-        },
-        {
-          "time": "20:20",
-          "booked": 0
-        },
-        {
-          "time": "20:25",
-          "booked": 0
-        },
-        {
-          "time": "20:30",
-          "booked": 0
-        },
-        {
-          "time": "20:35",
-          "booked": 0
-        },
-        {
-          "time": "20:40",
-          "booked": 0
-        },
         {
           "time": "20:45",
           "booked": 0
@@ -18108,12 +17454,16 @@
     {
       "therapist_id": 59991,
       "schedule_date": "2026-03-19",
-      "total_slots": 93,
-      "booked_slots": 41,
-      "occupancy_pct": 44.1,
-      "first_slot": "20:00",
+      "total_slots": 84,
+      "booked_slots": 51,
+      "occupancy_pct": 60.7,
+      "first_slot": "20:45",
       "last_slot": "3:40",
       "booked_ranges": [
+        [
+          "20:45",
+          "21:30"
+        ],
         [
           "22:30",
           "1:50"
@@ -18121,80 +17471,44 @@
       ],
       "slot_detail": [
         {
-          "time": "20:00",
-          "booked": 0
-        },
-        {
-          "time": "20:05",
-          "booked": 0
-        },
-        {
-          "time": "20:10",
-          "booked": 0
-        },
-        {
-          "time": "20:15",
-          "booked": 0
-        },
-        {
-          "time": "20:20",
-          "booked": 0
-        },
-        {
-          "time": "20:25",
-          "booked": 0
-        },
-        {
-          "time": "20:30",
-          "booked": 0
-        },
-        {
-          "time": "20:35",
-          "booked": 0
-        },
-        {
-          "time": "20:40",
-          "booked": 0
-        },
-        {
           "time": "20:45",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "20:50",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "20:55",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:00",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:05",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:10",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:15",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:20",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:25",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:30",
-          "booked": 0
+          "booked": 1
         },
         {
           "time": "21:35",
@@ -18498,137 +17812,13 @@
     {
       "therapist_id": 52878,
       "schedule_date": "2026-03-19",
-      "total_slots": 115,
+      "total_slots": 84,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "18:10",
+      "first_slot": "20:45",
       "last_slot": "3:40",
       "booked_ranges": [],
       "slot_detail": [
-        {
-          "time": "18:10",
-          "booked": 0
-        },
-        {
-          "time": "18:15",
-          "booked": 0
-        },
-        {
-          "time": "18:20",
-          "booked": 0
-        },
-        {
-          "time": "18:25",
-          "booked": 0
-        },
-        {
-          "time": "18:30",
-          "booked": 0
-        },
-        {
-          "time": "18:35",
-          "booked": 0
-        },
-        {
-          "time": "18:40",
-          "booked": 0
-        },
-        {
-          "time": "18:45",
-          "booked": 0
-        },
-        {
-          "time": "18:50",
-          "booked": 0
-        },
-        {
-          "time": "18:55",
-          "booked": 0
-        },
-        {
-          "time": "19:00",
-          "booked": 0
-        },
-        {
-          "time": "19:05",
-          "booked": 0
-        },
-        {
-          "time": "19:10",
-          "booked": 0
-        },
-        {
-          "time": "19:15",
-          "booked": 0
-        },
-        {
-          "time": "19:20",
-          "booked": 0
-        },
-        {
-          "time": "19:25",
-          "booked": 0
-        },
-        {
-          "time": "19:30",
-          "booked": 0
-        },
-        {
-          "time": "19:35",
-          "booked": 0
-        },
-        {
-          "time": "19:40",
-          "booked": 0
-        },
-        {
-          "time": "19:45",
-          "booked": 0
-        },
-        {
-          "time": "19:50",
-          "booked": 0
-        },
-        {
-          "time": "19:55",
-          "booked": 0
-        },
-        {
-          "time": "20:00",
-          "booked": 0
-        },
-        {
-          "time": "20:05",
-          "booked": 0
-        },
-        {
-          "time": "20:10",
-          "booked": 0
-        },
-        {
-          "time": "20:15",
-          "booked": 0
-        },
-        {
-          "time": "20:20",
-          "booked": 0
-        },
-        {
-          "time": "20:25",
-          "booked": 0
-        },
-        {
-          "time": "20:30",
-          "booked": 0
-        },
-        {
-          "time": "20:35",
-          "booked": 0
-        },
-        {
-          "time": "20:40",
-          "booked": 0
-        },
         {
           "time": "20:45",
           "booked": 0
@@ -18967,52 +18157,6 @@
         }
       ],
       "name": "るな"
-    },
-    {
-      "therapist_id": 54672,
-      "schedule_date": "2026-03-19",
-      "total_slots": 7,
-      "booked_slots": 7,
-      "occupancy_pct": 100.0,
-      "first_slot": "18:10",
-      "last_slot": "18:40",
-      "booked_ranges": [
-        [
-          "18:10",
-          "18:40"
-        ]
-      ],
-      "slot_detail": [
-        {
-          "time": "18:10",
-          "booked": 1
-        },
-        {
-          "time": "18:15",
-          "booked": 1
-        },
-        {
-          "time": "18:20",
-          "booked": 1
-        },
-        {
-          "time": "18:25",
-          "booked": 1
-        },
-        {
-          "time": "18:30",
-          "booked": 1
-        },
-        {
-          "time": "18:35",
-          "booked": 1
-        },
-        {
-          "time": "18:40",
-          "booked": 1
-        }
-      ],
-      "name": "ほのか"
     }
   ],
   "realtime_slots_tomorrow": [
@@ -22531,6 +21675,2969 @@
       "name": "かのん"
     }
   ],
+  "slot_history": {
+    "2026-03-19": {
+      "check_times": [
+        "09:04",
+        "09:35",
+        "10:05",
+        "13:14",
+        "14:40",
+        "14:57",
+        "15:38",
+        "15:46",
+        "15:58",
+        "16:35",
+        "17:10",
+        "17:17",
+        "17:24",
+        "17:53"
+      ],
+      "snapshots": {
+        "09:04": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 99,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 165,
+            "ranges": [],
+            "fs": "14:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 44.1,
+            "bk": 41,
+            "tot": 93,
+            "ranges": [
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 57,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "09:35": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 99,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 165,
+            "ranges": [],
+            "fs": "14:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 44.1,
+            "bk": 41,
+            "tot": 93,
+            "ranges": [
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 57,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "10:05": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 99,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 165,
+            "ranges": [],
+            "fs": "14:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 44.1,
+            "bk": 41,
+            "tot": 93,
+            "ranges": [
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 57,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "13:14": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 63,
+            "ranges": [],
+            "fs": "13:30",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "13:30",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 165,
+            "ranges": [],
+            "fs": "14:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 44.1,
+            "bk": 41,
+            "tot": 93,
+            "ranges": [
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 63,
+            "ranges": [],
+            "fs": "13:30",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 39,
+            "ranges": [],
+            "fs": "13:30",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "14:40": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 45,
+            "ranges": [],
+            "fs": "15:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 63,
+            "ranges": [],
+            "fs": "15:00",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 153,
+            "ranges": [],
+            "fs": "15:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 45,
+            "ranges": [],
+            "fs": "15:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 21,
+            "ranges": [],
+            "fs": "15:00",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "14:57": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 42,
+            "ranges": [],
+            "fs": "15:15",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 60,
+            "ranges": [],
+            "fs": "15:15",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 150,
+            "ranges": [],
+            "fs": "15:15",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 42,
+            "ranges": [],
+            "fs": "15:15",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 18,
+            "ranges": [],
+            "fs": "15:15",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "15:38": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 76.5,
+            "bk": 26,
+            "tot": 34,
+            "ranges": [
+              [
+                "15:55",
+                "18:00"
+              ]
+            ],
+            "fs": "15:55",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 52,
+            "ranges": [],
+            "fs": "15:55",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 142,
+            "ranges": [],
+            "fs": "15:55",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 34,
+            "ranges": [],
+            "fs": "15:55",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 10,
+            "ranges": [],
+            "fs": "15:55",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "15:46": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 75.0,
+            "bk": 24,
+            "tot": 32,
+            "ranges": [
+              [
+                "16:05",
+                "18:00"
+              ]
+            ],
+            "fs": "16:05",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 50,
+            "ranges": [],
+            "fs": "16:05",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 140,
+            "ranges": [],
+            "fs": "16:05",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 32,
+            "ranges": [],
+            "fs": "16:05",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 8,
+            "ranges": [],
+            "fs": "16:05",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "15:58": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 73.3,
+            "bk": 22,
+            "tot": 30,
+            "ranges": [
+              [
+                "16:15",
+                "18:00"
+              ]
+            ],
+            "fs": "16:15",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 48,
+            "ranges": [],
+            "fs": "16:15",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 138,
+            "ranges": [],
+            "fs": "16:15",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 30,
+            "ranges": [],
+            "fs": "16:15",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59729,
+            "n": "えみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 6,
+            "ranges": [],
+            "fs": "16:15",
+            "ls": "16:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "16:35": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 63.6,
+            "bk": 14,
+            "tot": 22,
+            "ranges": [
+              [
+                "16:55",
+                "18:00"
+              ]
+            ],
+            "fs": "16:55",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 40,
+            "ranges": [],
+            "fs": "16:55",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 130,
+            "ranges": [],
+            "fs": "16:55",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 22,
+            "ranges": [],
+            "fs": "16:55",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:10": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 46.7,
+            "bk": 7,
+            "tot": 15,
+            "ranges": [
+              [
+                "17:30",
+                "18:00"
+              ]
+            ],
+            "fs": "17:30",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 33,
+            "ranges": [],
+            "fs": "17:30",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 123,
+            "ranges": [],
+            "fs": "17:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 100.0,
+            "bk": 15,
+            "tot": 15,
+            "ranges": [
+              [
+                "17:30",
+                "18:40"
+              ]
+            ],
+            "fs": "17:30",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:17": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 42.9,
+            "bk": 6,
+            "tot": 14,
+            "ranges": [
+              [
+                "17:35",
+                "18:00"
+              ]
+            ],
+            "fs": "17:35",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 32,
+            "ranges": [],
+            "fs": "17:35",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 122,
+            "ranges": [],
+            "fs": "17:35",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 100.0,
+            "bk": 14,
+            "tot": 14,
+            "ranges": [
+              [
+                "17:35",
+                "18:40"
+              ]
+            ],
+            "fs": "17:35",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:24": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 38.5,
+            "bk": 5,
+            "tot": 13,
+            "ranges": [
+              [
+                "17:40",
+                "18:00"
+              ]
+            ],
+            "fs": "17:40",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 31,
+            "ranges": [],
+            "fs": "17:40",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 121,
+            "ranges": [],
+            "fs": "17:40",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 100.0,
+            "bk": 13,
+            "tot": 13,
+            "ranges": [
+              [
+                "17:40",
+                "18:40"
+              ]
+            ],
+            "fs": "17:40",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 44.1,
+            "bk": 41,
+            "tot": 93,
+            "ranges": [
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:53": [
+          {
+            "tid": 52799,
+            "n": "あみ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 75,
+            "ranges": [],
+            "fs": "21:30",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52817,
+            "n": "すい",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 7,
+            "ranges": [],
+            "fs": "18:10",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52874,
+            "n": "りあ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 25,
+            "ranges": [],
+            "fs": "18:10",
+            "ls": "20:10"
+          },
+          {
+            "tid": 52878,
+            "n": "るな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 115,
+            "ranges": [],
+            "fs": "18:10",
+            "ls": "3:40"
+          },
+          {
+            "tid": 52925,
+            "n": "りこ",
+            "occ": 68.8,
+            "bk": 64,
+            "tot": 93,
+            "ranges": [
+              [
+                "20:00",
+                "21:50"
+              ],
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 54672,
+            "n": "ほのか",
+            "occ": 100.0,
+            "bk": 7,
+            "tot": 7,
+            "ranges": [
+              [
+                "18:10",
+                "18:40"
+              ]
+            ],
+            "fs": "18:10",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59991,
+            "n": "もも",
+            "occ": 44.1,
+            "bk": 41,
+            "tot": 93,
+            "ranges": [
+              [
+                "22:30",
+                "1:50"
+              ]
+            ],
+            "fs": "20:00",
+            "ls": "3:40"
+          }
+        ]
+      },
+      "full_ranges": {
+        "52799": {
+          "fs": "21:30",
+          "ls": "3:40"
+        },
+        "52817": {
+          "fs": "13:00",
+          "ls": "18:40"
+        },
+        "52874": {
+          "fs": "12:00",
+          "ls": "20:10"
+        },
+        "52878": {
+          "fs": "14:00",
+          "ls": "3:40"
+        },
+        "52925": {
+          "fs": "20:00",
+          "ls": "3:40"
+        },
+        "54670": {
+          "fs": "20:00",
+          "ls": "3:40"
+        },
+        "54672": {
+          "fs": "12:00",
+          "ls": "18:40"
+        },
+        "59729": {
+          "fs": "12:00",
+          "ls": "16:40"
+        },
+        "59991": {
+          "fs": "20:00",
+          "ls": "3:40"
+        }
+      }
+    },
+    "2026-03-20": {
+      "check_times": [
+        "09:04",
+        "09:35",
+        "10:05",
+        "13:14",
+        "14:40",
+        "14:57",
+        "15:38",
+        "15:46",
+        "15:58",
+        "16:35",
+        "17:10",
+        "17:17",
+        "17:24",
+        "17:53"
+      ],
+      "snapshots": {
+        "09:04": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "09:35": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "10:05": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "13:14": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "14:40": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "14:57": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "15:38": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "15:46": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "15:58": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "16:35": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:10": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:17": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:24": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ],
+        "17:53": [
+          {
+            "tid": 52812,
+            "n": "さくら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 69,
+            "ranges": [],
+            "fs": "13:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 52930,
+            "n": "ななせ",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "19:40"
+          },
+          {
+            "tid": 54670,
+            "n": "さあや",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 56452,
+            "n": "そら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 56841,
+            "n": "かのん",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58231,
+            "n": "えな",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 58233,
+            "n": "さら",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 58234,
+            "n": "すず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "12:00",
+            "ls": "18:40"
+          },
+          {
+            "tid": 59730,
+            "n": "ゆず",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 93,
+            "ranges": [],
+            "fs": "20:00",
+            "ls": "3:40"
+          },
+          {
+            "tid": 60001,
+            "n": "いおり",
+            "occ": 0.0,
+            "bk": 0,
+            "tot": 81,
+            "ranges": [],
+            "fs": "21:00",
+            "ls": "3:40"
+          }
+        ]
+      },
+      "full_ranges": {
+        "52812": {
+          "fs": "13:00",
+          "ls": "18:40"
+        },
+        "52930": {
+          "fs": "12:00",
+          "ls": "19:40"
+        },
+        "54670": {
+          "fs": "20:00",
+          "ls": "3:40"
+        },
+        "56452": {
+          "fs": "12:00",
+          "ls": "18:40"
+        },
+        "56841": {
+          "fs": "20:00",
+          "ls": "3:40"
+        },
+        "58231": {
+          "fs": "21:00",
+          "ls": "3:40"
+        },
+        "58233": {
+          "fs": "12:00",
+          "ls": "18:40"
+        },
+        "58234": {
+          "fs": "12:00",
+          "ls": "18:40"
+        },
+        "59730": {
+          "fs": "20:00",
+          "ls": "3:40"
+        },
+        "60001": {
+          "fs": "21:00",
+          "ls": "3:40"
+        }
+      }
+    }
+  },
   "booking_events": [
     {
       "therapist_id": 59729,
@@ -26543,5 +28650,5 @@
     "active_now": 84,
     "retired": 1
   },
-  "generated_at": "2026-03-19 17:53:23"
+  "generated_at": "2026-03-19 20:27:23"
 }

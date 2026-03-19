@@ -54,6 +54,8 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;-w
 .sh-cell.booked{background:var(--red);opacity:.7}
 .sh-cell.free{background:var(--grn);opacity:.25}
 .sh-cell.off{background:var(--s2);opacity:.15}
+.sh-cell.elapsed{background:var(--tm);opacity:.12}
+.sh-cell.elapsed-booked{background:var(--red);opacity:.25;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px)}
 .sh-cell:hover{opacity:1;z-index:1;transform:scaleY(1.4)}
 .sh-occ{min-width:40px;text-align:right;font-size:11px;font-weight:600;padding-left:6px;flex-shrink:0}
 .sh-axis{display:flex;min-width:600px;margin-bottom:4px;padding-left:66px}
@@ -150,7 +152,7 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
     <div class="cc"><div class="ct2">Slot occupancy — realtime</div><div class="cs">Bar = booked%. Arrow = velocity since last check.</div><div id="t-occ-meters"></div></div>
     <div class="cc">
       <div class="ct2">Slot timeline</div>
-      <div class="cs">Each cell = 5min slot. <span style="color:var(--red)">Red</span>=booked, <span style="color:var(--grn)">green</span>=available, <span style="color:var(--s2)">dark</span>=off-shift. Drag slider to replay how bookings filled up.</div>
+      <div class="cs">Each cell = 5min slot. <span style="color:var(--red)">Red</span>=booked, <span style="color:var(--grn)">green</span>=available, <span style="color:var(--tm);opacity:.5">dim</span>=elapsed, <span style="color:var(--red);opacity:.4">striped</span>=was booked. Drag slider to replay.</div>
       <div id="slot-date-tabs" class="sdt"></div>
       <div id="slot-slider-wrap" class="ss-wrap" style="display:none">
         <div class="ss-labels"><span id="ss-label-start"></span><span id="ss-label-current" class="ss-cur"></span><span id="ss-label-end"></span></div>
@@ -301,31 +303,46 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
 // ===== SLOT HEATMAP =====
 (function(){
   const timeToNum = t => { const [h,m] = t.split(':').map(Number); return (h < 6 ? h + 24 : h) * 60 + m; };
+  const slotHistory = D.slot_history || {};
 
-  // Generate 5-min slots from first_slot to last_slot
   function genSlots(fs, ls) {
     if (!fs || !ls) return [];
     const slots = [];
     let cur = timeToNum(fs), end = timeToNum(ls);
     while (cur <= end) {
-      const h = Math.floor(cur / 60) % 24;
-      const m = cur % 60;
+      const h = Math.floor(cur / 60) % 24, m = cur % 60;
       slots.push((''+h).padStart(2,'0') + ':' + (''+m).padStart(2,'0'));
       cur += 5;
     }
     return slots;
   }
 
-  // Check if a time falls within any of the booked ranges
   function isInRanges(time, ranges) {
     const t = timeToNum(time);
-    for (const [rs, re] of ranges) {
-      if (t >= timeToNum(rs) && t <= timeToNum(re)) return true;
-    }
+    for (const [rs, re] of ranges) { if (t >= timeToNum(rs) && t <= timeToNum(re)) return true; }
     return false;
   }
 
-  // Core renderer: takes abstract therapist list with {name, tid, slotMap, occ, booked, total}
+  // Get the full shift range for a therapist on a date (from earliest snapshot)
+  function getFullRange(date, tid) {
+    const hist = slotHistory[date];
+    if (!hist || !hist.full_ranges) return null;
+    return hist.full_ranges[String(tid)] || null;
+  }
+
+  // Get booked_ranges from the first snapshot for a therapist (to show what was booked in elapsed time)
+  function getFirstSnapshotRanges(date, tid) {
+    const hist = slotHistory[date];
+    if (!hist || !hist.check_times.length) return [];
+    const firstTime = hist.check_times[0];
+    const snaps = hist.snapshots[firstTime] || [];
+    const snap = snaps.find(s => s.tid === tid);
+    return snap ? (snap.ranges || []) : [];
+  }
+
+  // slotMap values: 0=free, 1=booked, 2=elapsed(was free), 3=elapsed(was booked), undefined=off-shift
+
+  // Core renderer
   function renderCore(containerId, therapists, allTimes, dateStr) {
     if (!therapists.length || !allTimes.length) {
       document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data.</p>';
@@ -352,9 +369,17 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
       h += `<div class="sh-row"><div class="sh-name">${nl(s.name, s.tid)}</div><div class="sh-slots">`;
       allTimes.forEach(time => {
         const st = s.slotMap[time];
-        if (st === undefined) h += `<div class="sh-cell off"></div>`;
-        else if (st) h += `<div class="sh-cell booked"><div class="sh-tip">${fT(time)} 予約済</div></div>`;
-        else h += `<div class="sh-cell free"><div class="sh-tip">${fT(time)} 空き</div></div>`;
+        if (st === undefined) {
+          h += `<div class="sh-cell off"></div>`;
+        } else if (st === 3) {
+          h += `<div class="sh-cell elapsed-booked"><div class="sh-tip">${fT(time)} 予約済(経過)</div></div>`;
+        } else if (st === 2) {
+          h += `<div class="sh-cell elapsed"><div class="sh-tip">${fT(time)} 経過</div></div>`;
+        } else if (st === 1) {
+          h += `<div class="sh-cell booked"><div class="sh-tip">${fT(time)} 予約済</div></div>`;
+        } else {
+          h += `<div class="sh-cell free"><div class="sh-tip">${fT(time)} 空き</div></div>`;
+        }
       });
       h += `</div><div class="sh-occ" style="color:${occClr(s.occ)}">${Math.round(s.occ)}%</div></div>`;
     });
@@ -366,27 +391,66 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
     document.getElementById(containerId).innerHTML = h;
   }
 
-  // Convert live scrape data (with slot_detail) → abstract format
-  function fromLiveData(slotsData) {
+  // Convert live scrape data → abstract format, with elapsed time from full_ranges
+  function fromLiveData(slotsData, dateStr) {
     const allTimesSet = new Set();
-    slotsData.forEach(s => (s.slot_detail||[]).forEach(d => allTimesSet.add(d.time)));
-    const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
+
     const therapists = slotsData.map(s => {
-      const map = {}; (s.slot_detail||[]).forEach(d => { map[d.time] = d.booked; });
-      return { name: s.name, tid: s.therapist_id, slotMap: map, occ: s.occupancy_pct, booked: s.booked_slots, total: s.total_slots };
+      const tid = s.therapist_id;
+      const map = {};
+
+      // Current slots from live data
+      (s.slot_detail||[]).forEach(d => { allTimesSet.add(d.time); map[d.time] = d.booked ? 1 : 0; });
+
+      // Extend with full shift range (elapsed portion)
+      const fr = getFullRange(dateStr, tid);
+      if (fr) {
+        const fullSlots = genSlots(fr.fs, fr.ls);
+        const earliestRanges = getFirstSnapshotRanges(dateStr, tid);
+        fullSlots.forEach(t => {
+          allTimesSet.add(t);
+          if (!(t in map)) {
+            // This slot is outside current live data = elapsed
+            map[t] = isInRanges(t, earliestRanges) ? 3 : 2;
+          }
+        });
+      }
+
+      return { name: s.name, tid, slotMap: map, occ: s.occupancy_pct, booked: s.booked_slots, total: s.total_slots };
     });
+
+    const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
     return { therapists, allTimes };
   }
 
-  // Convert snapshot data (booked_ranges + first/last slot) → abstract format
-  function fromSnapshot(snapList) {
+  // Convert snapshot data → abstract format, with elapsed from full_ranges
+  function fromSnapshot(snapList, dateStr) {
     const allTimesSet = new Set();
+
     const therapists = snapList.map(s => {
-      const slots = genSlots(s.fs, s.ls);
+      const tid = s.tid;
       const map = {};
-      slots.forEach(t => { allTimesSet.add(t); map[t] = isInRanges(t, s.ranges || []) ? 1 : 0; });
-      return { name: s.n, tid: s.tid, slotMap: map, occ: s.occ, booked: s.bk, total: s.tot };
+
+      // Current snapshot's range
+      const curSlots = genSlots(s.fs, s.ls);
+      curSlots.forEach(t => { allTimesSet.add(t); map[t] = isInRanges(t, s.ranges || []) ? 1 : 0; });
+
+      // Extend with full shift range (elapsed portion relative to this snapshot)
+      const fr = getFullRange(dateStr, tid);
+      if (fr) {
+        const fullSlots = genSlots(fr.fs, fr.ls);
+        const earliestRanges = getFirstSnapshotRanges(dateStr, tid);
+        fullSlots.forEach(t => {
+          allTimesSet.add(t);
+          if (!(t in map)) {
+            map[t] = isInRanges(t, earliestRanges) ? 3 : 2;
+          }
+        });
+      }
+
+      return { name: s.n, tid, slotMap: map, occ: s.occ, booked: s.bk, total: s.tot };
     });
+
     const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
     return { therapists, allTimes };
   }
@@ -397,20 +461,19 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
       document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data for this date.</p>';
       return;
     }
-    const { therapists, allTimes } = fromLiveData(slotsData);
+    const { therapists, allTimes } = fromLiveData(slotsData, dateStr);
     renderCore(containerId, therapists, allTimes, dateStr);
   };
 
   // Expose snapshot renderer for global slider handler
   window._renderSnapshot = function(containerId, snapList, dateStr) {
-    const { therapists, allTimes } = fromSnapshot(snapList);
+    const { therapists, allTimes } = fromSnapshot(snapList, dateStr);
     renderCore(containerId, therapists, allTimes, dateStr);
   };
 
   // ── Date tabs ──
   const slotDates = D.slot_dates || [];
   const slotsByDate = D.slots_by_date || {};
-  const slotHistory = D.slot_history || {};
   const tabsEl = document.getElementById('slot-date-tabs');
 
   // Merge dates from live scrape and history
