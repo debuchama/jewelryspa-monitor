@@ -338,99 +338,87 @@ def export_dashboard_data():
     """).fetchall()
     data["dow_demand"] = [dict(r) for r in rows]
 
-    # ── 18. 総合人気スコア（信頼度補正済み）──
+    # ── 18. 総合人気スコア（v3: 信頼度ログスケール + ピーク占有率重視）──
     #
-    # 問題点の修正:
-    #   - 1シフトで100%満了 → サンプル不足。信頼度ペナルティ適用
-    #   - location="不明" → スケルトン公開の可能性。除外
-    #   - スロットデータが少ない → max_occupancyも加味
-    #   - 出勤回数が多い安定的な人気 → ボーナス
+    # 設計原則:
+    #   - サンプルサイズが少ない = 信頼度低い（log scaling）
+    #   - 1シフト100%満了 << 3シフト67%満了（実績の安定性を重視）
+    #   - スロットの max_occupancy はピーク需要の直接的証拠
+    #   - 出勤回数が多い = レギュラー = 店としての信頼 = ボーナス
     #
-    # 最終スコア (0-100):
-    #   adjusted_prebooked * 0.30  ← 信頼度補正済み事前満了率
-    #   + slot_signal * 0.40       ← avg_occ と max_occ のブレンド
-    #   + latest_occ * 0.15        ← リアルタイム状況
-    #   + regularity * 0.15        ← 出勤頻度ボーナス (max 100)
+    # Score (0-100):
+    #   prebooked_rate × confidence × 0.35
+    #   + slot_blend(avg×0.4 + max×0.6) × 0.45
+    #   + volume_bonus × 0.20
+
+    import math as _math
 
     rows = conn.execute("""
         WITH
-        pb_raw AS (
+        sched AS (
             SELECT therapist_id,
-                   COUNT(*) as total_shifts,
-                   SUM(CASE WHEN is_fully_booked = 1 THEN 1 ELSE 0 END) as booked_shifts,
-                   COUNT(CASE WHEN location != '不明' THEN 1 END) as valid_shifts,
-                   SUM(CASE WHEN is_fully_booked = 1 AND location != '不明' THEN 1 ELSE 0 END) as valid_booked
+                   COUNT(*) as shifts,
+                   SUM(CASE WHEN is_fully_booked = 1 THEN 1 ELSE 0 END) as prebooked,
+                   ROUND(100.0 * SUM(CASE WHEN is_fully_booked = 1 THEN 1 ELSE 0 END)
+                         / COUNT(*), 1) as pb_rate
             FROM daily_schedules
             GROUP BY therapist_id
         ),
-        slot_agg AS (
+        slots AS (
             SELECT therapist_id,
                    ROUND(AVG(occupancy_pct), 1) as avg_occ,
                    ROUND(MAX(occupancy_pct), 1) as max_occ,
-                   COUNT(*) as slot_checks,
-                   COUNT(DISTINCT schedule_date) as slot_dates
+                   COUNT(DISTINCT schedule_date) as days_monitored,
+                   COUNT(*) as total_checks
             FROM slot_summaries
+            WHERE occupancy_pct IS NOT NULL
             GROUP BY therapist_id
-        ),
-        latest_occ AS (
-            SELECT therapist_id, occupancy_pct as latest_occ
-            FROM slot_summaries
-            WHERE checked_at = (SELECT MAX(checked_at) FROM slot_summaries)
         )
         SELECT
             t.therapist_id, t.name,
-            -- raw metrics
-            COALESCE(pb.valid_shifts, 0) as valid_shifts,
-            COALESCE(pb.valid_booked, 0) as valid_booked,
-            COALESCE(pb.total_shifts, 0) as total_shifts,
-            CASE WHEN COALESCE(pb.valid_shifts, 0) > 0
-                 THEN ROUND(100.0 * pb.valid_booked / pb.valid_shifts, 1)
-                 ELSE 0 END as raw_pb_rate,
-            -- confidence: min(valid_shifts, 5) / 5
-            ROUND(MIN(COALESCE(pb.valid_shifts, 0), 5) / 5.0, 2) as confidence,
-            -- slot metrics
-            COALESCE(sa.avg_occ, 0) as avg_occupancy,
-            COALESCE(sa.max_occ, 0) as max_occupancy,
-            COALESCE(lo.latest_occ, 0) as latest_occupancy,
-            COALESCE(sa.slot_checks, 0) as slot_checks,
-            -- regularity: shift_count normalized (max 10 shifts = 100)
-            MIN(COALESCE(pb.total_shifts, 0) * 10, 100) as regularity,
-            -- locations
+            COALESCE(sc.shifts, 0) as total_shifts,
+            COALESCE(sc.prebooked, 0) as prebooked_count,
+            COALESCE(sc.pb_rate, 0) as prebooked_rate,
+            COALESCE(sl.avg_occ, 0) as avg_occupancy,
+            COALESCE(sl.max_occ, 0) as max_occupancy,
+            COALESCE(sl.days_monitored, 0) as days_monitored,
+            COALESCE(sl.total_checks, 0) as slot_checks,
             GROUP_CONCAT(DISTINCT ds.location) as locations
         FROM therapists t
-        LEFT JOIN pb_raw pb ON t.therapist_id = pb.therapist_id
-        LEFT JOIN slot_agg sa ON t.therapist_id = sa.therapist_id
-        LEFT JOIN latest_occ lo ON t.therapist_id = lo.therapist_id
+        LEFT JOIN sched sc ON t.therapist_id = sc.therapist_id
+        LEFT JOIN slots sl ON t.therapist_id = sl.therapist_id
         LEFT JOIN daily_schedules ds ON t.therapist_id = ds.therapist_id
         GROUP BY t.therapist_id
-        HAVING COALESCE(pb.total_shifts, 0) > 0
+        HAVING COALESCE(sc.shifts, 0) > 0
     """).fetchall()
 
+    max_shifts = max((r["total_shifts"] for r in rows), default=1)
     composite = []
     for r in rows:
         d = dict(r)
-        raw_pb = d["raw_pb_rate"]
-        conf = d["confidence"]
+        shifts = d["total_shifts"]
+        pb_rate = d["prebooked_rate"]
         avg_occ = d["avg_occupancy"]
         max_occ = d["max_occupancy"]
-        latest = d["latest_occupancy"]
-        reg = d["regularity"]
 
-        # Adjusted pre-booked: rate * confidence factor
-        adj_pb = raw_pb * conf
+        # Confidence: log-scaled (1shift=0.43, 2=0.68, 3=0.86, 4+=~1.0)
+        confidence = min(_math.log(shifts + 1) / _math.log(max_shifts + 1), 1.0)
 
-        # Slot signal: blend avg and max (max matters when data is sparse)
-        slot_signal = max(avg_occ, max_occ * 0.5) if (avg_occ > 0 or max_occ > 0) else 0
+        # Pre-booked signal: rate × confidence
+        pb_signal = pb_rate * confidence
 
-        # Final composite score
-        score = round(adj_pb * 0.30 + slot_signal * 0.40 + latest * 0.15 + reg * 0.15, 1)
+        # Slot blend: avg_occ * 0.4 + max_occ * 0.6 (peak demand weighs more)
+        slot_blend = avg_occ * 0.4 + max_occ * 0.6
 
-        d["adjusted_pb"] = round(adj_pb, 1)
-        d["slot_signal"] = round(slot_signal, 1)
+        # Volume bonus: normalized shift count × confidence
+        volume = min(shifts / max(max_shifts, 1) * 100, 100) * confidence
+
+        # Composite
+        score = round(pb_signal * 0.35 + slot_blend * 0.45 + volume * 0.20, 1)
+
+        d["confidence"] = round(confidence, 2)
         d["composite_score"] = score
-        # Keep backward compat field names
-        d["prebooked_rate"] = d["raw_pb_rate"]
-        d["shift_count"] = d["total_shifts"]
+        d["shift_count"] = shifts  # backward compat
         composite.append(d)
 
     composite.sort(key=lambda x: x["composite_score"], reverse=True)

@@ -60,7 +60,7 @@
       "cup_size": "E",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1765468379_7598142.jpeg",
       "sns_links": "[\"https://twitter.com/jewelryspa_ami1?s=21&t=fR1Pi75h5kfyjNYc4gCmJA\"]",
       "retired_at": null
@@ -177,7 +177,7 @@
       "cup_size": "E",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1773890750_2801762.jpeg",
       "sns_links": "[\"https://bsky.app/profile/emi-mocchi.bsky.social\"]",
       "retired_at": null
@@ -372,7 +372,7 @@
       "cup_size": "E",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1768033005_7527674.jpeg",
       "sns_links": "[\"https://twitter.com/jewelry_saaya?s=21&t=fR1Pi75h5kfyjNYc4gCmJA\"]",
       "retired_at": null
@@ -489,7 +489,7 @@
       "cup_size": "F",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1765470802_9299532.jpeg",
       "sns_links": "[\"https://twitter.com/qk0eh?s=21&t=fR1Pi75h5kfyjNYc4gCmJA\"]",
       "retired_at": null
@@ -749,7 +749,7 @@
       "cup_size": "F",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1768033336_8368392.jpeg",
       "sns_links": "[\"https://twitter.com/honoka_spa?s=21&t=fR1Pi75h5kfyjNYc4gCmJA\"]",
       "retired_at": null
@@ -879,7 +879,7 @@
       "cup_size": "B",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1773746879_2413134.jpeg",
       "sns_links": "[\"https://bsky.app/profile/m-omo2.bsky.social\"]",
       "retired_at": null
@@ -1022,7 +1022,7 @@
       "cup_size": "G",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1765530708_7173277.jpeg",
       "sns_links": "[\"https://twitter.com/ria_jyuer?s=21&t=fR1Pi75h5kfyjNYc4gCmJA\"]",
       "retired_at": null
@@ -1035,7 +1035,7 @@
       "cup_size": "C",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1765595291_4577027.jpeg",
       "sns_links": "[\"https://twitter.com/jewelryspa_riko?s=21&t=fR1Pi75h5kfyjNYc4gCmJA\"]",
       "retired_at": null
@@ -1074,7 +1074,7 @@
       "cup_size": "G",
       "is_active": 1,
       "first_seen": "2026-03-14 06:54:25",
-      "last_seen": "2026-03-19 15:58:11",
+      "last_seen": "2026-03-19 16:35:53",
       "photo_url": "https://cdn2-caskan.com/caskan/img/cast_tmb/1769589282_7770862.jpeg",
       "sns_links": "[\"https://twitter.com/runatic_4?s=21\"]",
       "retired_at": null
@@ -2244,6 +2244,78 @@
     }
   ],
   "today_snapshots": [
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "あみ",
+      "location": "赤羽",
+      "status": "available",
+      "start_time": "21:30",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "えみ",
+      "location": "王子",
+      "status": "fully_booked",
+      "start_time": "12:00",
+      "end_time": "18:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "さあや",
+      "location": "王子",
+      "status": "available",
+      "start_time": "20:00",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "すい",
+      "location": "王子",
+      "status": "available",
+      "start_time": "13:00",
+      "end_time": "20:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "ほのか",
+      "location": "王子",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "20:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "もも",
+      "location": "王子",
+      "status": "available",
+      "start_time": "20:00",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "りあ",
+      "location": "赤羽",
+      "status": "available",
+      "start_time": "12:00",
+      "end_time": "21:30"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "りこ",
+      "location": "王子",
+      "status": "available",
+      "start_time": "20:00",
+      "end_time": "29:00"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:53",
+      "therapist_name": "るな",
+      "location": "西新井",
+      "status": "available",
+      "start_time": "14:00",
+      "end_time": "29:00"
+    },
     {
       "checked_at": "2026-03-19 15:58:11",
       "therapist_name": "あみ",
@@ -3471,6 +3543,24 @@
   ],
   "scrape_logs": [
     {
+      "id": 216,
+      "run_at": "2026-03-19 16:35:53",
+      "task_type": "daily_monitor",
+      "target_date": "2026-03-19",
+      "records_found": 9,
+      "success": 1,
+      "error_message": null
+    },
+    {
+      "id": 217,
+      "run_at": "2026-03-19 16:35:53",
+      "task_type": "slot_monitor",
+      "target_date": "2026-03-19",
+      "records_found": 18,
+      "success": 1,
+      "error_message": null
+    },
+    {
       "id": 215,
       "run_at": "2026-03-19 15:58:12",
       "task_type": "slot_monitor",
@@ -3631,24 +3721,6 @@
       "records_found": 9,
       "success": 1,
       "error_message": null
-    },
-    {
-      "id": 197,
-      "run_at": "2026-03-19 10:03:37",
-      "task_type": "weekly_v2",
-      "target_date": "2026-03-19",
-      "records_found": 37,
-      "success": 1,
-      "error_message": null
-    },
-    {
-      "id": 195,
-      "run_at": "2026-03-19 09:35:46",
-      "task_type": "daily_monitor",
-      "target_date": "2026-03-19",
-      "records_found": 9,
-      "success": 1,
-      "error_message": null
     }
   ],
   "slot_dates": [
@@ -3664,65 +3736,13 @@
       {
         "therapist_id": 52874,
         "schedule_date": "2026-03-19",
-        "total_slots": 48,
+        "total_slots": 35,
         "booked_slots": 0,
         "occupancy_pct": 0.0,
-        "first_slot": "16:15",
+        "first_slot": "17:20",
         "last_slot": "20:10",
         "booked_ranges": [],
         "slot_detail": [
-          {
-            "time": "16:15",
-            "booked": 0
-          },
-          {
-            "time": "16:20",
-            "booked": 0
-          },
-          {
-            "time": "16:25",
-            "booked": 0
-          },
-          {
-            "time": "16:30",
-            "booked": 0
-          },
-          {
-            "time": "16:35",
-            "booked": 0
-          },
-          {
-            "time": "16:40",
-            "booked": 0
-          },
-          {
-            "time": "16:45",
-            "booked": 0
-          },
-          {
-            "time": "16:50",
-            "booked": 0
-          },
-          {
-            "time": "16:55",
-            "booked": 0
-          },
-          {
-            "time": "17:00",
-            "booked": 0
-          },
-          {
-            "time": "17:05",
-            "booked": 0
-          },
-          {
-            "time": "17:10",
-            "booked": 0
-          },
-          {
-            "time": "17:15",
-            "booked": 0
-          },
           {
             "time": "17:20",
             "booked": 0
@@ -4180,242 +4200,20 @@
         "name": "あみ"
       },
       {
-        "therapist_id": 59729,
-        "schedule_date": "2026-03-19",
-        "total_slots": 6,
-        "booked_slots": 0,
-        "occupancy_pct": 0.0,
-        "first_slot": "16:15",
-        "last_slot": "16:40",
-        "booked_ranges": [],
-        "slot_detail": [
-          {
-            "time": "16:15",
-            "booked": 0
-          },
-          {
-            "time": "16:20",
-            "booked": 0
-          },
-          {
-            "time": "16:25",
-            "booked": 0
-          },
-          {
-            "time": "16:30",
-            "booked": 0
-          },
-          {
-            "time": "16:35",
-            "booked": 0
-          },
-          {
-            "time": "16:40",
-            "booked": 0
-          }
-        ],
-        "name": "えみ"
-      },
-      {
-        "therapist_id": 54672,
-        "schedule_date": "2026-03-19",
-        "total_slots": 30,
-        "booked_slots": 0,
-        "occupancy_pct": 0.0,
-        "first_slot": "16:15",
-        "last_slot": "18:40",
-        "booked_ranges": [],
-        "slot_detail": [
-          {
-            "time": "16:15",
-            "booked": 0
-          },
-          {
-            "time": "16:20",
-            "booked": 0
-          },
-          {
-            "time": "16:25",
-            "booked": 0
-          },
-          {
-            "time": "16:30",
-            "booked": 0
-          },
-          {
-            "time": "16:35",
-            "booked": 0
-          },
-          {
-            "time": "16:40",
-            "booked": 0
-          },
-          {
-            "time": "16:45",
-            "booked": 0
-          },
-          {
-            "time": "16:50",
-            "booked": 0
-          },
-          {
-            "time": "16:55",
-            "booked": 0
-          },
-          {
-            "time": "17:00",
-            "booked": 0
-          },
-          {
-            "time": "17:05",
-            "booked": 0
-          },
-          {
-            "time": "17:10",
-            "booked": 0
-          },
-          {
-            "time": "17:15",
-            "booked": 0
-          },
-          {
-            "time": "17:20",
-            "booked": 0
-          },
-          {
-            "time": "17:25",
-            "booked": 0
-          },
-          {
-            "time": "17:30",
-            "booked": 0
-          },
-          {
-            "time": "17:35",
-            "booked": 0
-          },
-          {
-            "time": "17:40",
-            "booked": 0
-          },
-          {
-            "time": "17:45",
-            "booked": 0
-          },
-          {
-            "time": "17:50",
-            "booked": 0
-          },
-          {
-            "time": "17:55",
-            "booked": 0
-          },
-          {
-            "time": "18:00",
-            "booked": 0
-          },
-          {
-            "time": "18:05",
-            "booked": 0
-          },
-          {
-            "time": "18:10",
-            "booked": 0
-          },
-          {
-            "time": "18:15",
-            "booked": 0
-          },
-          {
-            "time": "18:20",
-            "booked": 0
-          },
-          {
-            "time": "18:25",
-            "booked": 0
-          },
-          {
-            "time": "18:30",
-            "booked": 0
-          },
-          {
-            "time": "18:35",
-            "booked": 0
-          },
-          {
-            "time": "18:40",
-            "booked": 0
-          }
-        ],
-        "name": "ほのか"
-      },
-      {
         "therapist_id": 52817,
         "schedule_date": "2026-03-19",
-        "total_slots": 30,
-        "booked_slots": 22,
-        "occupancy_pct": 73.3,
-        "first_slot": "16:15",
+        "total_slots": 17,
+        "booked_slots": 9,
+        "occupancy_pct": 52.9,
+        "first_slot": "17:20",
         "last_slot": "18:40",
         "booked_ranges": [
           [
-            "16:15",
+            "17:20",
             "18:00"
           ]
         ],
         "slot_detail": [
-          {
-            "time": "16:15",
-            "booked": 1
-          },
-          {
-            "time": "16:20",
-            "booked": 1
-          },
-          {
-            "time": "16:25",
-            "booked": 1
-          },
-          {
-            "time": "16:30",
-            "booked": 1
-          },
-          {
-            "time": "16:35",
-            "booked": 1
-          },
-          {
-            "time": "16:40",
-            "booked": 1
-          },
-          {
-            "time": "16:45",
-            "booked": 1
-          },
-          {
-            "time": "16:50",
-            "booked": 1
-          },
-          {
-            "time": "16:55",
-            "booked": 1
-          },
-          {
-            "time": "17:00",
-            "booked": 1
-          },
-          {
-            "time": "17:05",
-            "booked": 1
-          },
-          {
-            "time": "17:10",
-            "booked": 1
-          },
-          {
-            "time": "17:15",
-            "booked": 1
-          },
           {
             "time": "17:20",
             "booked": 1
@@ -5654,65 +5452,13 @@
       {
         "therapist_id": 52878,
         "schedule_date": "2026-03-19",
-        "total_slots": 138,
+        "total_slots": 125,
         "booked_slots": 0,
         "occupancy_pct": 0.0,
-        "first_slot": "16:15",
+        "first_slot": "17:20",
         "last_slot": "3:40",
         "booked_ranges": [],
         "slot_detail": [
-          {
-            "time": "16:15",
-            "booked": 0
-          },
-          {
-            "time": "16:20",
-            "booked": 0
-          },
-          {
-            "time": "16:25",
-            "booked": 0
-          },
-          {
-            "time": "16:30",
-            "booked": 0
-          },
-          {
-            "time": "16:35",
-            "booked": 0
-          },
-          {
-            "time": "16:40",
-            "booked": 0
-          },
-          {
-            "time": "16:45",
-            "booked": 0
-          },
-          {
-            "time": "16:50",
-            "booked": 0
-          },
-          {
-            "time": "16:55",
-            "booked": 0
-          },
-          {
-            "time": "17:00",
-            "booked": 0
-          },
-          {
-            "time": "17:05",
-            "booked": 0
-          },
-          {
-            "time": "17:10",
-            "booked": 0
-          },
-          {
-            "time": "17:15",
-            "booked": 0
-          },
           {
             "time": "17:20",
             "booked": 0
@@ -6215,6 +5961,92 @@
           }
         ],
         "name": "るな"
+      },
+      {
+        "therapist_id": 54672,
+        "schedule_date": "2026-03-19",
+        "total_slots": 17,
+        "booked_slots": 17,
+        "occupancy_pct": 100.0,
+        "first_slot": "17:20",
+        "last_slot": "18:40",
+        "booked_ranges": [
+          [
+            "17:20",
+            "18:40"
+          ]
+        ],
+        "slot_detail": [
+          {
+            "time": "17:20",
+            "booked": 1
+          },
+          {
+            "time": "17:25",
+            "booked": 1
+          },
+          {
+            "time": "17:30",
+            "booked": 1
+          },
+          {
+            "time": "17:35",
+            "booked": 1
+          },
+          {
+            "time": "17:40",
+            "booked": 1
+          },
+          {
+            "time": "17:45",
+            "booked": 1
+          },
+          {
+            "time": "17:50",
+            "booked": 1
+          },
+          {
+            "time": "17:55",
+            "booked": 1
+          },
+          {
+            "time": "18:00",
+            "booked": 1
+          },
+          {
+            "time": "18:05",
+            "booked": 1
+          },
+          {
+            "time": "18:10",
+            "booked": 1
+          },
+          {
+            "time": "18:15",
+            "booked": 1
+          },
+          {
+            "time": "18:20",
+            "booked": 1
+          },
+          {
+            "time": "18:25",
+            "booked": 1
+          },
+          {
+            "time": "18:30",
+            "booked": 1
+          },
+          {
+            "time": "18:35",
+            "booked": 1
+          },
+          {
+            "time": "18:40",
+            "booked": 1
+          }
+        ],
+        "name": "ほのか"
       }
     ],
     "2026-03-20": [
@@ -14649,6 +14481,728 @@
     ],
     "2026-03-23": [
       {
+        "therapist_id": 52826,
+        "schedule_date": "2026-03-23",
+        "total_slots": 81,
+        "booked_slots": 0,
+        "occupancy_pct": 0.0,
+        "first_slot": "12:00",
+        "last_slot": "18:40",
+        "booked_ranges": [],
+        "slot_detail": [
+          {
+            "time": "12:00",
+            "booked": 0
+          },
+          {
+            "time": "12:05",
+            "booked": 0
+          },
+          {
+            "time": "12:10",
+            "booked": 0
+          },
+          {
+            "time": "12:15",
+            "booked": 0
+          },
+          {
+            "time": "12:20",
+            "booked": 0
+          },
+          {
+            "time": "12:25",
+            "booked": 0
+          },
+          {
+            "time": "12:30",
+            "booked": 0
+          },
+          {
+            "time": "12:35",
+            "booked": 0
+          },
+          {
+            "time": "12:40",
+            "booked": 0
+          },
+          {
+            "time": "12:45",
+            "booked": 0
+          },
+          {
+            "time": "12:50",
+            "booked": 0
+          },
+          {
+            "time": "12:55",
+            "booked": 0
+          },
+          {
+            "time": "13:00",
+            "booked": 0
+          },
+          {
+            "time": "13:05",
+            "booked": 0
+          },
+          {
+            "time": "13:10",
+            "booked": 0
+          },
+          {
+            "time": "13:15",
+            "booked": 0
+          },
+          {
+            "time": "13:20",
+            "booked": 0
+          },
+          {
+            "time": "13:25",
+            "booked": 0
+          },
+          {
+            "time": "13:30",
+            "booked": 0
+          },
+          {
+            "time": "13:35",
+            "booked": 0
+          },
+          {
+            "time": "13:40",
+            "booked": 0
+          },
+          {
+            "time": "13:45",
+            "booked": 0
+          },
+          {
+            "time": "13:50",
+            "booked": 0
+          },
+          {
+            "time": "13:55",
+            "booked": 0
+          },
+          {
+            "time": "14:00",
+            "booked": 0
+          },
+          {
+            "time": "14:05",
+            "booked": 0
+          },
+          {
+            "time": "14:10",
+            "booked": 0
+          },
+          {
+            "time": "14:15",
+            "booked": 0
+          },
+          {
+            "time": "14:20",
+            "booked": 0
+          },
+          {
+            "time": "14:25",
+            "booked": 0
+          },
+          {
+            "time": "14:30",
+            "booked": 0
+          },
+          {
+            "time": "14:35",
+            "booked": 0
+          },
+          {
+            "time": "14:40",
+            "booked": 0
+          },
+          {
+            "time": "14:45",
+            "booked": 0
+          },
+          {
+            "time": "14:50",
+            "booked": 0
+          },
+          {
+            "time": "14:55",
+            "booked": 0
+          },
+          {
+            "time": "15:00",
+            "booked": 0
+          },
+          {
+            "time": "15:05",
+            "booked": 0
+          },
+          {
+            "time": "15:10",
+            "booked": 0
+          },
+          {
+            "time": "15:15",
+            "booked": 0
+          },
+          {
+            "time": "15:20",
+            "booked": 0
+          },
+          {
+            "time": "15:25",
+            "booked": 0
+          },
+          {
+            "time": "15:30",
+            "booked": 0
+          },
+          {
+            "time": "15:35",
+            "booked": 0
+          },
+          {
+            "time": "15:40",
+            "booked": 0
+          },
+          {
+            "time": "15:45",
+            "booked": 0
+          },
+          {
+            "time": "15:50",
+            "booked": 0
+          },
+          {
+            "time": "15:55",
+            "booked": 0
+          },
+          {
+            "time": "16:00",
+            "booked": 0
+          },
+          {
+            "time": "16:05",
+            "booked": 0
+          },
+          {
+            "time": "16:10",
+            "booked": 0
+          },
+          {
+            "time": "16:15",
+            "booked": 0
+          },
+          {
+            "time": "16:20",
+            "booked": 0
+          },
+          {
+            "time": "16:25",
+            "booked": 0
+          },
+          {
+            "time": "16:30",
+            "booked": 0
+          },
+          {
+            "time": "16:35",
+            "booked": 0
+          },
+          {
+            "time": "16:40",
+            "booked": 0
+          },
+          {
+            "time": "16:45",
+            "booked": 0
+          },
+          {
+            "time": "16:50",
+            "booked": 0
+          },
+          {
+            "time": "16:55",
+            "booked": 0
+          },
+          {
+            "time": "17:00",
+            "booked": 0
+          },
+          {
+            "time": "17:05",
+            "booked": 0
+          },
+          {
+            "time": "17:10",
+            "booked": 0
+          },
+          {
+            "time": "17:15",
+            "booked": 0
+          },
+          {
+            "time": "17:20",
+            "booked": 0
+          },
+          {
+            "time": "17:25",
+            "booked": 0
+          },
+          {
+            "time": "17:30",
+            "booked": 0
+          },
+          {
+            "time": "17:35",
+            "booked": 0
+          },
+          {
+            "time": "17:40",
+            "booked": 0
+          },
+          {
+            "time": "17:45",
+            "booked": 0
+          },
+          {
+            "time": "17:50",
+            "booked": 0
+          },
+          {
+            "time": "17:55",
+            "booked": 0
+          },
+          {
+            "time": "18:00",
+            "booked": 0
+          },
+          {
+            "time": "18:05",
+            "booked": 0
+          },
+          {
+            "time": "18:10",
+            "booked": 0
+          },
+          {
+            "time": "18:15",
+            "booked": 0
+          },
+          {
+            "time": "18:20",
+            "booked": 0
+          },
+          {
+            "time": "18:25",
+            "booked": 0
+          },
+          {
+            "time": "18:30",
+            "booked": 0
+          },
+          {
+            "time": "18:35",
+            "booked": 0
+          },
+          {
+            "time": "18:40",
+            "booked": 0
+          }
+        ],
+        "name": "らむ"
+      },
+      {
+        "therapist_id": 52823,
+        "schedule_date": "2026-03-23",
+        "total_slots": 93,
+        "booked_slots": 0,
+        "occupancy_pct": 0.0,
+        "first_slot": "20:00",
+        "last_slot": "3:40",
+        "booked_ranges": [],
+        "slot_detail": [
+          {
+            "time": "20:00",
+            "booked": 0
+          },
+          {
+            "time": "20:05",
+            "booked": 0
+          },
+          {
+            "time": "20:10",
+            "booked": 0
+          },
+          {
+            "time": "20:15",
+            "booked": 0
+          },
+          {
+            "time": "20:20",
+            "booked": 0
+          },
+          {
+            "time": "20:25",
+            "booked": 0
+          },
+          {
+            "time": "20:30",
+            "booked": 0
+          },
+          {
+            "time": "20:35",
+            "booked": 0
+          },
+          {
+            "time": "20:40",
+            "booked": 0
+          },
+          {
+            "time": "20:45",
+            "booked": 0
+          },
+          {
+            "time": "20:50",
+            "booked": 0
+          },
+          {
+            "time": "20:55",
+            "booked": 0
+          },
+          {
+            "time": "21:00",
+            "booked": 0
+          },
+          {
+            "time": "21:05",
+            "booked": 0
+          },
+          {
+            "time": "21:10",
+            "booked": 0
+          },
+          {
+            "time": "21:15",
+            "booked": 0
+          },
+          {
+            "time": "21:20",
+            "booked": 0
+          },
+          {
+            "time": "21:25",
+            "booked": 0
+          },
+          {
+            "time": "21:30",
+            "booked": 0
+          },
+          {
+            "time": "21:35",
+            "booked": 0
+          },
+          {
+            "time": "21:40",
+            "booked": 0
+          },
+          {
+            "time": "21:45",
+            "booked": 0
+          },
+          {
+            "time": "21:50",
+            "booked": 0
+          },
+          {
+            "time": "21:55",
+            "booked": 0
+          },
+          {
+            "time": "22:00",
+            "booked": 0
+          },
+          {
+            "time": "22:05",
+            "booked": 0
+          },
+          {
+            "time": "22:10",
+            "booked": 0
+          },
+          {
+            "time": "22:15",
+            "booked": 0
+          },
+          {
+            "time": "22:20",
+            "booked": 0
+          },
+          {
+            "time": "22:25",
+            "booked": 0
+          },
+          {
+            "time": "22:30",
+            "booked": 0
+          },
+          {
+            "time": "22:35",
+            "booked": 0
+          },
+          {
+            "time": "22:40",
+            "booked": 0
+          },
+          {
+            "time": "22:45",
+            "booked": 0
+          },
+          {
+            "time": "22:50",
+            "booked": 0
+          },
+          {
+            "time": "22:55",
+            "booked": 0
+          },
+          {
+            "time": "23:00",
+            "booked": 0
+          },
+          {
+            "time": "23:05",
+            "booked": 0
+          },
+          {
+            "time": "23:10",
+            "booked": 0
+          },
+          {
+            "time": "23:15",
+            "booked": 0
+          },
+          {
+            "time": "23:20",
+            "booked": 0
+          },
+          {
+            "time": "23:25",
+            "booked": 0
+          },
+          {
+            "time": "23:30",
+            "booked": 0
+          },
+          {
+            "time": "23:35",
+            "booked": 0
+          },
+          {
+            "time": "23:40",
+            "booked": 0
+          },
+          {
+            "time": "23:45",
+            "booked": 0
+          },
+          {
+            "time": "23:50",
+            "booked": 0
+          },
+          {
+            "time": "23:55",
+            "booked": 0
+          },
+          {
+            "time": "0:00",
+            "booked": 0
+          },
+          {
+            "time": "0:05",
+            "booked": 0
+          },
+          {
+            "time": "0:10",
+            "booked": 0
+          },
+          {
+            "time": "0:15",
+            "booked": 0
+          },
+          {
+            "time": "0:20",
+            "booked": 0
+          },
+          {
+            "time": "0:25",
+            "booked": 0
+          },
+          {
+            "time": "0:30",
+            "booked": 0
+          },
+          {
+            "time": "0:35",
+            "booked": 0
+          },
+          {
+            "time": "0:40",
+            "booked": 0
+          },
+          {
+            "time": "0:45",
+            "booked": 0
+          },
+          {
+            "time": "0:50",
+            "booked": 0
+          },
+          {
+            "time": "0:55",
+            "booked": 0
+          },
+          {
+            "time": "1:00",
+            "booked": 0
+          },
+          {
+            "time": "1:05",
+            "booked": 0
+          },
+          {
+            "time": "1:10",
+            "booked": 0
+          },
+          {
+            "time": "1:15",
+            "booked": 0
+          },
+          {
+            "time": "1:20",
+            "booked": 0
+          },
+          {
+            "time": "1:25",
+            "booked": 0
+          },
+          {
+            "time": "1:30",
+            "booked": 0
+          },
+          {
+            "time": "1:35",
+            "booked": 0
+          },
+          {
+            "time": "1:40",
+            "booked": 0
+          },
+          {
+            "time": "1:45",
+            "booked": 0
+          },
+          {
+            "time": "1:50",
+            "booked": 0
+          },
+          {
+            "time": "1:55",
+            "booked": 0
+          },
+          {
+            "time": "2:00",
+            "booked": 0
+          },
+          {
+            "time": "2:05",
+            "booked": 0
+          },
+          {
+            "time": "2:10",
+            "booked": 0
+          },
+          {
+            "time": "2:15",
+            "booked": 0
+          },
+          {
+            "time": "2:20",
+            "booked": 0
+          },
+          {
+            "time": "2:25",
+            "booked": 0
+          },
+          {
+            "time": "2:30",
+            "booked": 0
+          },
+          {
+            "time": "2:35",
+            "booked": 0
+          },
+          {
+            "time": "2:40",
+            "booked": 0
+          },
+          {
+            "time": "2:45",
+            "booked": 0
+          },
+          {
+            "time": "2:50",
+            "booked": 0
+          },
+          {
+            "time": "2:55",
+            "booked": 0
+          },
+          {
+            "time": "3:00",
+            "booked": 0
+          },
+          {
+            "time": "3:05",
+            "booked": 0
+          },
+          {
+            "time": "3:10",
+            "booked": 0
+          },
+          {
+            "time": "3:15",
+            "booked": 0
+          },
+          {
+            "time": "3:20",
+            "booked": 0
+          },
+          {
+            "time": "3:25",
+            "booked": 0
+          },
+          {
+            "time": "3:30",
+            "booked": 0
+          },
+          {
+            "time": "3:35",
+            "booked": 0
+          },
+          {
+            "time": "3:40",
+            "booked": 0
+          }
+        ],
+        "name": "みりな"
+      },
+      {
         "therapist_id": 52800,
         "schedule_date": "2026-03-23",
         "total_slots": 81,
@@ -16120,65 +16674,13 @@
     {
       "therapist_id": 52874,
       "schedule_date": "2026-03-19",
-      "total_slots": 48,
+      "total_slots": 35,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "16:15",
+      "first_slot": "17:20",
       "last_slot": "20:10",
       "booked_ranges": [],
       "slot_detail": [
-        {
-          "time": "16:15",
-          "booked": 0
-        },
-        {
-          "time": "16:20",
-          "booked": 0
-        },
-        {
-          "time": "16:25",
-          "booked": 0
-        },
-        {
-          "time": "16:30",
-          "booked": 0
-        },
-        {
-          "time": "16:35",
-          "booked": 0
-        },
-        {
-          "time": "16:40",
-          "booked": 0
-        },
-        {
-          "time": "16:45",
-          "booked": 0
-        },
-        {
-          "time": "16:50",
-          "booked": 0
-        },
-        {
-          "time": "16:55",
-          "booked": 0
-        },
-        {
-          "time": "17:00",
-          "booked": 0
-        },
-        {
-          "time": "17:05",
-          "booked": 0
-        },
-        {
-          "time": "17:10",
-          "booked": 0
-        },
-        {
-          "time": "17:15",
-          "booked": 0
-        },
         {
           "time": "17:20",
           "booked": 0
@@ -16636,242 +17138,20 @@
       "name": "あみ"
     },
     {
-      "therapist_id": 59729,
-      "schedule_date": "2026-03-19",
-      "total_slots": 6,
-      "booked_slots": 0,
-      "occupancy_pct": 0.0,
-      "first_slot": "16:15",
-      "last_slot": "16:40",
-      "booked_ranges": [],
-      "slot_detail": [
-        {
-          "time": "16:15",
-          "booked": 0
-        },
-        {
-          "time": "16:20",
-          "booked": 0
-        },
-        {
-          "time": "16:25",
-          "booked": 0
-        },
-        {
-          "time": "16:30",
-          "booked": 0
-        },
-        {
-          "time": "16:35",
-          "booked": 0
-        },
-        {
-          "time": "16:40",
-          "booked": 0
-        }
-      ],
-      "name": "えみ"
-    },
-    {
-      "therapist_id": 54672,
-      "schedule_date": "2026-03-19",
-      "total_slots": 30,
-      "booked_slots": 0,
-      "occupancy_pct": 0.0,
-      "first_slot": "16:15",
-      "last_slot": "18:40",
-      "booked_ranges": [],
-      "slot_detail": [
-        {
-          "time": "16:15",
-          "booked": 0
-        },
-        {
-          "time": "16:20",
-          "booked": 0
-        },
-        {
-          "time": "16:25",
-          "booked": 0
-        },
-        {
-          "time": "16:30",
-          "booked": 0
-        },
-        {
-          "time": "16:35",
-          "booked": 0
-        },
-        {
-          "time": "16:40",
-          "booked": 0
-        },
-        {
-          "time": "16:45",
-          "booked": 0
-        },
-        {
-          "time": "16:50",
-          "booked": 0
-        },
-        {
-          "time": "16:55",
-          "booked": 0
-        },
-        {
-          "time": "17:00",
-          "booked": 0
-        },
-        {
-          "time": "17:05",
-          "booked": 0
-        },
-        {
-          "time": "17:10",
-          "booked": 0
-        },
-        {
-          "time": "17:15",
-          "booked": 0
-        },
-        {
-          "time": "17:20",
-          "booked": 0
-        },
-        {
-          "time": "17:25",
-          "booked": 0
-        },
-        {
-          "time": "17:30",
-          "booked": 0
-        },
-        {
-          "time": "17:35",
-          "booked": 0
-        },
-        {
-          "time": "17:40",
-          "booked": 0
-        },
-        {
-          "time": "17:45",
-          "booked": 0
-        },
-        {
-          "time": "17:50",
-          "booked": 0
-        },
-        {
-          "time": "17:55",
-          "booked": 0
-        },
-        {
-          "time": "18:00",
-          "booked": 0
-        },
-        {
-          "time": "18:05",
-          "booked": 0
-        },
-        {
-          "time": "18:10",
-          "booked": 0
-        },
-        {
-          "time": "18:15",
-          "booked": 0
-        },
-        {
-          "time": "18:20",
-          "booked": 0
-        },
-        {
-          "time": "18:25",
-          "booked": 0
-        },
-        {
-          "time": "18:30",
-          "booked": 0
-        },
-        {
-          "time": "18:35",
-          "booked": 0
-        },
-        {
-          "time": "18:40",
-          "booked": 0
-        }
-      ],
-      "name": "ほのか"
-    },
-    {
       "therapist_id": 52817,
       "schedule_date": "2026-03-19",
-      "total_slots": 30,
-      "booked_slots": 22,
-      "occupancy_pct": 73.3,
-      "first_slot": "16:15",
+      "total_slots": 17,
+      "booked_slots": 9,
+      "occupancy_pct": 52.9,
+      "first_slot": "17:20",
       "last_slot": "18:40",
       "booked_ranges": [
         [
-          "16:15",
+          "17:20",
           "18:00"
         ]
       ],
       "slot_detail": [
-        {
-          "time": "16:15",
-          "booked": 1
-        },
-        {
-          "time": "16:20",
-          "booked": 1
-        },
-        {
-          "time": "16:25",
-          "booked": 1
-        },
-        {
-          "time": "16:30",
-          "booked": 1
-        },
-        {
-          "time": "16:35",
-          "booked": 1
-        },
-        {
-          "time": "16:40",
-          "booked": 1
-        },
-        {
-          "time": "16:45",
-          "booked": 1
-        },
-        {
-          "time": "16:50",
-          "booked": 1
-        },
-        {
-          "time": "16:55",
-          "booked": 1
-        },
-        {
-          "time": "17:00",
-          "booked": 1
-        },
-        {
-          "time": "17:05",
-          "booked": 1
-        },
-        {
-          "time": "17:10",
-          "booked": 1
-        },
-        {
-          "time": "17:15",
-          "booked": 1
-        },
         {
           "time": "17:20",
           "booked": 1
@@ -18110,65 +18390,13 @@
     {
       "therapist_id": 52878,
       "schedule_date": "2026-03-19",
-      "total_slots": 138,
+      "total_slots": 125,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "16:15",
+      "first_slot": "17:20",
       "last_slot": "3:40",
       "booked_ranges": [],
       "slot_detail": [
-        {
-          "time": "16:15",
-          "booked": 0
-        },
-        {
-          "time": "16:20",
-          "booked": 0
-        },
-        {
-          "time": "16:25",
-          "booked": 0
-        },
-        {
-          "time": "16:30",
-          "booked": 0
-        },
-        {
-          "time": "16:35",
-          "booked": 0
-        },
-        {
-          "time": "16:40",
-          "booked": 0
-        },
-        {
-          "time": "16:45",
-          "booked": 0
-        },
-        {
-          "time": "16:50",
-          "booked": 0
-        },
-        {
-          "time": "16:55",
-          "booked": 0
-        },
-        {
-          "time": "17:00",
-          "booked": 0
-        },
-        {
-          "time": "17:05",
-          "booked": 0
-        },
-        {
-          "time": "17:10",
-          "booked": 0
-        },
-        {
-          "time": "17:15",
-          "booked": 0
-        },
         {
           "time": "17:20",
           "booked": 0
@@ -18671,6 +18899,92 @@
         }
       ],
       "name": "るな"
+    },
+    {
+      "therapist_id": 54672,
+      "schedule_date": "2026-03-19",
+      "total_slots": 17,
+      "booked_slots": 17,
+      "occupancy_pct": 100.0,
+      "first_slot": "17:20",
+      "last_slot": "18:40",
+      "booked_ranges": [
+        [
+          "17:20",
+          "18:40"
+        ]
+      ],
+      "slot_detail": [
+        {
+          "time": "17:20",
+          "booked": 1
+        },
+        {
+          "time": "17:25",
+          "booked": 1
+        },
+        {
+          "time": "17:30",
+          "booked": 1
+        },
+        {
+          "time": "17:35",
+          "booked": 1
+        },
+        {
+          "time": "17:40",
+          "booked": 1
+        },
+        {
+          "time": "17:45",
+          "booked": 1
+        },
+        {
+          "time": "17:50",
+          "booked": 1
+        },
+        {
+          "time": "17:55",
+          "booked": 1
+        },
+        {
+          "time": "18:00",
+          "booked": 1
+        },
+        {
+          "time": "18:05",
+          "booked": 1
+        },
+        {
+          "time": "18:10",
+          "booked": 1
+        },
+        {
+          "time": "18:15",
+          "booked": 1
+        },
+        {
+          "time": "18:20",
+          "booked": 1
+        },
+        {
+          "time": "18:25",
+          "booked": 1
+        },
+        {
+          "time": "18:30",
+          "booked": 1
+        },
+        {
+          "time": "18:35",
+          "booked": 1
+        },
+        {
+          "time": "18:40",
+          "booked": 1
+        }
+      ],
+      "name": "ほのか"
     }
   ],
   "realtime_slots_tomorrow": [
@@ -22193,6 +22507,14 @@
     {
       "therapist_id": 59729,
       "name": "えみ",
+      "schedule_date": "2026-03-19",
+      "start_time": "12:00",
+      "booked_at": "2026-03-19 16:35:53",
+      "first_seen_at": "2026-03-19 00:44:31"
+    },
+    {
+      "therapist_id": 59729,
+      "name": "えみ",
       "schedule_date": "2026-03-18",
       "start_time": "12:00",
       "booked_at": "2026-03-18 17:36:36",
@@ -22422,8 +22744,8 @@
     {
       "therapist_id": 59729,
       "name": "えみ",
-      "times_booked": 2,
-      "avg_hours_to_book": 17.0,
+      "times_booked": 3,
+      "avg_hours_to_book": 16.6,
       "locations": "王子"
     },
     {
@@ -23246,18 +23568,6 @@
   ],
   "current_occupancy": [
     {
-      "therapist_id": 52817,
-      "name": "すい",
-      "schedule_date": "2026-03-19",
-      "total_slots": 30,
-      "booked_slots": 22,
-      "occupancy_pct": 73.3,
-      "first_slot": "16:15",
-      "last_slot": "18:40",
-      "booked_ranges": "[[\"16:15\", \"18:00\"]]",
-      "checked_at": "2026-03-19 15:58:13"
-    },
-    {
       "therapist_id": 52925,
       "name": "りこ",
       "schedule_date": "2026-03-19",
@@ -23267,7 +23577,19 @@
       "first_slot": "20:00",
       "last_slot": "3:40",
       "booked_ranges": "[[\"20:00\", \"21:50\"], [\"22:30\", \"1:50\"]]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
+    },
+    {
+      "therapist_id": 52817,
+      "name": "すい",
+      "schedule_date": "2026-03-19",
+      "total_slots": 22,
+      "booked_slots": 14,
+      "occupancy_pct": 63.6,
+      "first_slot": "16:55",
+      "last_slot": "18:40",
+      "booked_ranges": "[[\"16:55\", \"18:00\"]]",
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 52799,
@@ -23279,31 +23601,31 @@
       "first_slot": "21:30",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 52874,
       "name": "りあ",
       "schedule_date": "2026-03-19",
-      "total_slots": 48,
+      "total_slots": 40,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "16:15",
+      "first_slot": "16:55",
       "last_slot": "20:10",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 52878,
       "name": "るな",
       "schedule_date": "2026-03-19",
-      "total_slots": 138,
+      "total_slots": 130,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "16:15",
+      "first_slot": "16:55",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 54670,
@@ -23315,31 +23637,19 @@
       "first_slot": "20:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 54672,
       "name": "ほのか",
       "schedule_date": "2026-03-19",
-      "total_slots": 30,
+      "total_slots": 22,
       "booked_slots": 0,
       "occupancy_pct": 0.0,
-      "first_slot": "16:15",
+      "first_slot": "16:55",
       "last_slot": "18:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
-    },
-    {
-      "therapist_id": 59729,
-      "name": "えみ",
-      "schedule_date": "2026-03-19",
-      "total_slots": 6,
-      "booked_slots": 0,
-      "occupancy_pct": 0.0,
-      "first_slot": "16:15",
-      "last_slot": "16:40",
-      "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 59991,
@@ -23351,7 +23661,7 @@
       "first_slot": "20:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:13"
+      "checked_at": "2026-03-19 16:35:55"
     },
     {
       "therapist_id": 52812,
@@ -23363,7 +23673,7 @@
       "first_slot": "13:00",
       "last_slot": "18:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 52930,
@@ -23375,7 +23685,7 @@
       "first_slot": "12:00",
       "last_slot": "19:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 54670,
@@ -23387,7 +23697,7 @@
       "first_slot": "20:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 56452,
@@ -23399,7 +23709,7 @@
       "first_slot": "12:00",
       "last_slot": "18:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 56841,
@@ -23411,7 +23721,7 @@
       "first_slot": "20:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 58231,
@@ -23423,7 +23733,7 @@
       "first_slot": "21:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 58233,
@@ -23435,7 +23745,7 @@
       "first_slot": "12:00",
       "last_slot": "18:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 58234,
@@ -23447,7 +23757,7 @@
       "first_slot": "12:00",
       "last_slot": "18:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 59730,
@@ -23459,7 +23769,7 @@
       "first_slot": "20:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     },
     {
       "therapist_id": 60001,
@@ -23471,7 +23781,7 @@
       "first_slot": "21:00",
       "last_slot": "3:40",
       "booked_ranges": "[]",
-      "checked_at": "2026-03-19 15:58:14"
+      "checked_at": "2026-03-19 16:35:57"
     }
   ],
   "occupancy_timeline": [
@@ -24203,6 +24513,78 @@
       "booked_slots": 0,
       "total_slots": 138,
       "booked_ranges": "[]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 52799,
+      "name": "あみ",
+      "occupancy_pct": 0.0,
+      "booked_slots": 0,
+      "total_slots": 75,
+      "booked_ranges": "[]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 54670,
+      "name": "さあや",
+      "occupancy_pct": 0.0,
+      "booked_slots": 0,
+      "total_slots": 93,
+      "booked_ranges": "[]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 52817,
+      "name": "すい",
+      "occupancy_pct": 63.6,
+      "booked_slots": 14,
+      "total_slots": 22,
+      "booked_ranges": "[[\"16:55\", \"18:00\"]]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 54672,
+      "name": "ほのか",
+      "occupancy_pct": 0.0,
+      "booked_slots": 0,
+      "total_slots": 22,
+      "booked_ranges": "[]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 59991,
+      "name": "もも",
+      "occupancy_pct": 0.0,
+      "booked_slots": 0,
+      "total_slots": 93,
+      "booked_ranges": "[]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 52874,
+      "name": "りあ",
+      "occupancy_pct": 0.0,
+      "booked_slots": 0,
+      "total_slots": 40,
+      "booked_ranges": "[]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 52925,
+      "name": "りこ",
+      "occupancy_pct": 68.8,
+      "booked_slots": 64,
+      "total_slots": 93,
+      "booked_ranges": "[[\"20:00\", \"21:50\"], [\"22:30\", \"1:50\"]]"
+    },
+    {
+      "checked_at": "2026-03-19 16:35:55",
+      "therapist_id": 52878,
+      "name": "るな",
+      "occupancy_pct": 0.0,
+      "booked_slots": 0,
+      "total_slots": 130,
+      "booked_ranges": "[]"
     }
   ],
   "fill_velocity": [
@@ -24212,8 +24594,8 @@
       "current_pct": 0.0,
       "prev_pct": 0.0,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 52874,
@@ -24221,8 +24603,8 @@
       "current_pct": 0.0,
       "prev_pct": 0.0,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 52878,
@@ -24230,8 +24612,8 @@
       "current_pct": 0.0,
       "prev_pct": 0.0,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 52925,
@@ -24239,8 +24621,8 @@
       "current_pct": 68.8,
       "prev_pct": 68.8,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 54670,
@@ -24248,8 +24630,8 @@
       "current_pct": 0.0,
       "prev_pct": 0.0,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 54672,
@@ -24257,8 +24639,8 @@
       "current_pct": 0.0,
       "prev_pct": 0.0,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 59729,
@@ -24275,456 +24657,675 @@
       "current_pct": 0.0,
       "prev_pct": 0.0,
       "velocity": 0.0,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     },
     {
       "therapist_id": 52817,
       "name": "すい",
-      "current_pct": 73.3,
-      "prev_pct": 75.0,
-      "velocity": -1.7,
-      "cur_time": "2026-03-19 15:58:13",
-      "prev_time": "2026-03-19 15:46:58"
+      "current_pct": 63.6,
+      "prev_pct": 73.3,
+      "velocity": -9.7,
+      "cur_time": "2026-03-19 16:35:55",
+      "prev_time": "2026-03-19 15:58:13"
     }
   ],
   "dow_demand": [
     {
       "dow": 4,
-      "avg_occupancy": 9.2,
+      "avg_occupancy": 9.9,
       "sample_therapists": 9,
-      "sample_count": 81
+      "sample_count": 89
     },
     {
       "dow": 5,
       "avg_occupancy": 0.0,
       "sample_therapists": 10,
-      "sample_count": 90
+      "sample_count": 100
     }
   ],
   "composite_popularity": [
     {
-      "therapist_id": 52800,
-      "name": "ありす",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "不明"
-    },
-    {
-      "therapist_id": 52801,
-      "name": "うい",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "不明"
-    },
-    {
-      "therapist_id": 52823,
-      "name": "みりな",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "不明"
-    },
-    {
-      "therapist_id": 52826,
-      "name": "らむ",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "不明"
-    },
-    {
-      "therapist_id": 52934,
-      "name": "はるる",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 2,
-      "locations": "西新井,赤羽"
-    },
-    {
-      "therapist_id": 56249,
-      "name": "ななみ",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 60693,
-      "name": "ゆのみ",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 60876,
-      "name": "かりん",
-      "prebooked_rate": 100.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 30.0,
-      "shift_count": 1,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 52925,
-      "name": "りこ",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 57.8,
-      "latest_occupancy": 0,
-      "composite_score": 23.1,
-      "shift_count": 1,
-      "locations": "王子"
-    },
-    {
       "therapist_id": 56364,
       "name": "ふゆ",
+      "total_shifts": 3,
+      "prebooked_count": 2,
       "prebooked_rate": 66.7,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 20.0,
-      "shift_count": 3,
-      "locations": "西新井,赤羽,王子"
-    },
-    {
-      "therapist_id": 52805,
-      "name": "さき",
-      "prebooked_rate": 50.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 15.0,
-      "shift_count": 2,
-      "locations": "王子"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "西新井,赤羽,王子",
+      "confidence": 0.86,
+      "composite_score": 33.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 52817,
       "name": "すい",
+      "total_shifts": 2,
+      "prebooked_count": 0,
       "prebooked_rate": 0.0,
-      "avg_occupancy": 25.0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 2,
-      "locations": "西新井,王子"
+      "avg_occupancy": 28.8,
+      "max_occupancy": 76.5,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "西新井,王子",
+      "confidence": 0.68,
+      "composite_score": 32.7,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 52925,
+      "name": "りこ",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 58.9,
+      "max_occupancy": 68.8,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子",
+      "confidence": 0.43,
+      "composite_score": 31.3,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 52934,
+      "name": "はるる",
+      "total_shifts": 2,
+      "prebooked_count": 2,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "西新井,赤羽",
+      "confidence": 0.68,
+      "composite_score": 30.7,
+      "shift_count": 2
     },
     {
       "therapist_id": 52828,
       "name": "るい",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 55259,
       "name": "さつき",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "赤羽,王子"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "赤羽,王子",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 58235,
       "name": "めい",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 59729,
       "name": "えみ",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子"
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 9,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 59733,
       "name": "める",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子,西新井"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子,西新井",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 59991,
       "name": "もも",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子"
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 60001,
       "name": "いおり",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子"
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 61144,
       "name": "ゆき",
+      "total_shifts": 3,
+      "prebooked_count": 1,
       "prebooked_rate": 33.3,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 10.0,
-      "shift_count": 3,
-      "locations": "王子,西新井"
-    },
-    {
-      "therapist_id": 52799,
-      "name": "あみ",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "赤羽"
-    },
-    {
-      "therapist_id": 52812,
-      "name": "さくら",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "赤羽"
-    },
-    {
-      "therapist_id": 52874,
-      "name": "りあ",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 2,
-      "locations": "赤羽"
-    },
-    {
-      "therapist_id": 52876,
-      "name": "なみ",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 2,
-      "locations": "赤羽,王子"
-    },
-    {
-      "therapist_id": 52878,
-      "name": "るな",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 3,
-      "locations": "王子,西新井"
-    },
-    {
-      "therapist_id": 52924,
-      "name": "はのん",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 3,
-      "locations": "西新井,王子"
-    },
-    {
-      "therapist_id": 52930,
-      "name": "ななせ",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 2,
-      "locations": "赤羽,王子"
-    },
-    {
-      "therapist_id": 53772,
-      "name": "さな",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 2,
-      "locations": "西新井"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子,西新井",
+      "confidence": 0.86,
+      "composite_score": 23.0,
+      "shift_count": 3
     },
     {
       "therapist_id": 54670,
       "name": "さあや",
+      "total_shifts": 4,
+      "prebooked_count": 0,
       "prebooked_rate": 0.0,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 4,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 54672,
-      "name": "ほのか",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 54679,
-      "name": "なぎ",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "赤羽"
-    },
-    {
-      "therapist_id": 55258,
-      "name": "るる",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 3,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 56452,
-      "name": "そら",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "西新井"
-    },
-    {
-      "therapist_id": 56839,
-      "name": "あいり",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 56841,
-      "name": "かのん",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "西新井"
-    },
-    {
-      "therapist_id": 57908,
-      "name": "もか",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 2,
-      "locations": "王子"
-    },
-    {
-      "therapist_id": 58230,
-      "name": "みれい",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 2,
-      "locations": "王子,赤羽"
+      "max_occupancy": 0.0,
+      "days_monitored": 2,
+      "slot_checks": 20,
+      "locations": "王子",
+      "confidence": 1.0,
+      "composite_score": 20.0,
+      "shift_count": 4
     },
     {
       "therapist_id": 58231,
       "name": "えな",
+      "total_shifts": 4,
+      "prebooked_count": 0,
       "prebooked_rate": 0.0,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 4,
-      "locations": "王子,赤羽"
-    },
-    {
-      "therapist_id": 58233,
-      "name": "さら",
-      "prebooked_rate": 0.0,
-      "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 3,
-      "locations": "王子"
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子,赤羽",
+      "confidence": 1.0,
+      "composite_score": 20.0,
+      "shift_count": 4
     },
     {
       "therapist_id": 58234,
       "name": "すず",
+      "total_shifts": 4,
+      "prebooked_count": 0,
       "prebooked_rate": 0.0,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 4,
-      "locations": "王子,赤羽"
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子,赤羽",
+      "confidence": 1.0,
+      "composite_score": 20.0,
+      "shift_count": 4
+    },
+    {
+      "therapist_id": 52805,
+      "name": "さき",
+      "total_shifts": 2,
+      "prebooked_count": 1,
+      "prebooked_rate": 50.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.68,
+      "composite_score": 18.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 52800,
+      "name": "ありす",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "不明",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 52801,
+      "name": "うい",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "不明",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 52823,
+      "name": "みりな",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "不明",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 52826,
+      "name": "らむ",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "不明",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 56249,
+      "name": "ななみ",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 60693,
+      "name": "ゆのみ",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 60876,
+      "name": "かりん",
+      "total_shifts": 1,
+      "prebooked_count": 1,
+      "prebooked_rate": 100.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.43,
+      "composite_score": 17.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 52878,
+      "name": "るな",
+      "total_shifts": 3,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子,西新井",
+      "confidence": 0.86,
+      "composite_score": 12.9,
+      "shift_count": 3
+    },
+    {
+      "therapist_id": 52924,
+      "name": "はのん",
+      "total_shifts": 3,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "西新井,王子",
+      "confidence": 0.86,
+      "composite_score": 12.9,
+      "shift_count": 3
+    },
+    {
+      "therapist_id": 55258,
+      "name": "るる",
+      "total_shifts": 3,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 12.9,
+      "shift_count": 3
+    },
+    {
+      "therapist_id": 58233,
+      "name": "さら",
+      "total_shifts": 3,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子",
+      "confidence": 0.86,
+      "composite_score": 12.9,
+      "shift_count": 3
+    },
+    {
+      "therapist_id": 52874,
+      "name": "りあ",
+      "total_shifts": 2,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "赤羽",
+      "confidence": 0.68,
+      "composite_score": 6.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 52876,
+      "name": "なみ",
+      "total_shifts": 2,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "赤羽,王子",
+      "confidence": 0.68,
+      "composite_score": 6.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 52930,
+      "name": "ななせ",
+      "total_shifts": 2,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "赤羽,王子",
+      "confidence": 0.68,
+      "composite_score": 6.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 53772,
+      "name": "さな",
+      "total_shifts": 2,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "西新井",
+      "confidence": 0.68,
+      "composite_score": 6.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 57908,
+      "name": "もか",
+      "total_shifts": 2,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.68,
+      "composite_score": 6.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 58230,
+      "name": "みれい",
+      "total_shifts": 2,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子,赤羽",
+      "confidence": 0.68,
+      "composite_score": 6.8,
+      "shift_count": 2
+    },
+    {
+      "therapist_id": 52799,
+      "name": "あみ",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "赤羽",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 52812,
+      "name": "さくら",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "赤羽",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 54672,
+      "name": "ほのか",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "王子",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 54679,
+      "name": "なぎ",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "赤羽",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 56452,
+      "name": "そら",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "西新井",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 56839,
+      "name": "あいり",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0,
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "王子",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
+    },
+    {
+      "therapist_id": 56841,
+      "name": "かのん",
+      "total_shifts": 1,
+      "prebooked_count": 0,
+      "prebooked_rate": 0.0,
+      "avg_occupancy": 0.0,
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "西新井",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
     },
     {
       "therapist_id": 59730,
       "name": "ゆず",
+      "total_shifts": 1,
+      "prebooked_count": 0,
       "prebooked_rate": 0.0,
       "avg_occupancy": 0.0,
-      "latest_occupancy": 0.0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "赤羽"
+      "max_occupancy": 0.0,
+      "days_monitored": 1,
+      "slot_checks": 10,
+      "locations": "赤羽",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
     },
     {
       "therapist_id": 61448,
       "name": "ひめか",
+      "total_shifts": 1,
+      "prebooked_count": 0,
       "prebooked_rate": 0.0,
       "avg_occupancy": 0,
-      "latest_occupancy": 0,
-      "composite_score": 0.0,
-      "shift_count": 1,
-      "locations": "赤羽"
+      "max_occupancy": 0,
+      "days_monitored": 0,
+      "slot_checks": 0,
+      "locations": "赤羽",
+      "confidence": 0.43,
+      "composite_score": 2.2,
+      "shift_count": 1
     }
   ],
   "cancellation_events": [
+    {
+      "therapist_id": 52817,
+      "name": "すい",
+      "schedule_date": "2026-03-19",
+      "checked_at": "2026-03-19 16:35:55",
+      "prev_occ": 73.3,
+      "new_occ": 63.6,
+      "delta": -9.7
+    },
     {
       "therapist_id": 52817,
       "name": "すい",
@@ -24750,7 +25351,7 @@
       "name": "ほのか",
       "dow": 4,
       "avg_occ": 0.0,
-      "samples": 9
+      "samples": 10
     }
   ],
   "newcomers": [
@@ -24759,7 +25360,7 @@
       "name": "りこ",
       "first_seen": "2026-03-14 06:54:25",
       "days_since_first": 4,
-      "avg_occupancy": 57.8,
+      "avg_occupancy": 58.9,
       "shift_count": 1
     },
     {
@@ -24767,7 +25368,7 @@
       "name": "すい",
       "first_seen": "2026-03-14 06:54:25",
       "days_since_first": 4,
-      "avg_occupancy": 25.0,
+      "avg_occupancy": 28.8,
       "shift_count": 2
     },
     {
@@ -25449,5 +26050,5 @@
     "active_now": 84,
     "retired": 1
   },
-  "generated_at": "2026-03-19 15:58:23"
+  "generated_at": "2026-03-19 17:03:16"
 }

@@ -161,10 +161,10 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
   </div>
   <!-- STATS -->
   <div id="p-stats" class="pn">
-    <div class="cc"><div class="ct2">Composite popularity ranking</div><div class="cs">Score = pre-booked 30% + avg occupancy 40% + latest occupancy 30%</div><div id="s-composite"></div></div>
+    <div class="cc"><div class="ct2">Composite popularity ranking</div><div class="cs">Score = prebooked×conf 35% + slot occupancy(avg·max) 45% + volume 20%. Confidence scales with shift count.</div><div id="s-composite"></div></div>
     <div class="cc"><div class="ct2">Shift frequency</div><div class="cw" style="height:340px"><canvas id="c-freq"></canvas></div></div>
     <div class="sh">Detail table</div>
-    <div class="cc" style="padding:0;overflow-x:auto"><table class="st" id="s-table"><thead><tr><th>Name</th><th>Score</th><th>Occ%</th><th>Pre-booked</th><th>Shifts</th><th>Locations</th></tr></thead><tbody></tbody></table></div>
+    <div class="cc" style="padding:0;overflow-x:auto"><table class="st" id="s-table"><thead><tr><th>Name</th><th>Score</th><th>Conf</th><th>Avg%</th><th>Peak%</th><th>PB%</th><th>Shifts</th><th>Loc</th></tr></thead><tbody></tbody></table></div>
   </div>
   <!-- INSIGHTS -->
   <div id="p-insights" class="pn">
@@ -435,9 +435,13 @@ function switchSlotDate(date, btn) {
   // Composite cards
   let h='<div class="pg">';
   cpActive.slice(0,12).forEach((p,i)=>{
-    const tier=p.composite_score>=40?'hot':p.composite_score>=15?'warm':'';
-    const vc=p.composite_score>=40?'hot':p.composite_score>=15?'warm':'cool';
-    h+=`<div class="pc ${tier}"><div class="pr">#${i+1}</div><div class="pn2">${nl(p.name,p.therapist_id)}</div><div class="pv ${vc}">${p.composite_score}</div><div class="pd">Pre-booked ${p.prebooked_rate}% / Avg occ ${p.avg_occupancy}%</div><div class="pd">${locsBg(p.locations)}</div><div class="pb"><div class="pb-f" style="width:${Math.min(p.composite_score,100)}%;background:${occClr(p.composite_score)}"></div></div></div>`;
+    const tier=p.composite_score>=30?'hot':p.composite_score>=15?'warm':'';
+    const vc=p.composite_score>=30?'hot':p.composite_score>=15?'warm':'cool';
+    const conf=p.confidence||0;
+    const confLabel=conf>=0.8?'★★★':conf>=0.5?'★★':'★';
+    const confClr=conf>=0.8?'var(--grn)':conf>=0.5?'var(--amb)':'var(--td)';
+    const maxOcc=p.max_occupancy||0;
+    h+=`<div class="pc ${tier}"><div class="pr">#${i+1}</div><div class="pn2">${nl(p.name,p.therapist_id)}</div><div class="pv ${vc}">${p.composite_score}</div><div class="pd">PB ${p.prebooked_rate}% · Avg ${p.avg_occupancy||0}% · Peak ${maxOcc}%</div><div class="pd">${p.shift_count} shifts <span style="color:${confClr}">${confLabel}</span> ${locsBg(p.locations)}</div><div class="pb"><div class="pb-f" style="width:${Math.min(p.composite_score,100)}%;background:${occClr(p.composite_score)}"></div></div></div>`;
   });
   h+='</div>';
   if(!cpActive.length) h='<p style="color:var(--td);font-size:13px">Accumulating data...</p>';
@@ -450,7 +454,9 @@ function switchSlotDate(date, btn) {
   const sorted=[...stats].sort((a,b)=>(cpMap[b.therapist_id]?.composite_score||0)-(cpMap[a.therapist_id]?.composite_score||0));
   document.querySelector('#s-table tbody').innerHTML=sorted.map(s=>{
     const p=cpMap[s.therapist_id]||{};
-    return`<tr><td class="sn">${nl(s.name,s.therapist_id)}</td><td style="color:${occClr(p.composite_score||0)};font-weight:500">${p.composite_score||0}</td><td>${p.avg_occupancy||0}%</td><td>${p.prebooked_rate||0}%</td><td>${s.shift_count}</td><td>${locsBg(s.locations)}</td></tr>`
+    const conf=p.confidence||0;
+    const confClr=conf>=0.8?'var(--grn)':conf>=0.5?'var(--amb)':'var(--td)';
+    return`<tr><td class="sn">${nl(s.name,s.therapist_id)}</td><td style="color:${occClr(p.composite_score||0)};font-weight:500">${p.composite_score||0}</td><td style="color:${confClr}">${conf.toFixed(2)}</td><td>${p.avg_occupancy||0}%</td><td style="font-weight:500">${p.max_occupancy||0}%</td><td>${p.prebooked_rate||0}%</td><td>${s.shift_count}</td><td>${locsBg(s.locations)}</td></tr>`
   }).join('');
 })();
 // ===== INSIGHTS =====
