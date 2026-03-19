@@ -1,0 +1,42 @@
+name: Slot Monitor
+
+on:
+  schedule:
+    # 営業時間中（JST 11:00〜翌5:30 = UTC 2:00〜20:30）10分ごと
+    - cron: '*/10 2-20 * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install httpx beautifulsoup4
+
+      - name: Initialize DB
+        run: python scripts/db_setup.py
+
+      - name: Run slot monitor
+        run: python scripts/slot_monitor.py
+
+      - name: Commit data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/jewelryspa.db
+          git diff-index --quiet HEAD || git commit -m "📊 Slots: $(date -u +%H:%M)"
+          git push

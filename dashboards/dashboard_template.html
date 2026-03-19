@@ -3,933 +3,358 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JewelrySpa Schedule Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>JewelrySpa Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
 <style>
-:root {
-  --bg: #0c0c0f;
-  --surface: #16161a;
-  --surface2: #1e1e24;
-  --border: rgba(255,255,255,0.06);
-  --border-bright: rgba(255,255,255,0.12);
-  --text: #e8e6e1;
-  --text-muted: #8a8880;
-  --text-dim: #5a5852;
-  --accent: #c9a96e;
-  --accent-glow: rgba(201,169,110,0.15);
-  --green: #4caf7d;
-  --green-bg: rgba(76,175,125,0.08);
-  --red: #e05555;
-  --red-bg: rgba(224,85,85,0.08);
-  --blue: #5b8fd9;
-  --blue-bg: rgba(91,143,217,0.08);
-  --amber: #d4a43a;
-  --purple: #9b7ed8;
-  --akabane: #e05555;
-  --oji: #5b8fd9;
-  --nishiarai: #4caf7d;
-  --radius: 10px;
-  --radius-lg: 14px;
-  --font: 'DM Sans', 'Noto Sans JP', sans-serif;
-}
+:root{--bg:#0c0c0f;--surface:#16161a;--s2:#1e1e24;--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.12);--t:#e8e6e1;--tm:#8a8880;--td:#5a5852;--acc:#c9a96e;--grn:#4caf7d;--red:#e05555;--blu:#5b8fd9;--amb:#d4a43a;--pur:#9b7ed8;--aka:#e05555;--oji:#5b8fd9;--nsh:#4caf7d;--r:10px;--rl:14px;--f:'DM Sans','Noto Sans JP',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
-.container{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
-
-.header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-.header h1{font-size:20px;font-weight:500;letter-spacing:-.3px;color:var(--text)}
-.header h1 span{color:var(--accent);font-weight:600}
-.header-meta{font-size:12px;color:var(--text-dim);text-align:right}
-.header-meta strong{color:var(--text-muted);font-weight:500}
-
-/* Favorites alert banner */
-.fav-banner{background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(201,169,110,.03));border:1px solid rgba(201,169,110,.2);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:24px}
-.fav-banner-title{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.fav-banner-title::before{content:'★';font-size:14px}
-.fav-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,169,110,.08);font-size:13px}
-.fav-item:last-child{border-bottom:none}
-.fav-name{font-weight:500;color:var(--accent)}
-.fav-detail{color:var(--text-muted);font-size:12px}
-.fav-today{background:rgba(76,175,125,.08);color:var(--green);padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;letter-spacing:.5px}
-.fav-empty{color:var(--text-dim);font-size:12px;font-style:italic}
-
-.tabs{display:flex;gap:4px;margin-bottom:28px;background:var(--surface);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
-.tab{padding:8px 18px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border-radius:7px;transition:all .2s;border:none;background:none;font-family:var(--font);white-space:nowrap}
-.tab:hover{color:var(--text)}
-.tab.active{background:var(--surface2);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.3)}
-
-.panel{display:none}
-.panel.active{display:block}
-
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
-.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
-.metric-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
-.metric-value{font-size:26px;font-weight:600;letter-spacing:-.5px}
-.metric-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
-.metric.green .metric-value{color:var(--green)}
-.metric.red .metric-value{color:var(--red)}
-.metric.blue .metric-value{color:var(--blue)}
-.metric.accent .metric-value{color:var(--accent)}
-
-.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px}
-.chart-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
-.chart-sub{font-size:12px;color:var(--text-dim);margin-bottom:16px}
-.chart-wrap{position:relative;width:100%}
-
-.heatmap{overflow-x:auto}
-.heatmap table{width:100%;border-collapse:separate;border-spacing:3px;font-size:12px}
-.heatmap th{color:var(--text-dim);font-weight:400;padding:6px 8px;text-align:center;font-size:11px;white-space:nowrap}
-.heatmap td{text-align:center;padding:8px 6px;border-radius:6px;font-weight:500;font-size:12px;white-space:nowrap;min-width:70px}
-.heatmap .loc-label{text-align:left;color:var(--text-muted);font-weight:400;padding-right:12px;white-space:nowrap;min-width:56px}
-.heat-0{background:var(--surface2);color:var(--text-dim)}
-.heat-1{background:rgba(76,175,125,.08);color:#4caf7d}
-.heat-2{background:rgba(76,175,125,.15);color:#5cbf8d}
-.heat-3{background:rgba(76,175,125,.22);color:#6ccf9d}
-.heat-4{background:rgba(201,169,110,.12);color:var(--accent)}
-.heat-5{background:rgba(201,169,110,.2);color:#d4b87a}
-.heat-6{background:rgba(201,169,110,.3);color:#dfca8e}
-
-.staff-table{width:100%;border-collapse:collapse;font-size:13px}
-.staff-table th{text-align:left;color:var(--text-dim);font-weight:400;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:8px 12px;border-bottom:1px solid var(--border)}
-.staff-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
-.staff-table tr:last-child td{border-bottom:none}
-.staff-table tr:hover td{background:var(--surface2)}
-.staff-name{font-weight:500;color:var(--text)}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:.3px}
-.badge-akabane{background:rgba(224,85,85,.1);color:var(--akabane)}
-.badge-oji{background:rgba(91,143,217,.1);color:var(--oji)}
-.badge-nishiarai{background:rgba(76,175,125,.1);color:var(--nishiarai)}
-
-.today-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-@media(max-width:700px){.today-grid{grid-template-columns:1fr}}
-.loc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;position:relative;overflow:hidden}
-.loc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.loc-card.akabane::before{background:var(--akabane)}
-.loc-card.oji::before{background:var(--oji)}
-.loc-card.nishiarai::before{background:var(--nishiarai)}
-.loc-card h3{font-size:14px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.loc-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-.akabane .loc-dot{background:var(--akabane)}
-.oji .loc-dot{background:var(--oji)}
-.nishiarai .loc-dot{background:var(--nishiarai)}
-.staff-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
-.staff-item:last-child{border-bottom:none}
-.staff-item-name{font-size:13px;font-weight:500}
-.staff-item-time{font-size:12px;color:var(--text-muted)}
-.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:6px}
-.status-avail{background:var(--green)}
-.status-booked{background:var(--red)}
-.booked-time{font-size:10px;color:var(--red);margin-left:4px;opacity:.8}
-
-.log-table{width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono','DM Sans',monospace}
-.log-table th{text-align:left;color:var(--text-dim);font-weight:400;padding:6px 10px;border-bottom:1px solid var(--border)}
-.log-table td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--text-muted)}
-.log-ok{color:var(--green)}
-.log-err{color:var(--red)}
-
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;font-size:12px}
-.legend-item{display:flex;align-items:center;gap:5px;color:var(--text-muted)}
-.legend-dot{width:10px;height:10px;border-radius:2px}
-
-.section-head{font-size:15px;font-weight:500;color:var(--text);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;-webkit-font-smoothing:antialiased}
+.ct{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--bd)}
+.hd h1{font-size:20px;font-weight:500;color:var(--t)}.hd h1 span{color:var(--acc);font-weight:600}
+.hd-m{font-size:12px;color:var(--td);text-align:right}.hd-m strong{color:var(--tm);font-weight:500}
+/* Fav banner */
+.fb{background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(201,169,110,.03));border:1px solid rgba(201,169,110,.2);border-radius:var(--rl);padding:16px 20px;margin-bottom:24px}
+.fb-t{font-size:13px;font-weight:600;color:var(--acc);margin-bottom:8px;display:flex;align-items:center;gap:6px}.fb-t::before{content:'★';font-size:14px}
+.fb-i{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,169,110,.08);font-size:13px}.fb-i:last-child{border-bottom:none}
+.fb-n{font-weight:500;color:var(--acc)}.fb-td{color:var(--grn);padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(76,175,125,.08)}
+.fb-rec{font-size:11px;color:var(--tm);margin-top:6px;padding:6px 10px;background:var(--s2);border-radius:6px}
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:28px;background:var(--surface);border-radius:var(--r);padding:4px;border:1px solid var(--bd);overflow-x:auto}
+.tab{padding:8px 16px;font-size:13px;font-weight:500;color:var(--tm);cursor:pointer;border-radius:7px;transition:all .2s;border:none;background:none;font-family:var(--f);white-space:nowrap}
+.tab:hover{color:var(--t)}.tab.active{background:var(--s2);color:var(--acc);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.pn{display:none}.pn.active{display:block}
+/* Cards */
+.mc{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px}
+.m{background:var(--surface);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px}
+.ml{font-size:10px;color:var(--td);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.mv{font-size:24px;font-weight:600;letter-spacing:-.5px}.ms{font-size:11px;color:var(--tm);margin-top:2px}
+.m.grn .mv{color:var(--grn)}.m.red .mv{color:var(--red)}.m.blu .mv{color:var(--blu)}.m.acc .mv{color:var(--acc)}.m.pur .mv{color:var(--pur)}
+/* Chart */
+.cc{background:var(--surface);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:20px}
+.ct2{font-size:14px;font-weight:500;color:var(--t);margin-bottom:4px}
+.cs{font-size:12px;color:var(--td);margin-bottom:16px}
+.cw{position:relative;width:100%}
+/* Occ meters */
+.om-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:24px}
+.om{background:var(--surface);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:12px}
+.om-bar-wrap{flex:1;height:8px;background:var(--s2);border-radius:4px;overflow:hidden;position:relative}
+.om-bar{height:100%;border-radius:4px;transition:width .3s}
+.om-name{font-size:13px;font-weight:500;min-width:50px}
+.om-pct{font-size:13px;font-weight:600;min-width:40px;text-align:right}
+.om-vel{font-size:11px;min-width:28px;text-align:center}
+/* Location cards */
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.tg{grid-template-columns:1fr}}
+.lc{background:var(--surface);border:1px solid var(--bd);border-radius:var(--rl);padding:16px;position:relative;overflow:hidden}
+.lc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.lc.aka::before{background:var(--aka)}.lc.oji::before{background:var(--oji)}.lc.nsh::before{background:var(--nsh)}
+.lc h3{font-size:14px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ld{width:8px;height:8px;border-radius:50%}.aka .ld{background:var(--aka)}.oji .ld{background:var(--oji)}.nsh .ld{background:var(--nsh)}
+.si{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px}.si:last-child{border-bottom:none}
+.sd{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}.sa{background:var(--grn)}.sb{background:var(--red)}
+.bt{font-size:10px;color:var(--red);margin-left:4px}
+/* Heatmap / Matrix */
+.hm{overflow-x:auto}.hm table{width:100%;border-collapse:separate;border-spacing:2px;font-size:12px}
+.hm th{color:var(--td);font-weight:400;padding:5px 6px;text-align:center;font-size:11px;white-space:nowrap}
+.hm td{text-align:center;padding:6px 4px;border-radius:5px;font-size:12px;min-width:55px}
+.hm .hn{text-align:left;color:var(--tm);font-weight:400;padding-right:8px;white-space:nowrap;font-size:11px;min-width:56px}
+.bk{background:rgba(224,85,85,.12);color:var(--red)}.av{background:var(--s2);color:var(--td)}.no{color:var(--td);opacity:.2}
+/* Legend */
+.lg{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:12px}
+.li{display:flex;align-items:center;gap:4px;color:var(--tm)}.li div{width:10px;height:10px;border-radius:2px}
+/* Tables */
+.st{width:100%;border-collapse:collapse;font-size:13px}
+.st th{text-align:left;color:var(--td);font-weight:400;font-size:10px;text-transform:uppercase;letter-spacing:.6px;padding:8px 10px;border-bottom:1px solid var(--bd)}
+.st td{padding:8px 10px;border-bottom:1px solid var(--bd)}.st tr:hover td{background:var(--s2)}
+.sn{font-weight:500;color:var(--t)}
+.bg{display:inline-block;padding:2px 7px;border-radius:16px;font-size:10px;font-weight:500}
+.bg-a{background:rgba(224,85,85,.1);color:var(--aka)}.bg-o{background:rgba(91,143,217,.1);color:var(--oji)}.bg-n{background:rgba(76,175,125,.1);color:var(--nsh)}
 /* Popularity cards */
-.pop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
-.pop-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative}
-.pop-rank{position:absolute;top:10px;right:14px;font-size:20px;font-weight:600;color:var(--text-dim);opacity:.3}
-.pop-name{font-size:14px;font-weight:500;margin-bottom:4px}
-.pop-stat{font-size:12px;color:var(--text-muted)}
-.pop-bar{height:4px;border-radius:2px;margin-top:8px;background:var(--surface2);overflow:hidden}
-.pop-bar-fill{height:100%;border-radius:2px}
-.pop-speed-fast .pop-bar-fill{background:var(--red)}
-.pop-speed-med .pop-bar-fill{background:var(--amber)}
-.pop-speed-slow .pop-bar-fill{background:var(--green)}
-
-/* Profile links */
-.profile-link{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-dim);transition:all .15s}
-.profile-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
-.fav-name .profile-link{color:var(--accent);border-bottom-color:rgba(201,169,110,.3)}
-.fav-name .profile-link:hover{border-bottom-style:solid}
-
-/* Booking matrix */
-.bmatrix{overflow-x:auto}
-.bmatrix table{width:100%;border-collapse:separate;border-spacing:2px;font-size:12px}
-.bmatrix th{color:var(--text-dim);font-weight:400;padding:5px 6px;text-align:center;font-size:11px;white-space:nowrap}
-.bmatrix td{text-align:center;padding:6px 4px;border-radius:5px;font-size:13px;min-width:60px}
-.bmatrix .bm-name{text-align:left;color:var(--text-muted);font-weight:400;padding-right:8px;white-space:nowrap;font-size:12px;min-width:60px}
-.bm-booked{background:rgba(224,85,85,.12);color:var(--red)}
-.bm-avail{background:var(--surface2);color:var(--text-dim)}
-.bm-none{background:transparent;color:var(--text-dim);opacity:.3}
-.bm-summary{font-size:11px;color:var(--text-dim);margin-top:8px;text-align:right}
-
-/* Pre-booked popularity cards */
-.pb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:16px}
-.pb-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative}
-.pb-card.pb-hot{border-color:rgba(224,85,85,.25)}
-.pb-card.pb-warm{border-color:rgba(212,164,58,.2)}
-.pb-rank{position:absolute;top:10px;right:14px;font-size:18px;font-weight:600;color:var(--text-dim);opacity:.25}
-.pb-name{font-size:14px;font-weight:500;margin-bottom:6px}
-.pb-rate{font-size:22px;font-weight:600;margin-bottom:2px}
-.pb-rate.pb-rate-hot{color:var(--red)}
-.pb-rate.pb-rate-warm{color:var(--amber)}
-.pb-rate.pb-rate-cool{color:var(--text-muted)}
-.pb-detail{font-size:11px;color:var(--text-dim)}
-.pb-bar{height:4px;border-radius:2px;margin-top:8px;background:var(--surface);overflow:hidden}
-.pb-bar-fill{height:100%;border-radius:2px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+.pc{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;position:relative}
+.pc.hot{border-color:rgba(224,85,85,.25)}.pc.warm{border-color:rgba(212,164,58,.2)}
+.pr{position:absolute;top:8px;right:12px;font-size:18px;font-weight:600;color:var(--td);opacity:.2}
+.pn2{font-size:13px;font-weight:500;margin-bottom:4px}
+.pv{font-size:22px;font-weight:600;margin-bottom:2px}
+.pv.hot{color:var(--red)}.pv.warm{color:var(--amb)}.pv.cool{color:var(--tm)}
+.pd{font-size:11px;color:var(--td)}
+.pb{height:4px;border-radius:2px;margin-top:6px;background:var(--surface);overflow:hidden}.pb-f{height:100%;border-radius:2px}
+/* Insight cards */
+.ic{background:var(--surface);border:1px solid var(--bd);border-radius:var(--rl);padding:16px 18px;margin-bottom:16px}
+.ic-t{font-size:14px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.ic-s{font-size:12px;color:var(--td);margin-bottom:12px}
+.al{padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:12px;display:flex;align-items:center;gap:8px}
+.al-fire{background:rgba(224,85,85,.06);border-left:3px solid var(--red)}
+.al-cancel{background:rgba(91,143,217,.06);border-left:3px solid var(--blu)}
+.al-new{background:rgba(76,175,125,.06);border-left:3px solid var(--grn)}
+.al-fav{background:rgba(201,169,110,.06);border-left:3px solid var(--acc)}
+/* Profile link */
+a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);transition:all .15s}a.pl:hover{color:var(--acc);border-bottom-color:var(--acc)}
+.fb-n a.pl{color:var(--acc)}
+/* Log */
+.lt{width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono','DM Sans',monospace}
+.lt th{text-align:left;color:var(--td);font-weight:400;padding:6px 8px;border-bottom:1px solid var(--bd)}
+.lt td{padding:6px 8px;border-bottom:1px solid var(--bd);color:var(--tm)}
+.lok{color:var(--grn)}.ler{color:var(--red)}
+.sh{font-size:15px;font-weight:500;color:var(--t);margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <h1><span>JewelrySpa</span> Schedule Dashboard</h1>
-    <div class="header-meta">
-      Generated: <strong id="gen-time"></strong><br>
-      Data range: <strong id="data-range"></strong>
-    </div>
-  </div>
-
-  <!-- Favorites Alert Banner -->
-  <div class="fav-banner" id="fav-banner" style="display:none"></div>
-
+<div class="ct">
+  <div class="hd"><h1><span>JewelrySpa</span> Dashboard</h1><div class="hd-m">Generated: <strong id="gen-time"></strong><br>Data: <strong id="data-range"></strong></div></div>
+  <div class="fb" id="fav-banner" style="display:none"></div>
   <div class="tabs">
-    <button class="tab active" onclick="showPanel('today')">Today</button>
-    <button class="tab" onclick="showPanel('weekly')">Weekly</button>
-    <button class="tab" onclick="showPanel('stats')">Staff Stats</button>
-    <button class="tab" onclick="showPanel('monitor')">Monitor Log</button>
+    <button class="tab active" onclick="showTab('today',this)">Today</button>
+    <button class="tab" onclick="showTab('weekly',this)">Weekly</button>
+    <button class="tab" onclick="showTab('stats',this)">Stats</button>
+    <button class="tab" onclick="showTab('insights',this)">Insights</button>
+    <button class="tab" onclick="showTab('log',this)">Log</button>
   </div>
-
   <!-- TODAY -->
-  <div id="panel-today" class="panel active">
-    <div class="metrics" id="today-metrics"></div>
-    <div class="today-grid" id="today-grid"></div>
-    <div class="chart-card">
-      <div class="chart-title">Today's shift timeline</div>
-      <div class="chart-sub">Solid bar = available. Faded dashed bar = fully booked. Red line = when booked.</div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--akabane)"></div>Akabane</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--oji)"></div>Oji</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--nishiarai)"></div>Nishiarai</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--red);width:2px;height:14px;border-radius:0"></div>Now</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.5;width:2px;height:14px;border-radius:0"></div>Booked at</div>
-      </div>
-      <div class="chart-wrap" style="height:360px"><canvas id="chart-gantt"></canvas></div>
+  <div id="p-today" class="pn active">
+    <div class="mc" id="t-metrics"></div>
+    <div class="cc"><div class="ct2">Slot occupancy — realtime</div><div class="cs">Bar = booked%. Arrow = velocity since last check.</div><div id="t-occ-meters"></div></div>
+    <div class="tg" id="t-grid"></div>
+    <div class="cc"><div class="ct2">Shift timeline</div><div class="cs">Solid=available, faded=booked. Red dashed=now.</div>
+      <div class="lg"><div class="li"><div style="background:var(--aka)"></div>赤羽</div><div class="li"><div style="background:var(--oji)"></div>王子</div><div class="li"><div style="background:var(--nsh)"></div>西新井</div><div class="li"><div style="background:var(--red);width:2px;height:14px;border-radius:0"></div>Now</div></div>
+      <div class="cw" style="height:360px"><canvas id="c-gantt"></canvas></div>
     </div>
   </div>
-
   <!-- WEEKLY -->
-  <div id="panel-weekly" class="panel">
-    <div class="chart-card">
-      <div class="chart-title">Booking status matrix</div>
-      <div class="chart-sub">●=pre-booked at scrape time (strong popularity signal) ○=available ·=not scheduled</div>
-      <div class="heatmap" id="booking-matrix-container"></div>
+  <div id="p-weekly" class="pn">
+    <div class="cc"><div class="ct2">Booking matrix</div><div class="cs">●=pre-booked ○=available ·=not scheduled. Sorted by popularity.</div><div id="w-matrix"></div></div>
+    <div class="cc"><div class="ct2">Pre-booked trend</div><div class="cs">% already booked at scrape time.</div><div class="cw" style="height:200px"><canvas id="c-pb-trend"></canvas></div></div>
+    <div class="cc"><div class="ct2">Staff count by location</div>
+      <div class="lg"><div class="li"><div style="background:var(--aka)"></div>赤羽</div><div class="li"><div style="background:var(--oji)"></div>王子</div><div class="li"><div style="background:var(--nsh)"></div>西新井</div></div>
+      <div class="cw" style="height:260px"><canvas id="c-wbar"></canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Pre-booked rate trend</div>
-      <div class="chart-sub">% of staff already fully booked when schedule was scraped — higher = more popular day</div>
-      <div class="chart-wrap" style="height:220px"><canvas id="chart-prebooked-trend"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Weekly staff count by location</div>
-      <div class="chart-sub">Stacked bar — total headcount per day</div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--akabane)"></div>Akabane</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--oji)"></div>Oji</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--nishiarai)"></div>Nishiarai</div>
-      </div>
-      <div class="chart-wrap" style="height:300px"><canvas id="chart-weekly-bar"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Staffing heatmap</div>
-      <div class="chart-sub">Number of staff per location per day</div>
-      <div class="heatmap" id="heatmap-container"></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Day / Night shift balance</div>
-      <div class="chart-sub">Day (&lt;18:00 start) vs Night (18:00+ start)</div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Day shift</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Night shift</div>
-      </div>
-      <div class="chart-wrap" style="height:260px"><canvas id="chart-shift-balance"></canvas></div>
+    <div class="cc"><div class="ct2">Day / Night balance</div>
+      <div class="lg"><div class="li"><div style="background:var(--amb)"></div>Day</div><div class="li"><div style="background:var(--pur)"></div>Night</div></div>
+      <div class="cw" style="height:220px"><canvas id="c-dn"></canvas></div>
     </div>
   </div>
-
   <!-- STATS -->
-  <div id="panel-stats" class="panel">
-    <div class="chart-card">
-      <div class="chart-title">Popularity analysis — pre-booked rate</div>
-      <div class="chart-sub">Staff already fully booked at schedule publish time. Higher rate = higher demand. Requires data accumulation over days.</div>
-      <div id="prebooked-cards-container"></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Realtime popularity — booking speed</div>
-      <div class="chart-sub">From monitoring snapshots: avg time from available to fully booked. Fewer data points early on.</div>
-      <div id="pop-container"></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Staff shift frequency (current data)</div>
-      <div class="chart-sub">Number of scheduled shifts per therapist</div>
-      <div class="chart-wrap" style="height:360px"><canvas id="chart-staff-freq"></canvas></div>
-    </div>
-    <div class="section-head">Staff detail table</div>
-    <div class="chart-card" style="padding:0;overflow-x:auto">
-      <table class="staff-table" id="staff-detail-table">
-        <thead><tr><th>Name</th><th>Shifts</th><th>Avg hrs</th><th>Locations</th><th>Pre-booked</th><th>RT Speed</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
+  <div id="p-stats" class="pn">
+    <div class="cc"><div class="ct2">Composite popularity ranking</div><div class="cs">Score = pre-booked 30% + avg occupancy 40% + latest occupancy 30%</div><div id="s-composite"></div></div>
+    <div class="cc"><div class="ct2">Shift frequency</div><div class="cw" style="height:340px"><canvas id="c-freq"></canvas></div></div>
+    <div class="sh">Detail table</div>
+    <div class="cc" style="padding:0;overflow-x:auto"><table class="st" id="s-table"><thead><tr><th>Name</th><th>Score</th><th>Occ%</th><th>Pre-booked</th><th>Shifts</th><th>Locations</th></tr></thead><tbody></tbody></table></div>
   </div>
-
-  <!-- MONITOR -->
-  <div id="panel-monitor" class="panel">
-    <div class="section-head">Availability snapshots (today)</div>
-    <div class="chart-card" style="padding:0;overflow-x:auto" id="snapshot-container">
-      <p style="padding:20px;color:var(--text-dim);font-size:13px">No snapshot data yet. Run daily_monitor.py to collect.</p>
-    </div>
-    <div class="section-head">Scrape execution log</div>
-    <div class="chart-card" style="padding:0;overflow-x:auto">
-      <table class="log-table" id="log-table">
-        <thead><tr><th>Time</th><th>Task</th><th>Date</th><th>Records</th><th>Status</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
+  <!-- INSIGHTS -->
+  <div id="p-insights" class="pn">
+    <div id="i-fav-timing"></div>
+    <div id="i-velocity"></div>
+    <div id="i-cancellations"></div>
+    <div id="i-newcomers"></div>
+  </div>
+  <!-- LOG -->
+  <div id="p-log" class="pn">
+    <div class="sh">Availability snapshots (today)</div>
+    <div class="cc" style="padding:0;overflow-x:auto" id="l-snaps"><p style="padding:16px;color:var(--td);font-size:13px">No data yet.</p></div>
+    <div class="sh">Scrape log</div>
+    <div class="cc" style="padding:0;overflow-x:auto"><table class="lt" id="l-logs"><thead><tr><th>Time</th><th>Task</th><th>Date</th><th>Records</th><th>Status</th></tr></thead><tbody></tbody></table></div>
   </div>
 </div>
-
 <script>
-const DATA = DASHBOARD_DATA_PLACEHOLDER;
-
-function showPanel(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  event.target.classList.add('active');
-}
-
-// ========= HELPERS =========
-const parseH = t => { if(!t) return 12; const [h,m]=t.split(':').map(Number); return h+m/60; };
-// 24H表記: 25→01, 29→05, always zero-padded
-const fmtH = v => { let h=Math.floor(v); const m=Math.round((v%1)*60); if(h>=24) h-=24; return (''+h).padStart(2,'0')+':'+((''+m).padStart(2,'0')); };
-// Stored time like "25:00" → "01:00", "12:30" → "12:30"
-const fmtTime = t => { if(!t) return '?'; const [h,m]=t.split(':').map(Number); return (''+((h>=24?h-24:h))).padStart(2,'0')+':'+(''+m).padStart(2,'0'); };
-const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); };
-const nowHour = () => { const d=new Date(); let h=d.getHours()+d.getMinutes()/60; if(h<6) h+=24; return h; };
-
-// Profile link builder
-const PROFILE_BASE = 'https://jewelryspa-nishiarai.com/therapist/';
-const nameLink = (name, tid) => tid ? `<a href="${PROFILE_BASE}${tid}" target="_blank" rel="noopener" class="profile-link">${name}</a>` : name;
-// Build therapist_id lookup by name from all available data
-const tidByName = {};
-(DATA.therapists||[]).forEach(t => { tidByName[t.name] = t.therapist_id; });
-(DATA.weekly_schedules||[]).forEach(s => { if(s.therapist_id && s.therapist_name) tidByName[s.therapist_name] = s.therapist_id; });
-const nl = (name, tid) => nameLink(name, tid || tidByName[name]);
-
-// ========= HEADER =========
-document.getElementById('gen-time').textContent = DATA.generated_at;
-const dates = DATA.weekly_schedules.map(s => s.schedule_date);
-if (dates.length) {
-  const u = [...new Set(dates)].sort();
-  document.getElementById('data-range').textContent = u[0] + ' ~ ' + u[u.length-1];
-}
-
-// ========= FAVORITES BANNER =========
-function renderFavorites() {
-  const favs = DATA.favorites_config || [];
-  const favSchedule = DATA.favorites_schedule || [];
-  if (!favs.length) return;
-
-  const today = todayStr();
-  const banner = document.getElementById('fav-banner');
-  const todayFavs = favSchedule.filter(s => s.schedule_date === today);
-  const weekFavs = favSchedule.filter(s => s.schedule_date > today);
-
-  let html = '<div class="fav-banner-title">Favorites alert</div>';
-
-  if (todayFavs.length) {
-    todayFavs.forEach(s => {
-      html += `<div class="fav-item">
-        <div><span class="fav-name">${nl(s.therapist_name, s.therapist_id)}</span> — ${s.location}</div>
-        <div><span class="fav-today">TODAY</span> ${fmtTime(s.start_time)}〜${fmtTime(s.end_time)}</div>
-      </div>`;
-    });
-  }
-
-  if (weekFavs.length) {
-    weekFavs.forEach(s => {
-      const dt = new Date(s.schedule_date+'T00:00:00');
-      const dayLabel = (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
-      html += `<div class="fav-item">
-        <div><span class="fav-name">${nl(s.therapist_name, s.therapist_id)}</span> — ${s.location}</div>
-        <div class="fav-detail">${dayLabel} ${fmtTime(s.start_time)}〜${fmtTime(s.end_time)}</div>
-      </div>`;
-    });
-  }
-
-  if (!todayFavs.length && !weekFavs.length) {
-    html += '<div class="fav-empty">No favorite staff scheduled this week</div>';
-  }
-
-  banner.innerHTML = html;
-  banner.style.display = 'block';
-}
-
-// ========= TODAY =========
-function renderToday() {
-  const today = todayStr();
-  const todayData = DATA.weekly_schedules.filter(s => s.schedule_date === today);
-  const total = todayData.length;
-  const avail = todayData.filter(s => !s.is_fully_booked).length;
-  const booked = total - avail;
-
-  const locs = {};
-  todayData.forEach(s => {
-    if (!locs[s.location]) locs[s.location] = {avail:0, booked:0, staff:[]};
-    locs[s.location].staff.push(s);
-    if (s.is_fully_booked) locs[s.location].booked++;
-    else locs[s.location].avail++;
+const D = DASHBOARD_DATA_PLACEHOLDER;
+// ===== Helpers =====
+const pH = t=>{if(!t)return 12;const[h,m]=t.split(':').map(Number);return h+m/60};
+const fH = v=>{let h=Math.floor(v);const m=Math.round((v%1)*60);if(h>=24)h-=24;return(''+h).padStart(2,'0')+':'+(''+m).padStart(2,'0')};
+const fT = t=>{if(!t)return'?';const[h,m]=t.split(':').map(Number);return(''+(h>=24?h-24:h)).padStart(2,'0')+':'+(''+m).padStart(2,'0')};
+const tS = ()=>{const d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)};
+const nH = ()=>{const d=new Date();let h=d.getHours()+d.getMinutes()/60;if(h<6)h+=24;return h};
+const dL = d=>{const dt=new Date(d+'T00:00:00');return(dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')'};
+const PB='https://jewelryspa-nishiarai.com/therapist/';
+const tidMap={};(D.therapists||[]).forEach(t=>{tidMap[t.name]=t.therapist_id});(D.weekly_schedules||[]).forEach(s=>{if(s.therapist_id&&s.therapist_name)tidMap[s.therapist_name]=s.therapist_id});
+const nl=(n,id)=>{const tid=id||tidMap[n];return tid?`<a href="${PB}${tid}" target="_blank" rel="noopener" class="pl">${n}</a>`:n};
+const locBg=l=>{l=l.trim();return`<span class="bg ${l==='赤羽'?'bg-a':l==='王子'?'bg-o':l==='西新井'?'bg-n':''}">${l}</span>`};
+const locsBg=s=>s?s.split(',').map(locBg).join(' '):'';
+const occClr=p=>p>=70?'var(--red)':p>=40?'var(--amb)':p>0?'var(--grn)':'var(--td)';
+function showTab(id,btn){document.querySelectorAll('.pn').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('p-'+id).classList.add('active');btn.classList.add('active')}
+// ===== Header =====
+document.getElementById('gen-time').textContent=D.generated_at;
+const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){const u=[...new Set(allDates)].sort();document.getElementById('data-range').textContent=u[0]+' ~ '+u[u.length-1]}
+// ===== Favorites =====
+(function(){
+  const favs=D.favorites_config||[],fs=D.favorites_schedule||[],ft=D.favorite_timing||[];
+  if(!favs.length)return;
+  const today=tS(),banner=document.getElementById('fav-banner');
+  const todayF=fs.filter(s=>s.schedule_date===today),weekF=fs.filter(s=>s.schedule_date>today);
+  let h='<div class="fb-t">Favorites</div>';
+  todayF.forEach(s=>{h+=`<div class="fb-i"><div><span class="fb-n">${nl(s.therapist_name,s.therapist_id)}</span> — ${s.location}</div><div><span class="fb-td">TODAY</span> ${fT(s.start_time)}〜${fT(s.end_time)}</div></div>`});
+  weekF.forEach(s=>{h+=`<div class="fb-i"><div><span class="fb-n">${nl(s.therapist_name,s.therapist_id)}</span> — ${s.location}</div><div style="color:var(--tm);font-size:12px">${dL(s.schedule_date)} ${fT(s.start_time)}〜${fT(s.end_time)}</div></div>`});
+  if(ft.length){const best=ft.reduce((a,b)=>a.avg_occ<b.avg_occ?a:b);const dowNames=['日','月','火','水','木','金','土'];h+=`<div class="fb-rec">💡 Tip: ${best.name} is least busy on ${dowNames[best.dow]}曜 (avg ${best.avg_occ}% occupancy). Best time to book!</div>`}
+  if(!todayF.length&&!weekF.length)h+='<div style="color:var(--td);font-size:12px">No favorites scheduled this week</div>';
+  banner.innerHTML=h;banner.style.display='block';
+})();
+// ===== TODAY =====
+(function(){
+  const today=tS(),td=D.weekly_schedules.filter(s=>s.schedule_date===today);
+  const occ=D.current_occupancy||[],vel=D.fill_velocity||[];
+  const total=td.length,avail=td.filter(s=>!s.is_fully_booked).length,booked=total-avail;
+  const avgOcc=occ.length?Math.round(occ.filter(o=>o.schedule_date===today).reduce((s,o)=>s+o.occupancy_pct,0)/Math.max(occ.filter(o=>o.schedule_date===today).length,1)):0;
+  document.getElementById('t-metrics').innerHTML=`
+    <div class="m acc"><div class="ml">Staff</div><div class="mv">${total}</div><div class="ms">today</div></div>
+    <div class="m grn"><div class="ml">Available</div><div class="mv">${avail}</div></div>
+    <div class="m red"><div class="ml">Booked</div><div class="mv">${booked}</div></div>
+    <div class="m pur"><div class="ml">Avg Occ</div><div class="mv">${avgOcc}%</div><div class="ms">slot occupancy</div></div>`;
+  // Occupancy meters
+  const todayOcc=occ.filter(o=>o.schedule_date===today).sort((a,b)=>b.occupancy_pct-a.occupancy_pct);
+  const velMap={};vel.forEach(v=>{velMap[v.therapist_id]=v.velocity||0});
+  let omH='<div class="om-grid">';
+  todayOcc.forEach(o=>{
+    const v=velMap[o.therapist_id]||0;
+    const arrow=v>5?'🔥':v>0?'↗':v<-5?'↘':v<0?'↙':'→';
+    const clr=occClr(o.occupancy_pct);
+    omH+=`<div class="om"><span class="om-name">${nl(o.name,o.therapist_id)}</span><div class="om-bar-wrap"><div class="om-bar" style="width:${Math.max(o.occupancy_pct,2)}%;background:${clr}"></div></div><span class="om-pct" style="color:${clr}">${Math.round(o.occupancy_pct)}%</span><span class="om-vel">${arrow}</span></div>`;
   });
-
-  document.getElementById('today-metrics').innerHTML = `
-    <div class="metric accent"><div class="metric-label">Total staff</div><div class="metric-value">${total}</div><div class="metric-sub">on schedule today</div></div>
-    <div class="metric green"><div class="metric-label">Available</div><div class="metric-value">${avail}</div><div class="metric-sub">accepting bookings</div></div>
-    <div class="metric red"><div class="metric-label">Fully booked</div><div class="metric-value">${booked}</div><div class="metric-sub">no slots left</div></div>
-    <div class="metric blue"><div class="metric-label">Locations</div><div class="metric-value">${Object.keys(locs).length}</div><div class="metric-sub">active today</div></div>
-  `;
-
-  // Build booking time lookup from snapshots
-  const bookingTimes = {};
-  const snaps = DATA.today_snapshots || [];
-  const snapByTherapist = {};
-  snaps.forEach(s => {
-    const key = s.therapist_name;
-    if (!snapByTherapist[key]) snapByTherapist[key] = [];
-    snapByTherapist[key].push(s);
+  omH+='</div>';
+  document.getElementById('t-occ-meters').innerHTML=omH;
+  // Booking time lookup
+  const bkT={};(D.today_snapshots||[]).forEach(s=>{
+    if(!bkT[s.therapist_name]){bkT[s.therapist_name]=[]}
+    bkT[s.therapist_name].push(s);
   });
-  Object.entries(snapByTherapist).forEach(([name, entries]) => {
-    entries.sort((a,b) => a.checked_at.localeCompare(b.checked_at));
-    for (let i = 0; i < entries.length; i++) {
-      if (entries[i].status === 'fully_booked') {
-        const prevAvail = entries.slice(0, i).reverse().find(e => e.status === 'available');
-        bookingTimes[name] = entries[i].checked_at.split(' ')[1].slice(0,5);
-        break;
-      }
-    }
+  Object.values(bkT).forEach(arr=>{
+    arr.sort((a,b)=>a.checked_at.localeCompare(b.checked_at));
   });
-
-  const locMap = {赤羽:'akabane', 王子:'oji', 西新井:'nishiarai'};
-  let gridHtml = '';
-  ['赤羽','王子','西新井'].forEach(loc => {
-    const d = locs[loc] || {avail:0, booked:0, staff:[]};
-    gridHtml += `<div class="loc-card ${locMap[loc]}">
-      <h3><span class="loc-dot"></span>${loc} <span style="font-size:12px;color:var(--text-dim);font-weight:400">(${d.staff.length})</span></h3>
-      ${d.staff.map(s => {
-        const btTime = bookingTimes[s.therapist_name];
-        const btHtml = (s.is_fully_booked && btTime) ? `<span class="booked-time">${btTime}に満了</span>` : '';
-        return `<div class="staff-item">
-          <div><span class="status-dot ${s.is_fully_booked?'status-booked':'status-avail'}"></span><span class="staff-item-name">${nl(s.therapist_name, s.therapist_id)}</span>${btHtml}</div>
-          <span class="staff-item-time">${fmtTime(s.start_time)}〜${fmtTime(s.end_time)}</span>
-        </div>`;
-      }).join('')}
-    </div>`;
+  const bookingTimes={};
+  Object.entries(bkT).forEach(([name,entries])=>{
+    for(let i=0;i<entries.length;i++){if(entries[i].status==='fully_booked'){bookingTimes[name]=entries[i].checked_at.split(' ')[1].slice(0,5);break}}
   });
-  document.getElementById('today-grid').innerHTML = gridHtml;
-
-  // Gantt chart with NOW line and split booking visualization
-  if (todayData.length) {
-    const labels = todayData.map(s => s.therapist_name);
-    const locColors = {赤羽:'#e05555', 王子:'#5b8fd9', 西新井:'#4caf7d'};
-    const colors = todayData.map(s => locColors[s.location]||'#c9a96e');
-
-    const ctx = document.getElementById('chart-gantt').getContext('2d');
-    const currentH = nowHour();
-
-    // Build datasets: for booked staff, split into available + booked segments
-    const availSegments = [];   // shift start → booked_at (or full bar if not booked)
-    const bookedSegments = [];  // booked_at → shift end (null if not booked)
-
-    todayData.forEach((s, i) => {
-      const sH = parseH(s.start_time);
-      const eH = parseH(s.end_time) || 29;
-      const bt = bookingTimes[s.therapist_name];
-
-      if (s.is_fully_booked && bt) {
-        const [bh, bm] = bt.split(':').map(Number);
-        let bookedH = bh + bm/60;
-        if (bookedH < 6) bookedH += 24;
-        // Available portion: start → booked time
-        availSegments.push([sH, Math.min(bookedH, eH)]);
-        // Booked portion: booked time → end
-        bookedSegments.push([bookedH, eH]);
-      } else if (s.is_fully_booked) {
-        // Fully booked but no snapshot of when → show entire bar as booked
-        availSegments.push(null);
-        bookedSegments.push([sH, eH]);
-      } else {
-        // Available → full bar, no booked segment
-        availSegments.push([sH, eH]);
-        bookedSegments.push(null);
-      }
+  // Location cards
+  const locs={};td.forEach(s=>{if(!locs[s.location])locs[s.location]={s:[]};locs[s.location].s.push(s)});
+  const lm={赤羽:'aka',王子:'oji',西新井:'nsh'};
+  let gH='';['赤羽','王子','西新井'].forEach(loc=>{
+    const d=locs[loc]||{s:[]};
+    gH+=`<div class="lc ${lm[loc]}"><h3><span class="ld"></span>${loc} (${d.s.length})</h3>`;
+    d.s.forEach(s=>{
+      const bt=bookingTimes[s.therapist_name];const btH=s.is_fully_booked&&bt?`<span class="bt">${bt}満了</span>`:'';
+      // Find occupancy for this therapist
+      const oc=todayOcc.find(o=>o.therapist_id===s.therapist_id);
+      const occH=oc&&oc.occupancy_pct>0?`<span style="font-size:10px;color:${occClr(oc.occupancy_pct)};margin-left:4px">${Math.round(oc.occupancy_pct)}%</span>`:'';
+      gH+=`<div class="si"><div><span class="sd ${s.is_fully_booked?'sb':'sa'}"></span>${nl(s.therapist_name,s.therapist_id)}${btH}${occH}</div><span style="color:var(--tm)">${fT(s.start_time)}〜${fT(s.end_time)}</span></div>`;
     });
-
-    // Build dynamic annotation lines for each booked-at time
-    const annotations = {
-      nowLine: {
-        type: 'line',
-        xMin: currentH,
-        xMax: currentH,
-        borderColor: '#e0555599',
-        borderWidth: 2,
-        borderDash: [6, 3],
-        label: {
-          display: true,
-          content: 'Now ' + fmtH(currentH),
-          position: 'start',
-          backgroundColor: '#e05555cc',
-          color: '#fff',
-          font: {size: 10, weight: '500'},
-          padding: {x:6, y:2},
-          borderRadius: 4,
-        }
-      }
-    };
-
-    // Add per-staff booked-at marker lines
-    todayData.forEach((s, i) => {
-      if (!s.is_fully_booked) return;
-      const bt = bookingTimes[s.therapist_name];
-      if (!bt) return;
-      const [bh, bm] = bt.split(':').map(Number);
-      let bookedH = bh + bm/60;
-      if (bookedH < 6) bookedH += 24;
-
-      annotations['booked_' + i] = {
-        type: 'line',
-        xMin: bookedH,
-        xMax: bookedH,
-        yMin: i - 0.4,
-        yMax: i + 0.4,
-        borderColor: '#e05555dd',
-        borderWidth: 2,
-        label: {
-          display: true,
-          content: fmtH(bookedH) + ' 満了',
-          position: 'end',
-          backgroundColor: '#e05555cc',
-          color: '#fff',
-          font: {size: 9, weight: '500'},
-          padding: {x:4, y:1},
-          borderRadius: 3,
-        }
-      };
+    gH+='</div>';
+  });
+  document.getElementById('t-grid').innerHTML=gH;
+  // Gantt
+  if(td.length){
+    const labels=td.map(s=>s.therapist_name),locC={赤羽:'#e05555',王子:'#5b8fd9',西新井:'#4caf7d'},colors=td.map(s=>locC[s.location]||'#c9a96e');
+    const avS=[],bkS=[];
+    td.forEach((s,i)=>{
+      const sH2=pH(s.start_time),eH=pH(s.end_time)||29,bt=bookingTimes[s.therapist_name];
+      if(s.is_fully_booked&&bt){const[bh,bm]=bt.split(':').map(Number);let bH=bh+bm/60;if(bH<6)bH+=24;avS.push([sH2,Math.min(bH,eH)]);bkS.push([bH,eH])}
+      else if(s.is_fully_booked){avS.push(null);bkS.push([sH2,eH])}
+      else{avS.push([sH2,eH]);bkS.push(null)}
     });
-
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [
-          // Available segment (solid)
-          {
-            label: 'Available',
-            data: availSegments,
-            backgroundColor: colors.map(c => c + '77'),
-            borderColor: colors,
-            borderWidth: 1,
-            borderRadius: 4,
-            borderSkipped: false,
-            barPercentage: 0.65,
-          },
-          // Booked segment (striped / dimmed)
-          {
-            label: 'Fully booked',
-            data: bookedSegments,
-            backgroundColor: colors.map(c => c + '30'),
-            borderColor: colors.map(c => c + '66'),
-            borderWidth: 1,
-            borderRadius: 4,
-            borderSkipped: false,
-            barPercentage: 0.65,
-            borderDash: [4, 4],
-          },
-        ]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {display:false},
-          tooltip: {
-            callbacks: {
-              label: (tipCtx) => {
-                if (!tipCtx.raw) return '';
-                const [s,e] = tipCtx.raw;
-                const prefix = tipCtx.datasetIndex === 1 ? '🔴 Booked ' : '';
-                return prefix + fmtH(s) + ' 〜 ' + fmtH(e);
-              }
-            }
-          },
-          annotation: { annotations }
-        },
-        scales: {
-          x: { min:10, max:30,
-            ticks: { callback: v => fmtH(v), color:'#5a5852', stepSize:2 },
-            grid: { color:'rgba(255,255,255,.04)' },
-          },
-          y: {
-            stacked: false,
-            ticks: { color:'#8a8880', font:{size:12} },
-            grid: { display:false },
-          }
-        }
-      }
-    });
+    const ann={now:{type:'line',xMin:nH(),xMax:nH(),borderColor:'#e0555599',borderWidth:2,borderDash:[6,3],label:{display:true,content:'Now '+fH(nH()),position:'start',backgroundColor:'#e05555cc',color:'#fff',font:{size:10,weight:'500'},padding:{x:6,y:2},borderRadius:4}}};
+    td.forEach((s,i)=>{if(!s.is_fully_booked)return;const bt=bookingTimes[s.therapist_name];if(!bt)return;const[bh,bm]=bt.split(':').map(Number);let bH=bh+bm/60;if(bH<6)bH+=24;ann['bk'+i]={type:'line',xMin:bH,xMax:bH,yMin:i-.4,yMax:i+.4,borderColor:'#e05555dd',borderWidth:2,label:{display:true,content:fH(bH)+' 満了',position:'end',backgroundColor:'#e05555cc',color:'#fff',font:{size:9},padding:{x:4,y:1},borderRadius:3}}});
+    new Chart(document.getElementById('c-gantt'),{type:'bar',data:{labels,datasets:[{data:avS,backgroundColor:colors.map(c=>c+'77'),borderColor:colors,borderWidth:1,borderRadius:4,borderSkipped:false,barPercentage:.65},{data:bkS,backgroundColor:colors.map(c=>c+'30'),borderColor:colors.map(c=>c+'66'),borderWidth:1,borderRadius:4,borderSkipped:false,barPercentage:.65,borderDash:[4,4]}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(!c.raw)return'';const[s,e]=c.raw;return(c.datasetIndex===1?'🔴 ':'')+ fH(s)+' 〜 '+fH(e)}}},annotation:{annotations:ann}},scales:{x:{min:10,max:30,ticks:{callback:v=>fH(v),color:'#5a5852',stepSize:2},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#8a8880',font:{size:12}},grid:{display:false}}}}});
   }
-}
-
-// ========= WEEKLY =========
-function renderWeekly() {
-  const summary = DATA.daily_location_summary;
-  const dates = [...new Set(summary.map(s=>s.schedule_date))].sort();
-  const dayLabels = dates.map(d => {
-    const dt = new Date(d+'T00:00:00');
-    return (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
-  });
-
-  const getCount = (date,loc) => {
-    const r = summary.find(s => s.schedule_date===date && s.location===loc);
-    return r ? r.total_staff : 0;
-  };
-
-  new Chart(document.getElementById('chart-weekly-bar'), {
-    type:'bar',
-    data:{
-      labels: dayLabels,
-      datasets:[
-        {label:'赤羽', data:dates.map(d=>getCount(d,'赤羽')), backgroundColor:'#e0555588', borderColor:'#e05555', borderWidth:1, borderRadius:3},
-        {label:'王子', data:dates.map(d=>getCount(d,'王子')), backgroundColor:'#5b8fd988', borderColor:'#5b8fd9', borderWidth:1, borderRadius:3},
-        {label:'西新井', data:dates.map(d=>getCount(d,'西新井')), backgroundColor:'#4caf7d88', borderColor:'#4caf7d', borderWidth:1, borderRadius:3},
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        x:{stacked:true, ticks:{color:'#5a5852'}, grid:{display:false}},
-        y:{stacked:true, ticks:{color:'#5a5852',stepSize:2}, grid:{color:'rgba(255,255,255,.04)'}, beginAtZero:true}
-      }
-    }
-  });
-
-  // Heatmap
-  let html = '<table><thead><tr><th></th>';
-  dates.forEach((d,i) => html += `<th>${dayLabels[i]}</th>`);
-  html += '</tr></thead><tbody>';
-  ['赤羽','王子','西新井'].forEach(loc => {
-    html += `<tr><td class="loc-label">${loc}</td>`;
-    dates.forEach(d => {
-      const cnt = getCount(d, loc);
-      const cls = cnt===0?'heat-0':cnt<=1?'heat-1':cnt<=2?'heat-2':cnt<=3?'heat-3':cnt<=5?'heat-4':cnt<=7?'heat-5':'heat-6';
-      html += `<td class="${cls}">${cnt}</td>`;
-    });
-    html += '</tr>';
-  });
-  html += '</tbody></table>';
-  document.getElementById('heatmap-container').innerHTML = html;
-
-  // Shift balance
-  const coverage = DATA.shift_coverage;
-  if (coverage.length) {
-    const cLabels = coverage.map(c => {
-      const dt = new Date(c.schedule_date+'T00:00:00');
-      return (dt.getMonth()+1)+'/'+dt.getDate();
-    });
-    new Chart(document.getElementById('chart-shift-balance'), {
-      type:'bar',
-      data:{
-        labels: cLabels,
-        datasets:[
-          {label:'Day', data:coverage.map(c=>c.day_shift), backgroundColor:'#d4a43a88', borderColor:'#d4a43a', borderWidth:1, borderRadius:3},
-          {label:'Night', data:coverage.map(c=>c.night_shift), backgroundColor:'#9b7ed888', borderColor:'#9b7ed8', borderWidth:1, borderRadius:3},
-        ]
-      },
-      options:{
-        responsive:true, maintainAspectRatio:false,
-        plugins:{legend:{display:false}},
-        scales:{
-          x:{stacked:true, ticks:{color:'#5a5852'}, grid:{display:false}},
-          y:{stacked:true, ticks:{color:'#5a5852',stepSize:2}, grid:{color:'rgba(255,255,255,.04)'}, beginAtZero:true}
-        }
-      }
-    });
+})();
+// ===== WEEKLY =====
+(function(){
+  const sum=D.daily_location_summary,dates=[...new Set(sum.map(s=>s.schedule_date))].sort(),dls=dates.map(dL);
+  const gc=(d,l)=>{const r=sum.find(s=>s.schedule_date===d&&s.location===l);return r?r.total_staff:0};
+  // Staff count bar
+  new Chart(document.getElementById('c-wbar'),{type:'bar',data:{labels:dls,datasets:[{label:'赤羽',data:dates.map(d=>gc(d,'赤羽')),backgroundColor:'#e0555588',borderColor:'#e05555',borderWidth:1,borderRadius:3},{label:'王子',data:dates.map(d=>gc(d,'王子')),backgroundColor:'#5b8fd988',borderColor:'#5b8fd9',borderWidth:1,borderRadius:3},{label:'西新井',data:dates.map(d=>gc(d,'西新井')),backgroundColor:'#4caf7d88',borderColor:'#4caf7d',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{color:'#5a5852'},grid:{display:false}},y:{stacked:true,ticks:{color:'#5a5852',stepSize:2},grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true}}}});
+  // Matrix
+  const mx=D.weekly_booked_matrix||[];if(mx.length){
+    const mD=[...new Set(mx.map(m=>m.schedule_date))].sort(),mN=[...new Set(mx.map(m=>m.therapist_name))],lk={};
+    mx.forEach(m=>{lk[m.therapist_name+'|'+m.schedule_date]=m});
+    const nbc={};mN.forEach(n=>{nbc[n]=mD.reduce((s,d)=>{const r=lk[n+'|'+d];return s+(r&&r.is_fully_booked?1:0)},0)});
+    mN.sort((a,b)=>nbc[b]-nbc[a]||a.localeCompare(b));
+    let h='<table><thead><tr><th></th>';mD.forEach(d=>h+=`<th>${dL(d)}</th>`);h+='</tr></thead><tbody>';
+    mN.forEach(n=>{h+=`<tr><td class="hn">${nl(n)}</td>`;mD.forEach(d=>{const r=lk[n+'|'+d];h+=!r?'<td class="no">·</td>':r.is_fully_booked?`<td class="bk" title="${n} ${fT(r.start_time)}〜${fT(r.end_time)}">●</td>`:`<td class="av" title="${n} ${fT(r.start_time)}〜${fT(r.end_time)}">○</td>`});h+='</tr>'});
+    h+='</tbody></table>';document.getElementById('w-matrix').innerHTML='<div class="hm">'+h+'</div>'
   }
-
-  // ── Booking status matrix ──
-  const matrix = DATA.weekly_booked_matrix || [];
-  if (matrix.length) {
-    const mDates = [...new Set(matrix.map(m => m.schedule_date))].sort();
-    const mNames = [...new Set(matrix.map(m => m.therapist_name))].sort();
-    const mDateLabels = mDates.map(d => {
-      const dt = new Date(d+'T00:00:00');
-      return (dt.getMonth()+1)+'/'+dt.getDate()+'('+['日','月','火','水','木','金','土'][dt.getDay()]+')';
-    });
-
-    // Build lookup: name+date → record
-    const lookup = {};
-    matrix.forEach(m => { lookup[m.therapist_name+'|'+m.schedule_date] = m; });
-
-    // Sort names: pre-booked count desc, then name
-    const nameBookedCount = {};
-    mNames.forEach(n => {
-      nameBookedCount[n] = mDates.reduce((sum, d) => {
-        const r = lookup[n+'|'+d];
-        return sum + (r && r.is_fully_booked ? 1 : 0);
-      }, 0);
-    });
-    mNames.sort((a,b) => nameBookedCount[b] - nameBookedCount[a] || a.localeCompare(b));
-
-    let mHtml = '<table><thead><tr><th></th>';
-    mDates.forEach((d,i) => mHtml += `<th>${mDateLabels[i]}</th>`);
-    mHtml += '</tr></thead><tbody>';
-
-    mNames.forEach(name => {
-      const tid = tidByName[name];
-      mHtml += `<tr><td class="bm-name">${nl(name, tid)}</td>`;
-      mDates.forEach(d => {
-        const r = lookup[name+'|'+d];
-        if (!r) {
-          mHtml += '<td class="bm-none">·</td>';
-        } else if (r.is_fully_booked) {
-          mHtml += `<td class="bm-booked" title="${name} ${fmtTime(r.start_time)}〜${fmtTime(r.end_time)} @${r.location}">●</td>`;
-        } else {
-          mHtml += `<td class="bm-avail" title="${name} ${fmtTime(r.start_time)}〜${fmtTime(r.end_time)} @${r.location}">○</td>`;
-        }
-      });
-      mHtml += '</tr>';
-    });
-    mHtml += '</tbody></table>';
-
-    const bookedTotal = matrix.filter(m => m.is_fully_booked).length;
-    mHtml += `<div class="bm-summary">${bookedTotal} pre-booked / ${matrix.length} total shifts</div>`;
-    document.getElementById('booking-matrix-container').innerHTML = '<div class="bmatrix">' + mHtml + '</div>';
+  // Pre-booked trend
+  const tr=D.daily_prebooked_trend||[];if(tr.length){
+    new Chart(document.getElementById('c-pb-trend'),{type:'line',data:{labels:tr.map(t=>dL(t.schedule_date).split('(')[0]),datasets:[{data:tr.map(t=>t.prebooked_rate),borderColor:'#e05555',backgroundColor:'rgba(224,85,85,.1)',borderWidth:2,fill:true,tension:.3,pointRadius:4,pointBackgroundColor:tr.map(t=>t.prebooked_rate>50?'#e05555':t.prebooked_rate>0?'#d4a43a':'#5a5852')}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5a5852'},grid:{display:false}},y:{min:0,max:100,ticks:{color:'#5a5852',callback:v=>v+'%'},grid:{color:'rgba(255,255,255,.04)'}}}}})
   }
-
-  // ── Pre-booked rate trend ──
-  const trend = DATA.daily_prebooked_trend || [];
-  if (trend.length) {
-    const tLabels = trend.map(t => {
-      const dt = new Date(t.schedule_date+'T00:00:00');
-      return (dt.getMonth()+1)+'/'+dt.getDate();
-    });
-    new Chart(document.getElementById('chart-prebooked-trend'), {
-      type: 'line',
-      data: {
-        labels: tLabels,
-        datasets: [{
-          label: 'Pre-booked rate',
-          data: trend.map(t => t.prebooked_rate),
-          borderColor: '#e05555',
-          backgroundColor: 'rgba(224,85,85,.1)',
-          borderWidth: 2,
-          fill: true,
-          tension: 0.3,
-          pointRadius: 4,
-          pointBackgroundColor: trend.map(t => t.prebooked_rate > 50 ? '#e05555' : t.prebooked_rate > 0 ? '#d4a43a' : '#5a5852'),
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: {
-          legend: {display: false},
-          tooltip: {
-            callbacks: {
-              label: ctx => `${ctx.raw}% (${trend[ctx.dataIndex].prebooked_staff}/${trend[ctx.dataIndex].total_staff})`
-            }
-          }
-        },
-        scales: {
-          x: { ticks:{color:'#5a5852'}, grid:{display:false} },
-          y: { min:0, max:100, ticks:{color:'#5a5852', callback:v=>v+'%'}, grid:{color:'rgba(255,255,255,.04)'} }
-        }
-      }
-    });
+  // Day/Night
+  const cv=D.shift_coverage||[];if(cv.length){
+    new Chart(document.getElementById('c-dn'),{type:'bar',data:{labels:cv.map(c=>dL(c.schedule_date).split('(')[0]),datasets:[{data:cv.map(c=>c.day_shift),backgroundColor:'#d4a43a88',borderColor:'#d4a43a',borderWidth:1,borderRadius:3},{data:cv.map(c=>c.night_shift),backgroundColor:'#9b7ed888',borderColor:'#9b7ed8',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{color:'#5a5852'},grid:{display:false}},y:{stacked:true,ticks:{color:'#5a5852',stepSize:2},grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true}}}})
   }
-}
-function renderStats() {
-  const stats = DATA.therapist_stats.filter(s => s.shift_count > 0).sort((a,b) => b.shift_count - a.shift_count);
-  const popRanking = DATA.popularity_ranking || [];
-  const popMap = {};
-  popRanking.forEach(p => { popMap[p.therapist_id] = p; });
-  const prebookedRanking = DATA.prebooked_ranking || [];
-  const pbMap = {};
-  prebookedRanking.forEach(p => { pbMap[p.therapist_id] = p; });
-
-  // ── Pre-booked popularity cards ──
-  const pbContainer = document.getElementById('prebooked-cards-container');
-  const pbWithBookings = prebookedRanking.filter(p => p.prebooked_count > 0);
-  if (pbWithBookings.length) {
-    let pbHtml = '<div class="pb-grid">';
-    pbWithBookings.forEach((p, i) => {
-      const tier = p.prebooked_rate >= 50 ? 'hot' : p.prebooked_rate > 0 ? 'warm' : '';
-      const rateClr = p.prebooked_rate >= 50 ? 'pb-rate-hot' : p.prebooked_rate > 0 ? 'pb-rate-warm' : 'pb-rate-cool';
-      const barClr = p.prebooked_rate >= 50 ? 'var(--red)' : p.prebooked_rate > 0 ? 'var(--amber)' : 'var(--text-dim)';
-      pbHtml += `<div class="pb-card ${tier ? 'pb-'+tier : ''}">
-        <div class="pb-rank">#${i+1}</div>
-        <div class="pb-name">${nl(p.name, p.therapist_id)}</div>
-        <div class="pb-rate ${rateClr}">${p.prebooked_rate}%</div>
-        <div class="pb-detail">${p.prebooked_count}/${p.total_shifts} shifts pre-booked</div>
-        <div class="pb-detail">${p.locations || '-'}</div>
-        <div class="pb-bar"><div class="pb-bar-fill" style="width:${p.prebooked_rate}%;background:${barClr}"></div></div>
-      </div>`;
-    });
-    pbHtml += '</div>';
-    pbContainer.innerHTML = pbHtml;
-  } else {
-    pbContainer.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:8px 0">No pre-booked data yet. After a few days of data collection, popular staff with advance bookings will appear here.</p>';
-  }
-
-  // ── Realtime popularity cards (snapshot-based) ──
-  const popContainer = document.getElementById('pop-container');
-  if (popRanking.length) {
-    const maxBooked = Math.max(...popRanking.map(p => p.times_booked), 1);
-    let popHtml = '<div class="pop-grid">';
-    popRanking.forEach((p, i) => {
-      const speed = p.avg_hours_to_book < 2 ? 'fast' : p.avg_hours_to_book < 6 ? 'med' : 'slow';
-      const speedLabel = speed === 'fast' ? 'Lightning' : speed === 'med' ? 'Moderate' : 'Gradual';
-      const pct = Math.round((p.times_booked / maxBooked) * 100);
-      popHtml += `<div class="pop-card pop-speed-${speed}">
-        <div class="pop-rank">#${i+1}</div>
-        <div class="pop-name">${nl(p.name, p.therapist_id)}</div>
-        <div class="pop-stat">${p.avg_hours_to_book}h avg to sell out / ${p.times_booked} times</div>
-        <div class="pop-stat" style="color:${speed==='fast'?'var(--red)':speed==='med'?'var(--amber)':'var(--green)'}">${speedLabel}</div>
-        <div class="pop-bar"><div class="pop-bar-fill" style="width:${pct}%"></div></div>
-      </div>`;
-    });
-    popHtml += '</div>';
-    popContainer.innerHTML = popHtml;
-  } else {
-    popContainer.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:8px 0">Not enough snapshot data yet. Requires multiple monitoring cycles to detect booking speed.</p>';
-  }
-
-  // ── Horizontal bar chart ──
-  new Chart(document.getElementById('chart-staff-freq'), {
-    type:'bar',
-    data:{
-      labels: stats.map(s=>s.name),
-      datasets:[{
-        data: stats.map(s=>s.shift_count),
-        backgroundColor: stats.map(s => {
-          const locs = s.locations||'';
-          if (locs.includes('赤羽') && !locs.includes('王子') && !locs.includes('西新井')) return '#e0555566';
-          if (locs.includes('王子') && !locs.includes('赤羽') && !locs.includes('西新井')) return '#5b8fd966';
-          if (locs.includes('西新井') && !locs.includes('赤羽') && !locs.includes('王子')) return '#4caf7d66';
-          return '#c9a96e66';
-        }),
-        borderColor: stats.map(s => {
-          const locs = s.locations||'';
-          if (locs.includes('赤羽') && !locs.includes('王子') && !locs.includes('西新井')) return '#e05555';
-          if (locs.includes('王子') && !locs.includes('赤羽') && !locs.includes('西新井')) return '#5b8fd9';
-          if (locs.includes('西新井') && !locs.includes('赤羽') && !locs.includes('王子')) return '#4caf7d';
-          return '#c9a96e';
-        }),
-        borderWidth:1, borderRadius:4, barPercentage:0.7
-      }]
-    },
-    options:{
-      indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        x:{ticks:{color:'#5a5852',stepSize:1}, grid:{color:'rgba(255,255,255,.04)'}, beginAtZero:true},
-        y:{ticks:{color:'#8a8880',font:{size:12}}, grid:{display:false}}
-      }
-    }
+})();
+// ===== STATS =====
+(function(){
+  const cp=D.composite_popularity||[];const cpActive=cp.filter(c=>c.shift_count>0&&c.composite_score>0);
+  // Composite cards
+  let h='<div class="pg">';
+  cpActive.slice(0,12).forEach((p,i)=>{
+    const tier=p.composite_score>=40?'hot':p.composite_score>=15?'warm':'';
+    const vc=p.composite_score>=40?'hot':p.composite_score>=15?'warm':'cool';
+    h+=`<div class="pc ${tier}"><div class="pr">#${i+1}</div><div class="pn2">${nl(p.name,p.therapist_id)}</div><div class="pv ${vc}">${p.composite_score}</div><div class="pd">Pre-booked ${p.prebooked_rate}% / Avg occ ${p.avg_occupancy}%</div><div class="pd">${locsBg(p.locations)}</div><div class="pb"><div class="pb-f" style="width:${Math.min(p.composite_score,100)}%;background:${occClr(p.composite_score)}"></div></div></div>`;
   });
-
-  // ── Detail table with pre-booked + RT speed columns ──
-  const locBadge = loc => {
-    if(!loc) return '';
-    return loc.split(',').map(l => {
-      l = l.trim();
-      const cls = l==='赤羽'?'badge-akabane':l==='王子'?'badge-oji':l==='西新井'?'badge-nishiarai':'';
-      return `<span class="badge ${cls}">${l}</span>`;
-    }).join(' ');
-  };
-  // Sort by pre-booked rate desc, then shift count
-  const sortedStats = [...stats].sort((a,b) => {
-    const pa = pbMap[a.therapist_id]?.prebooked_rate || 0;
-    const pb2 = pbMap[b.therapist_id]?.prebooked_rate || 0;
-    return pb2 - pa || b.shift_count - a.shift_count;
-  });
-  const tbody = document.querySelector('#staff-detail-table tbody');
-  tbody.innerHTML = sortedStats.map(s => {
-    const pb = pbMap[s.therapist_id];
-    let pbHtml = '<span style="color:var(--text-dim)">0%</span>';
-    if (pb && pb.prebooked_count > 0) {
-      const clr = pb.prebooked_rate >= 50 ? 'var(--red)' : 'var(--amber)';
-      pbHtml = `<span style="color:${clr};font-weight:500">${pb.prebooked_rate}%</span> <span style="color:var(--text-dim);font-size:11px">(${pb.prebooked_count}/${pb.total_shifts})</span>`;
-    }
-    const pop = popMap[s.therapist_id];
-    let rtHtml = '<span style="color:var(--text-dim)">-</span>';
-    if (pop) {
-      const speed = pop.avg_hours_to_book < 2 ? 'fast' : pop.avg_hours_to_book < 6 ? 'med' : 'slow';
-      const clr = speed==='fast'?'var(--red)':speed==='med'?'var(--amber)':'var(--green)';
-      rtHtml = `<span style="color:${clr};font-weight:500">${pop.avg_hours_to_book}h</span> <span style="color:var(--text-dim);font-size:11px">(${pop.times_booked}x)</span>`;
-    }
-    return `<tr>
-      <td class="staff-name">${nl(s.name, s.therapist_id)}</td>
-      <td>${s.shift_count}</td>
-      <td>${s.avg_hours != null ? s.avg_hours + 'h' : '-'}</td>
-      <td>${locBadge(s.locations)}</td>
-      <td>${pbHtml}</td>
-      <td>${rtHtml}</td>
-    </tr>`;
+  h+='</div>';
+  if(!cpActive.length) h='<p style="color:var(--td);font-size:13px">Accumulating data...</p>';
+  document.getElementById('s-composite').innerHTML=h;
+  // Freq chart
+  const stats=D.therapist_stats.filter(s=>s.shift_count>0).sort((a,b)=>b.shift_count-a.shift_count);
+  new Chart(document.getElementById('c-freq'),{type:'bar',data:{labels:stats.map(s=>s.name),datasets:[{data:stats.map(s=>s.shift_count),backgroundColor:stats.map(s=>{const l=s.locations||'';return l.includes('赤羽')&&!l.includes('王子')&&!l.includes('西新井')?'#e0555566':l.includes('王子')&&!l.includes('赤羽')&&!l.includes('西新井')?'#5b8fd966':l.includes('西新井')&&!l.includes('赤羽')&&!l.includes('王子')?'#4caf7d66':'#c9a96e66'}),borderColor:stats.map(s=>{const l=s.locations||'';return l.includes('赤羽')&&!l.includes('王子')&&!l.includes('西新井')?'#e05555':l.includes('王子')&&!l.includes('赤羽')&&!l.includes('西新井')?'#5b8fd9':l.includes('西新井')&&!l.includes('赤羽')&&!l.includes('王子')?'#4caf7d':'#c9a96e'}),borderWidth:1,borderRadius:4,barPercentage:.7}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5a5852',stepSize:1},grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true},y:{ticks:{color:'#8a8880',font:{size:12}},grid:{display:false}}}}});
+  // Detail table
+  const cpMap={};cp.forEach(p=>{cpMap[p.therapist_id]=p});
+  const sorted=[...stats].sort((a,b)=>(cpMap[b.therapist_id]?.composite_score||0)-(cpMap[a.therapist_id]?.composite_score||0));
+  document.querySelector('#s-table tbody').innerHTML=sorted.map(s=>{
+    const p=cpMap[s.therapist_id]||{};
+    return`<tr><td class="sn">${nl(s.name,s.therapist_id)}</td><td style="color:${occClr(p.composite_score||0)};font-weight:500">${p.composite_score||0}</td><td>${p.avg_occupancy||0}%</td><td>${p.prebooked_rate||0}%</td><td>${s.shift_count}</td><td>${locsBg(s.locations)}</td></tr>`
   }).join('');
-}
-
-// ========= MONITOR =========
-function renderMonitor() {
-  const snaps = DATA.today_snapshots || [];
-  if (snaps.length > 0) {
-    const timeGroups = {};
-    snaps.forEach(s => {
-      if (!timeGroups[s.checked_at]) timeGroups[s.checked_at] = [];
-      timeGroups[s.checked_at].push(s);
-    });
-    let html = '<table class="log-table"><thead><tr><th>Check time</th><th>Name</th><th>Location</th><th>Status</th></tr></thead><tbody>';
-    Object.keys(timeGroups).sort().reverse().forEach(t => {
-      timeGroups[t].forEach((s,i) => {
-        html += `<tr>
-          <td>${i===0 ? t.split(' ')[1] : ''}</td>
-          <td>${nl(s.therapist_name)}</td>
-          <td>${s.location}</td>
-          <td class="${s.status==='available'?'log-ok':'log-err'}">${s.status==='available'?'Available':'Fully booked'}</td>
-        </tr>`;
-      });
-    });
-    html += '</tbody></table>';
-    document.getElementById('snapshot-container').innerHTML = html;
+})();
+// ===== INSIGHTS =====
+(function(){
+  // Velocity alerts
+  const vel=D.fill_velocity||[];const hotVel=vel.filter(v=>(v.velocity||0)>5);
+  if(hotVel.length){
+    let h='<div class="ic"><div class="ic-t">🔥 Filling fast now</div><div class="ic-s">Occupancy increased >5% since last check</div>';
+    hotVel.forEach(v=>{h+=`<div class="al al-fire">${nl(v.name,v.therapist_id)} — ${v.prev_pct||0}% → ${v.current_pct}% (+${v.velocity}%)</div>`});
+    h+='</div>';document.getElementById('i-velocity').innerHTML=h
   }
-
-  const logs = DATA.scrape_logs || [];
-  const tbody = document.querySelector('#log-table tbody');
-  tbody.innerHTML = logs.map(l => `<tr>
-    <td>${l.run_at}</td>
-    <td>${l.task_type}</td>
-    <td>${l.target_date||'-'}</td>
-    <td>${l.records_found}</td>
-    <td class="${l.success?'log-ok':'log-err'}">${l.success?'OK':'ERROR'}</td>
-  </tr>`).join('');
-}
-
-// ========= INIT =========
-renderFavorites();
-renderToday();
-renderWeekly();
-renderStats();
-renderMonitor();
+  // Cancellations
+  const cx=D.cancellation_events||[];
+  if(cx.length){
+    let h='<div class="ic"><div class="ic-t">🔄 Cancellation detected</div><div class="ic-s">Occupancy dropped — possible cancellation, slot opened up!</div>';
+    cx.slice(0,10).forEach(c=>{h+=`<div class="al al-cancel">${nl(c.name,c.therapist_id)} — ${c.prev_occ}% → ${c.new_occ}% (${c.delta}%) at ${c.checked_at.split(' ')[1]||''}</div>`});
+    h+='</div>';document.getElementById('i-cancellations').innerHTML=h
+  }else{document.getElementById('i-cancellations').innerHTML='<div class="ic"><div class="ic-t">🔄 Cancellations</div><div class="ic-s">No cancellations detected yet. Slot monitor needs to run multiple times to detect changes.</div></div>'}
+  // Newcomers
+  const nw=D.newcomers||[];const actualNew=nw.filter(n=>n.days_since_first!==null&&n.days_since_first<=30&&n.days_since_first>=0);
+  if(actualNew.length){
+    let h='<div class="ic"><div class="ic-t">🌱 Newcomers (≤30 days)</div><div class="ic-s">Recently joined staff and their performance</div>';
+    actualNew.slice(0,10).forEach(n=>{h+=`<div class="al al-new">${nl(n.name,n.therapist_id)} — ${n.days_since_first}d since debut, avg occ ${n.avg_occupancy}%, ${n.shift_count} shifts</div>`});
+    h+='</div>';document.getElementById('i-newcomers').innerHTML=h
+  }
+  // Favorite timing
+  const ft=D.favorite_timing||[];
+  if(ft.length){
+    const dn=['日','月','火','水','木','金','土'];
+    let h='<div class="ic"><div class="ic-t">💡 Best booking times for favorites</div><div class="ic-s">Based on historical occupancy by day of week</div>';
+    const byTherapist={};ft.forEach(f=>{if(!byTherapist[f.name])byTherapist[f.name]=[];byTherapist[f.name].push(f)});
+    Object.entries(byTherapist).forEach(([name,data])=>{
+      data.sort((a,b)=>a.avg_occ-b.avg_occ);
+      h+=`<div class="al al-fav">${nl(name)} — Best: ${dn[data[0].dow]}曜 (${data[0].avg_occ}% avg)`;
+      if(data.length>1)h+=` / Busiest: ${dn[data[data.length-1].dow]}曜 (${data[data.length-1].avg_occ}%)`;
+      h+=`</div>`
+    });
+    h+='</div>';document.getElementById('i-fav-timing').innerHTML=h
+  }
+})();
+// ===== LOG =====
+(function(){
+  const sn=D.today_snapshots||[];
+  if(sn.length){
+    const g={};sn.forEach(s=>{if(!g[s.checked_at])g[s.checked_at]=[];g[s.checked_at].push(s)});
+    let h='<table class="lt"><thead><tr><th>Time</th><th>Name</th><th>Location</th><th>Status</th></tr></thead><tbody>';
+    Object.keys(g).sort().reverse().forEach(t=>{g[t].forEach((s,i)=>{h+=`<tr><td>${i===0?t.split(' ')[1]:''}</td><td>${nl(s.therapist_name)}</td><td>${s.location}</td><td class="${s.status==='available'?'lok':'ler'}">${s.status==='available'?'Available':'Booked'}</td></tr>`})});
+    h+='</tbody></table>';document.getElementById('l-snaps').innerHTML=h
+  }
+  const logs=D.scrape_logs||[];
+  document.querySelector('#l-logs tbody').innerHTML=logs.map(l=>`<tr><td>${l.run_at}</td><td>${l.task_type}</td><td>${l.target_date||'-'}</td><td>${l.records_found}</td><td class="${l.success?'lok':'ler'}">${l.success?'OK':'ERR'}</td></tr>`).join('');
+})();
 </script>
 </body>
 </html>

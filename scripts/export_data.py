@@ -239,6 +239,183 @@ def export_dashboard_data():
     """).fetchall()
     data["daily_prebooked_trend"] = [dict(r) for r in rows]
 
+    # ══════════════════════════════════════════════
+    # Phase 1-4: スロットベースの高精度分析
+    # ══════════════════════════════════════════════
+
+    # ── 13. 現在の占有率（最新スナップショット）──
+    rows = conn.execute("""
+        SELECT ss.therapist_id, t.name, ss.schedule_date,
+               ss.total_slots, ss.booked_slots, ss.occupancy_pct,
+               ss.first_slot, ss.last_slot, ss.booked_ranges, ss.checked_at
+        FROM slot_summaries ss
+        JOIN therapists t ON ss.therapist_id = t.therapist_id
+        WHERE ss.checked_at = (
+            SELECT MAX(checked_at) FROM slot_summaries
+            WHERE schedule_date = ss.schedule_date
+        )
+        AND ss.schedule_date BETWEEN ? AND date(?, '+1 day')
+        ORDER BY ss.occupancy_pct DESC
+    """, (today, today)).fetchall()
+    data["current_occupancy"] = [dict(r) for r in rows]
+
+    # ── 14. 占有率タイムライン（当日の全チェック履歴）──
+    rows = conn.execute("""
+        SELECT ss.checked_at, ss.therapist_id, t.name,
+               ss.occupancy_pct, ss.booked_slots, ss.total_slots,
+               ss.booked_ranges
+        FROM slot_summaries ss
+        JOIN therapists t ON ss.therapist_id = t.therapist_id
+        WHERE ss.schedule_date = ?
+        ORDER BY ss.checked_at, t.name
+    """, (today,)).fetchall()
+    data["occupancy_timeline"] = [dict(r) for r in rows]
+
+    # ── 15. 充足速度（直近2チェックの占有率差分）──
+    rows = conn.execute("""
+        WITH ranked AS (
+            SELECT ss.*, t.name,
+                   ROW_NUMBER() OVER (PARTITION BY ss.therapist_id, ss.schedule_date
+                                      ORDER BY ss.checked_at DESC) as rn
+            FROM slot_summaries ss
+            JOIN therapists t ON ss.therapist_id = t.therapist_id
+            WHERE ss.schedule_date = ?
+        )
+        SELECT
+            cur.therapist_id, cur.name, cur.occupancy_pct as current_pct,
+            prev.occupancy_pct as prev_pct,
+            ROUND(cur.occupancy_pct - prev.occupancy_pct, 1) as velocity,
+            cur.checked_at as cur_time, prev.checked_at as prev_time
+        FROM ranked cur
+        LEFT JOIN ranked prev ON cur.therapist_id = prev.therapist_id AND prev.rn = 2
+        WHERE cur.rn = 1
+        ORDER BY velocity DESC
+    """, (today,)).fetchall()
+    data["fill_velocity"] = [dict(r) for r in rows]
+
+    # ── 16. ゴールデンタイム分析（セラピスト別）──
+    # 最新スナップショットの booked_ranges からプライムタイム占有率を推定
+    # → JS側で booked_ranges を解析して計算するためデータは current_occupancy で十分
+
+    # ── 17. 曜日×時間帯 需要マトリクス（過去データから集計）──
+    rows = conn.execute("""
+        SELECT
+            CAST(strftime('%w', ss.schedule_date) AS INT) as dow,
+            ROUND(AVG(ss.occupancy_pct), 1) as avg_occupancy,
+            COUNT(DISTINCT ss.therapist_id) as sample_therapists,
+            COUNT(*) as sample_count
+        FROM slot_summaries ss
+        GROUP BY dow
+        ORDER BY dow
+    """).fetchall()
+    data["dow_demand"] = [dict(r) for r in rows]
+
+    # ── 18. 総合人気スコア（加重平均）──
+    rows = conn.execute("""
+        WITH
+        prebooked AS (
+            SELECT therapist_id,
+                   ROUND(100.0 * SUM(is_fully_booked) / COUNT(*), 1) as pb_rate
+            FROM daily_schedules GROUP BY therapist_id
+        ),
+        avg_occ AS (
+            SELECT therapist_id,
+                   ROUND(AVG(occupancy_pct), 1) as avg_occ
+            FROM slot_summaries GROUP BY therapist_id
+        ),
+        latest_occ AS (
+            SELECT therapist_id, occupancy_pct as latest_occ
+            FROM slot_summaries
+            WHERE checked_at = (SELECT MAX(checked_at) FROM slot_summaries)
+        )
+        SELECT
+            t.therapist_id, t.name,
+            COALESCE(pb.pb_rate, 0) as prebooked_rate,
+            COALESCE(ao.avg_occ, 0) as avg_occupancy,
+            COALESCE(lo.latest_occ, 0) as latest_occupancy,
+            ROUND(
+                COALESCE(pb.pb_rate, 0) * 0.3 +
+                COALESCE(ao.avg_occ, 0) * 0.4 +
+                COALESCE(lo.latest_occ, 0) * 0.3
+            , 1) as composite_score,
+            COUNT(DISTINCT ds.schedule_date) as shift_count,
+            GROUP_CONCAT(DISTINCT ds.location) as locations
+        FROM therapists t
+        LEFT JOIN prebooked pb ON t.therapist_id = pb.therapist_id
+        LEFT JOIN avg_occ ao ON t.therapist_id = ao.therapist_id
+        LEFT JOIN latest_occ lo ON t.therapist_id = lo.therapist_id
+        LEFT JOIN daily_schedules ds ON t.therapist_id = ds.therapist_id
+        GROUP BY t.therapist_id
+        HAVING shift_count > 0
+        ORDER BY composite_score DESC
+    """).fetchall()
+    data["composite_popularity"] = [dict(r) for r in rows]
+
+    # ── 19. キャンセル検出（占有率が下がったイベント）──
+    rows = conn.execute("""
+        WITH ranked AS (
+            SELECT ss.*, t.name,
+                   LAG(ss.occupancy_pct) OVER (
+                       PARTITION BY ss.therapist_id, ss.schedule_date
+                       ORDER BY ss.checked_at
+                   ) as prev_occ,
+                   LAG(ss.checked_at) OVER (
+                       PARTITION BY ss.therapist_id, ss.schedule_date
+                       ORDER BY ss.checked_at
+                   ) as prev_time
+            FROM slot_summaries ss
+            JOIN therapists t ON ss.therapist_id = t.therapist_id
+            WHERE ss.schedule_date >= ?
+        )
+        SELECT therapist_id, name, schedule_date, checked_at,
+               prev_occ, occupancy_pct as new_occ,
+               ROUND(occupancy_pct - prev_occ, 1) as delta
+        FROM ranked
+        WHERE prev_occ IS NOT NULL AND occupancy_pct < prev_occ
+        ORDER BY checked_at DESC
+        LIMIT 50
+    """, (today,)).fetchall()
+    data["cancellation_events"] = [dict(r) for r in rows]
+
+    # ── 20. お気に入り推奨タイミング ──
+    if favorites:
+        fav_ids = [f["therapist_id"] for f in favorites]
+        placeholders = ",".join("?" * len(fav_ids))
+        rows = conn.execute(f"""
+            SELECT
+                ss.therapist_id, t.name,
+                CAST(strftime('%w', ss.schedule_date) AS INT) as dow,
+                ROUND(AVG(ss.occupancy_pct), 1) as avg_occ,
+                COUNT(*) as samples
+            FROM slot_summaries ss
+            JOIN therapists t ON ss.therapist_id = t.therapist_id
+            WHERE ss.therapist_id IN ({placeholders})
+            GROUP BY ss.therapist_id, dow
+            ORDER BY ss.therapist_id, avg_occ ASC
+        """, fav_ids).fetchall()
+        data["favorite_timing"] = [dict(r) for r in rows]
+    else:
+        data["favorite_timing"] = []
+
+    # ── 21. 新人トラッキング（入店30日以内）──
+    rows = conn.execute("""
+        SELECT t.therapist_id, t.name, t.first_seen,
+               CAST(julianday(?) - julianday(t.first_seen) AS INT) as days_since_first,
+               COALESCE(ao.avg_occ, 0) as avg_occupancy,
+               COUNT(DISTINCT ds.schedule_date) as shift_count
+        FROM therapists t
+        LEFT JOIN (
+            SELECT therapist_id, ROUND(AVG(occupancy_pct), 1) as avg_occ
+            FROM slot_summaries GROUP BY therapist_id
+        ) ao ON t.therapist_id = ao.therapist_id
+        LEFT JOIN daily_schedules ds ON t.therapist_id = ds.therapist_id
+        WHERE julianday(?) - julianday(t.first_seen) <= 30
+          AND t.first_seen != ''
+        GROUP BY t.therapist_id
+        ORDER BY avg_occupancy DESC
+    """, (today, today)).fetchall()
+    data["newcomers"] = [dict(r) for r in rows]
+
     data["generated_at"] = _now_jst().strftime("%Y-%m-%d %H:%M:%S")
 
     conn.close()

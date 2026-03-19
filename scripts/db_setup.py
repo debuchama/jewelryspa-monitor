@@ -91,6 +91,26 @@ def init_db():
     cur.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_checked ON availability_snapshots(checked_at)")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_date ON availability_snapshots(schedule_date, therapist_id)")
 
+    # ── 予約スロット（5分刻み）──
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS slot_summaries (
+        id            INTEGER PRIMARY KEY AUTOINCREMENT,
+        checked_at    TEXT NOT NULL,
+        therapist_id  INTEGER NOT NULL,
+        schedule_date TEXT NOT NULL,
+        total_slots   INTEGER NOT NULL,
+        booked_slots  INTEGER NOT NULL,
+        occupancy_pct REAL NOT NULL,
+        first_slot    TEXT,
+        last_slot     TEXT,
+        booked_ranges TEXT,
+        UNIQUE(checked_at, therapist_id, schedule_date)
+    )
+    """)
+
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_slot_sum_date ON slot_summaries(schedule_date, therapist_id)")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_slot_sum_checked ON slot_summaries(checked_at)")
+
     conn.commit()
     conn.close()
     print(f"✅ DB initialized: {DB_PATH}")
