@@ -114,6 +114,18 @@ def init_db():
     cur.execute("CREATE INDEX IF NOT EXISTS idx_slot_sum_date ON slot_summaries(schedule_date, therapist_id)")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_slot_sum_checked ON slot_summaries(checked_at)")
 
+    # ── マイグレーション: 既存テーブルに新カラムを追加 ──
+    migrations = [
+        ("therapists", "photo_url", "TEXT DEFAULT NULL"),
+        ("therapists", "sns_links", "TEXT DEFAULT NULL"),
+        ("therapists", "retired_at", "TEXT DEFAULT NULL"),
+    ]
+    for table, col, dtype in migrations:
+        try:
+            cur.execute(f"ALTER TABLE {table} ADD COLUMN {col} {dtype}")
+        except Exception:
+            pass  # Already exists
+
     conn.commit()
     conn.close()
     print(f"✅ DB initialized: {DB_PATH}")
