@@ -338,18 +338,39 @@ def export_dashboard_data():
     """).fetchall()
     data["dow_demand"] = [dict(r) for r in rows]
 
-    # ── 18. 総合人気スコア（加重平均）──
+    # ── 18. 総合人気スコア（信頼度補正済み）──
+    #
+    # 問題点の修正:
+    #   - 1シフトで100%満了 → サンプル不足。信頼度ペナルティ適用
+    #   - location="不明" → スケルトン公開の可能性。除外
+    #   - スロットデータが少ない → max_occupancyも加味
+    #   - 出勤回数が多い安定的な人気 → ボーナス
+    #
+    # 最終スコア (0-100):
+    #   adjusted_prebooked * 0.30  ← 信頼度補正済み事前満了率
+    #   + slot_signal * 0.40       ← avg_occ と max_occ のブレンド
+    #   + latest_occ * 0.15        ← リアルタイム状況
+    #   + regularity * 0.15        ← 出勤頻度ボーナス (max 100)
+
     rows = conn.execute("""
         WITH
-        prebooked AS (
+        pb_raw AS (
             SELECT therapist_id,
-                   ROUND(100.0 * SUM(is_fully_booked) / COUNT(*), 1) as pb_rate
-            FROM daily_schedules GROUP BY therapist_id
+                   COUNT(*) as total_shifts,
+                   SUM(CASE WHEN is_fully_booked = 1 THEN 1 ELSE 0 END) as booked_shifts,
+                   COUNT(CASE WHEN location != '不明' THEN 1 END) as valid_shifts,
+                   SUM(CASE WHEN is_fully_booked = 1 AND location != '不明' THEN 1 ELSE 0 END) as valid_booked
+            FROM daily_schedules
+            GROUP BY therapist_id
         ),
-        avg_occ AS (
+        slot_agg AS (
             SELECT therapist_id,
-                   ROUND(AVG(occupancy_pct), 1) as avg_occ
-            FROM slot_summaries GROUP BY therapist_id
+                   ROUND(AVG(occupancy_pct), 1) as avg_occ,
+                   ROUND(MAX(occupancy_pct), 1) as max_occ,
+                   COUNT(*) as slot_checks,
+                   COUNT(DISTINCT schedule_date) as slot_dates
+            FROM slot_summaries
+            GROUP BY therapist_id
         ),
         latest_occ AS (
             SELECT therapist_id, occupancy_pct as latest_occ
@@ -358,26 +379,62 @@ def export_dashboard_data():
         )
         SELECT
             t.therapist_id, t.name,
-            COALESCE(pb.pb_rate, 0) as prebooked_rate,
-            COALESCE(ao.avg_occ, 0) as avg_occupancy,
+            -- raw metrics
+            COALESCE(pb.valid_shifts, 0) as valid_shifts,
+            COALESCE(pb.valid_booked, 0) as valid_booked,
+            COALESCE(pb.total_shifts, 0) as total_shifts,
+            CASE WHEN COALESCE(pb.valid_shifts, 0) > 0
+                 THEN ROUND(100.0 * pb.valid_booked / pb.valid_shifts, 1)
+                 ELSE 0 END as raw_pb_rate,
+            -- confidence: min(valid_shifts, 5) / 5
+            ROUND(MIN(COALESCE(pb.valid_shifts, 0), 5) / 5.0, 2) as confidence,
+            -- slot metrics
+            COALESCE(sa.avg_occ, 0) as avg_occupancy,
+            COALESCE(sa.max_occ, 0) as max_occupancy,
             COALESCE(lo.latest_occ, 0) as latest_occupancy,
-            ROUND(
-                COALESCE(pb.pb_rate, 0) * 0.3 +
-                COALESCE(ao.avg_occ, 0) * 0.4 +
-                COALESCE(lo.latest_occ, 0) * 0.3
-            , 1) as composite_score,
-            COUNT(DISTINCT ds.schedule_date) as shift_count,
+            COALESCE(sa.slot_checks, 0) as slot_checks,
+            -- regularity: shift_count normalized (max 10 shifts = 100)
+            MIN(COALESCE(pb.total_shifts, 0) * 10, 100) as regularity,
+            -- locations
             GROUP_CONCAT(DISTINCT ds.location) as locations
         FROM therapists t
-        LEFT JOIN prebooked pb ON t.therapist_id = pb.therapist_id
-        LEFT JOIN avg_occ ao ON t.therapist_id = ao.therapist_id
+        LEFT JOIN pb_raw pb ON t.therapist_id = pb.therapist_id
+        LEFT JOIN slot_agg sa ON t.therapist_id = sa.therapist_id
         LEFT JOIN latest_occ lo ON t.therapist_id = lo.therapist_id
         LEFT JOIN daily_schedules ds ON t.therapist_id = ds.therapist_id
         GROUP BY t.therapist_id
-        HAVING shift_count > 0
-        ORDER BY composite_score DESC
+        HAVING COALESCE(pb.total_shifts, 0) > 0
     """).fetchall()
-    data["composite_popularity"] = [dict(r) for r in rows]
+
+    composite = []
+    for r in rows:
+        d = dict(r)
+        raw_pb = d["raw_pb_rate"]
+        conf = d["confidence"]
+        avg_occ = d["avg_occupancy"]
+        max_occ = d["max_occupancy"]
+        latest = d["latest_occupancy"]
+        reg = d["regularity"]
+
+        # Adjusted pre-booked: rate * confidence factor
+        adj_pb = raw_pb * conf
+
+        # Slot signal: blend avg and max (max matters when data is sparse)
+        slot_signal = max(avg_occ, max_occ * 0.5) if (avg_occ > 0 or max_occ > 0) else 0
+
+        # Final composite score
+        score = round(adj_pb * 0.30 + slot_signal * 0.40 + latest * 0.15 + reg * 0.15, 1)
+
+        d["adjusted_pb"] = round(adj_pb, 1)
+        d["slot_signal"] = round(slot_signal, 1)
+        d["composite_score"] = score
+        # Keep backward compat field names
+        d["prebooked_rate"] = d["raw_pb_rate"]
+        d["shift_count"] = d["total_shifts"]
+        composite.append(d)
+
+    composite.sort(key=lambda x: x["composite_score"], reverse=True)
+    data["composite_popularity"] = composite
 
     # ── 19. キャンセル検出（占有率が下がったイベント）──
     rows = conn.execute("""

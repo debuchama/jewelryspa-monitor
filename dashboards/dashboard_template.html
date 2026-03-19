@@ -279,10 +279,8 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
     new Chart(document.getElementById('c-gantt'),{type:'bar',data:{labels,datasets:[{data:avS,backgroundColor:colors.map(c=>c+'77'),borderColor:colors,borderWidth:1,borderRadius:4,borderSkipped:false,barPercentage:.65},{data:bkS,backgroundColor:colors.map(c=>c+'30'),borderColor:colors.map(c=>c+'66'),borderWidth:1,borderRadius:4,borderSkipped:false,barPercentage:.65,borderDash:[4,4]}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(!c.raw)return'';const[s,e]=c.raw;return(c.datasetIndex===1?'🔴 ':'')+ fH(s)+' 〜 '+fH(e)}}},annotation:{annotations:ann}},scales:{x:{min:10,max:30,ticks:{callback:v=>fH(v),color:'#5a5852',stepSize:2},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#8a8880',font:{size:12}},grid:{display:false}}}}});
   }
 })();
-// ===== SLOT HEATMAP =====
-(function(){
-  // Make renderSlotHeatmap global so date tabs can call it
-  window.renderSlotHeatmap = function(containerId, slotsData, dateLabel) {
+// ===== SLOT HEATMAP FUNCTION =====
+function renderSlotHeatmap(containerId, slotsData, dateLabel) {
     if (!slotsData || !slotsData.length) {
       document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data for this date.</p>';
       return;
