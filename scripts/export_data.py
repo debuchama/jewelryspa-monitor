@@ -338,88 +338,117 @@ def export_dashboard_data():
     """).fetchall()
     data["dow_demand"] = [dict(r) for r in rows]
 
-    # ── 18. 総合人気スコア（v3: 信頼度ログスケール + ピーク占有率重視）──
+    # ── 18. 総合人気スコア（v4: スロット占有率ベース統合需要）──
     #
     # 設計原則:
-    #   - サンプルサイズが少ない = 信頼度低い（log scaling）
-    #   - 1シフト100%満了 << 3シフト67%満了（実績の安定性を重視）
-    #   - スロットの max_occupancy はピーク需要の直接的証拠
-    #   - 出勤回数が多い = レギュラー = 店としての信頼 = ボーナス
-    #
-    # Score (0-100):
-    #   prebooked_rate × confidence × 0.35
-    #   + slot_blend(avg×0.4 + max×0.6) × 0.45
-    #   + volume_bonus × 0.20
+    #   1. 日ごとに「ピーク需要」を算出:
+    #      - スロットデータがある日 → その日の最大占有率（実予約/全枠）
+    #      - スロットデータなし + is_fully_booked=1 → 100%とみなす
+    #      - スロットデータなし + is_fully_booked=0 → 不明（平均から除外、0%扱いしない）
+    #   2. セラピストの人気 = 全出勤日のピーク需要の平均
+    #   3. 信頼度 = 「需要判定可能だった日数」/ max(全日数, 3)
+    #   4. 最終スコア = avg_demand × confidence × volume_bonus
 
     import math as _math
 
-    rows = conn.execute("""
-        WITH
-        sched AS (
-            SELECT therapist_id,
-                   COUNT(*) as shifts,
-                   SUM(CASE WHEN is_fully_booked = 1 THEN 1 ELSE 0 END) as prebooked,
-                   ROUND(100.0 * SUM(CASE WHEN is_fully_booked = 1 THEN 1 ELSE 0 END)
-                         / COUNT(*), 1) as pb_rate
-            FROM daily_schedules
-            GROUP BY therapist_id
-        ),
-        slots AS (
-            SELECT therapist_id,
-                   ROUND(AVG(occupancy_pct), 1) as avg_occ,
-                   ROUND(MAX(occupancy_pct), 1) as max_occ,
-                   COUNT(DISTINCT schedule_date) as days_monitored,
-                   COUNT(*) as total_checks
-            FROM slot_summaries
-            WHERE occupancy_pct IS NOT NULL
-            GROUP BY therapist_id
-        )
-        SELECT
-            t.therapist_id, t.name,
-            COALESCE(sc.shifts, 0) as total_shifts,
-            COALESCE(sc.prebooked, 0) as prebooked_count,
-            COALESCE(sc.pb_rate, 0) as prebooked_rate,
-            COALESCE(sl.avg_occ, 0) as avg_occupancy,
-            COALESCE(sl.max_occ, 0) as max_occupancy,
-            COALESCE(sl.days_monitored, 0) as days_monitored,
-            COALESCE(sl.total_checks, 0) as slot_checks,
-            GROUP_CONCAT(DISTINCT ds.location) as locations
-        FROM therapists t
-        LEFT JOIN sched sc ON t.therapist_id = sc.therapist_id
-        LEFT JOIN slots sl ON t.therapist_id = sl.therapist_id
-        LEFT JOIN daily_schedules ds ON t.therapist_id = ds.therapist_id
-        GROUP BY t.therapist_id
-        HAVING COALESCE(sc.shifts, 0) > 0
+    # Step A: 全セラピスト×日のスケジュール + is_fully_booked
+    sched_rows = conn.execute("""
+        SELECT ds.therapist_id, t.name, ds.schedule_date, ds.location, ds.is_fully_booked
+        FROM daily_schedules ds
+        JOIN therapists t ON ds.therapist_id = t.therapist_id
     """).fetchall()
 
-    max_shifts = max((r["total_shifts"] for r in rows), default=1)
+    # Step B: スロットデータ（日×セラピストのピーク占有率）
+    slot_peaks = {}
+    slot_rows = conn.execute("""
+        SELECT therapist_id, schedule_date,
+               MAX(occupancy_pct) as peak_occ,
+               MAX(booked_slots) as peak_booked,
+               MAX(total_slots) as total_slots
+        FROM slot_summaries
+        GROUP BY therapist_id, schedule_date
+    """).fetchall()
+    for sr in slot_rows:
+        slot_peaks[(sr["therapist_id"], sr["schedule_date"])] = {
+            "peak_occ": sr["peak_occ"],
+            "peak_booked": sr["peak_booked"],
+            "total_slots": sr["total_slots"],
+        }
+
+    # Step C: セラピストごとにピーク需要を集計
+    from collections import defaultdict
+    therapist_data = defaultdict(lambda: {
+        "name": "", "dates": [], "demand_scores": [],
+        "total_shifts": 0, "locations": set(),
+        "slot_data_days": 0, "prebooked_days": 0,
+    })
+
+    for row in sched_rows:
+        tid = row["therapist_id"]
+        date = row["schedule_date"]
+        td = therapist_data[tid]
+        td["name"] = row["name"]
+        td["total_shifts"] += 1
+        td["dates"].append(date)
+        if row["location"] and row["location"] != "不明":
+            td["locations"].add(row["location"])
+
+        key = (tid, date)
+        if key in slot_peaks:
+            # スロットデータあり → 実占有率を使う
+            peak = slot_peaks[key]["peak_occ"]
+            td["demand_scores"].append(peak)
+            td["slot_data_days"] += 1
+        elif row["is_fully_booked"]:
+            # スロットなし + 満了フラグ → 100%とみなす
+            td["demand_scores"].append(100.0)
+            td["prebooked_days"] += 1
+        else:
+            # スロットなし + 未満了 → 不明（計算から除外）
+            pass
+
+    # Step D: スコア計算
+    max_shifts = max((td["total_shifts"] for td in therapist_data.values()), default=1)
     composite = []
-    for r in rows:
-        d = dict(r)
-        shifts = d["total_shifts"]
-        pb_rate = d["prebooked_rate"]
-        avg_occ = d["avg_occupancy"]
-        max_occ = d["max_occupancy"]
 
-        # Confidence: log-scaled (1shift=0.43, 2=0.68, 3=0.86, 4+=~1.0)
-        confidence = min(_math.log(shifts + 1) / _math.log(max_shifts + 1), 1.0)
+    for tid, td in therapist_data.items():
+        scores = td["demand_scores"]
+        total_shifts = td["total_shifts"]
 
-        # Pre-booked signal: rate × confidence
-        pb_signal = pb_rate * confidence
+        # 平均需要（判定可能な日のみ）
+        avg_demand = sum(scores) / len(scores) if scores else 0.0
+        max_demand = max(scores) if scores else 0.0
 
-        # Slot blend: avg_occ * 0.4 + max_occ * 0.6 (peak demand weighs more)
-        slot_blend = avg_occ * 0.4 + max_occ * 0.6
+        # 信頼度: 判定可能日数 / max(全出勤日数, 3)
+        evidence_days = len(scores)
+        confidence = min(evidence_days / max(total_shifts, 3), 1.0)
 
-        # Volume bonus: normalized shift count × confidence
-        volume = min(shifts / max(max_shifts, 1) * 100, 100) * confidence
+        # 出勤量ボーナス (0-1): 正規化 + log dampening
+        volume_raw = total_shifts / max(max_shifts, 1)
+        volume = min(_math.log(total_shifts + 1) / _math.log(max_shifts + 1), 1.0)
 
-        # Composite
-        score = round(pb_signal * 0.35 + slot_blend * 0.45 + volume * 0.20, 1)
+        # 最終スコア (0-100)
+        # demand_signal(70%) × confidence + volume_bonus(30%)
+        demand_signal = avg_demand * 0.6 + max_demand * 0.4
+        score = round(demand_signal * confidence * 0.70 + volume * 100 * 0.30, 1)
 
-        d["confidence"] = round(confidence, 2)
-        d["composite_score"] = score
-        d["shift_count"] = shifts  # backward compat
-        composite.append(d)
+        composite.append({
+            "therapist_id": tid,
+            "name": td["name"],
+            "composite_score": score,
+            "avg_demand": round(avg_demand, 1),
+            "max_demand": round(max_demand, 1),
+            "confidence": round(confidence, 2),
+            "evidence_days": evidence_days,
+            "slot_data_days": td["slot_data_days"],
+            "prebooked_days": td["prebooked_days"],
+            "total_shifts": total_shifts,
+            "shift_count": total_shifts,
+            "prebooked_rate": round(100.0 * td["prebooked_days"] / total_shifts, 1) if total_shifts else 0,
+            "avg_occupancy": round(avg_demand, 1),
+            "max_occupancy": round(max_demand, 1),
+            "locations": ",".join(sorted(td["locations"])) if td["locations"] else "",
+        })
 
     composite.sort(key=lambda x: x["composite_score"], reverse=True)
     data["composite_popularity"] = composite
