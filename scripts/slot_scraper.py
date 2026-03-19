@@ -98,6 +98,33 @@ def scrape_slots_tomorrow() -> list[dict]:
     return scrape_slots(tomorrow)
 
 
+def scrape_slots_range(days: int = 14) -> dict[str, list[dict]]:
+    """
+    今日から最大 days 日分のスロットデータを取得。
+    データがある日だけ返す。
+    Returns: { 'YYYY-MM-DD': [therapist_slots, ...], ... }
+    """
+    today = datetime.now(JST)
+    all_data = {}
+
+    for d in range(days):
+        target = (today + timedelta(days=d)).strftime("%Y-%m-%d")
+        try:
+            result = scrape_slots(target)
+            if result:  # データがある日だけ格納
+                all_data[target] = result
+                print(f"  📅 {target}: {len(result)} therapists, "
+                      f"avg occ {sum(r['occupancy_pct'] for r in result)/max(len(result),1):.0f}%")
+            else:
+                # データなし = これ以降もなし（シフト未公開）→ 打ち切り
+                print(f"  📅 {target}: no data (stopping)")
+                break
+        except Exception as e:
+            print(f"  ❌ {target}: {e}")
+
+    return all_data
+
+
 if __name__ == "__main__":
     data = scrape_slots_today()
     print(f"📋 Today slots: {len(data)} therapists")

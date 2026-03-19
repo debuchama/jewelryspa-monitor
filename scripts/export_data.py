@@ -129,26 +129,28 @@ def export_dashboard_data():
     """).fetchall()
     data["scrape_logs"] = [dict(r) for r in rows]
 
-    # ── 7b. リアルタイムスロット詳細（当日+翌日）──
+    # ── 7b. リアルタイムスロット詳細（最大14日先まで）──
     try:
-        from slot_scraper import scrape_slots_today, scrape_slots_tomorrow
-        today_slots = scrape_slots_today()
-        tomorrow_slots = []
-        try:
-            tomorrow_slots = scrape_slots_tomorrow()
-        except Exception:
-            pass
-        # therapist名をJOIN
+        from slot_scraper import scrape_slots_range
+        all_slots = scrape_slots_range(days=14)
         tid_name = {t["therapist_id"]: t["name"] for t in data["therapists"]}
-        for s in today_slots + tomorrow_slots:
-            s["name"] = tid_name.get(s["therapist_id"], f"ID:{s['therapist_id']}")
-            # slot_detail の booked を int に (JSON互換)
-            for slot in s.get("slot_detail", []):
-                slot["booked"] = int(slot["booked"])
-        data["realtime_slots_today"] = today_slots
-        data["realtime_slots_tomorrow"] = tomorrow_slots
-        print(f"  realtime_slots: today={len(today_slots)}, tomorrow={len(tomorrow_slots)}")
+        for date_key, slots_list in all_slots.items():
+            for s in slots_list:
+                s["name"] = tid_name.get(s["therapist_id"], f"ID:{s['therapist_id']}")
+                for slot in s.get("slot_detail", []):
+                    slot["booked"] = int(slot["booked"])
+        # 日付順に整理した辞書としてエクスポート
+        data["slot_dates"] = sorted(all_slots.keys())
+        data["slots_by_date"] = {d: all_slots[d] for d in sorted(all_slots.keys())}
+        # 後方互換: today / tomorrow
+        data["realtime_slots_today"] = all_slots.get(today, [])
+        tomorrow = (_now_jst() + timedelta(days=1)).strftime("%Y-%m-%d")
+        data["realtime_slots_tomorrow"] = all_slots.get(tomorrow, [])
+        total_therapists = sum(len(v) for v in all_slots.values())
+        print(f"  realtime_slots: {len(all_slots)} days, {total_therapists} total entries")
     except Exception as e:
+        data["slot_dates"] = []
+        data["slots_by_date"] = {}
         data["realtime_slots_today"] = []
         data["realtime_slots_tomorrow"] = []
         print(f"  ⚠️ slot fetch skipped: {e}")
