@@ -45,6 +45,20 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;-w
 .om-name{font-size:13px;font-weight:500;min-width:50px}
 .om-pct{font-size:13px;font-weight:600;min-width:40px;text-align:right}
 .om-vel{font-size:11px;min-width:28px;text-align:center}
+/* Slot heatmap */
+.sh-wrap{overflow-x:auto;margin-bottom:8px}
+.sh-row{display:flex;align-items:center;margin-bottom:3px;min-width:600px}
+.sh-name{min-width:60px;max-width:60px;font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:6px;flex-shrink:0}
+.sh-slots{display:flex;flex:1;gap:1px;align-items:center}
+.sh-cell{height:18px;min-width:4px;flex:1;border-radius:1px;position:relative;cursor:default}
+.sh-cell.booked{background:var(--red);opacity:.7}
+.sh-cell.free{background:var(--grn);opacity:.25}
+.sh-cell:hover{opacity:1;z-index:1;transform:scaleY(1.4)}
+.sh-occ{min-width:40px;text-align:right;font-size:11px;font-weight:600;padding-left:6px;flex-shrink:0}
+.sh-axis{display:flex;min-width:600px;margin-bottom:4px;padding-left:66px}
+.sh-axis span{flex:1;font-size:9px;color:var(--td);text-align:center}
+.sh-tip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--s2);color:var(--t);font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;display:none;z-index:10;border:1px solid var(--bd2)}
+.sh-cell:hover .sh-tip{display:block}
 /* Location cards */
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
 @media(max-width:700px){.tg{grid-template-columns:1fr}}
@@ -117,6 +131,8 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
   <div id="p-today" class="pn active">
     <div class="mc" id="t-metrics"></div>
     <div class="cc"><div class="ct2">Slot occupancy — realtime</div><div class="cs">Bar = booked%. Arrow = velocity since last check.</div><div id="t-occ-meters"></div></div>
+    <div class="cc"><div class="ct2">Slot timeline — today</div><div class="cs">Each cell = 5min slot. <span style="color:var(--red)">Red</span>=booked, <span style="color:var(--grn)">green</span>=available. Hover for time.</div><div id="t-slot-heatmap"></div></div>
+    <div id="t-slot-heatmap-tmr"></div>
     <div class="tg" id="t-grid"></div>
     <div class="cc"><div class="ct2">Shift timeline</div><div class="cs">Solid=available, faded=booked. Red dashed=now.</div>
       <div class="lg"><div class="li"><div style="background:var(--aka)"></div>赤羽</div><div class="li"><div style="background:var(--oji)"></div>王子</div><div class="li"><div style="background:var(--nsh)"></div>西新井</div><div class="li"><div style="background:var(--red);width:2px;height:14px;border-radius:0"></div>Now</div></div>
@@ -254,6 +270,53 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
     const ann={now:{type:'line',xMin:nH(),xMax:nH(),borderColor:'#e0555599',borderWidth:2,borderDash:[6,3],label:{display:true,content:'Now '+fH(nH()),position:'start',backgroundColor:'#e05555cc',color:'#fff',font:{size:10,weight:'500'},padding:{x:6,y:2},borderRadius:4}}};
     td.forEach((s,i)=>{if(!s.is_fully_booked)return;const bt=bookingTimes[s.therapist_name];if(!bt)return;const[bh,bm]=bt.split(':').map(Number);let bH=bh+bm/60;if(bH<6)bH+=24;ann['bk'+i]={type:'line',xMin:bH,xMax:bH,yMin:i-.4,yMax:i+.4,borderColor:'#e05555dd',borderWidth:2,label:{display:true,content:fH(bH)+' 満了',position:'end',backgroundColor:'#e05555cc',color:'#fff',font:{size:9},padding:{x:4,y:1},borderRadius:3}}});
     new Chart(document.getElementById('c-gantt'),{type:'bar',data:{labels,datasets:[{data:avS,backgroundColor:colors.map(c=>c+'77'),borderColor:colors,borderWidth:1,borderRadius:4,borderSkipped:false,barPercentage:.65},{data:bkS,backgroundColor:colors.map(c=>c+'30'),borderColor:colors.map(c=>c+'66'),borderWidth:1,borderRadius:4,borderSkipped:false,barPercentage:.65,borderDash:[4,4]}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(!c.raw)return'';const[s,e]=c.raw;return(c.datasetIndex===1?'🔴 ':'')+ fH(s)+' 〜 '+fH(e)}}},annotation:{annotations:ann}},scales:{x:{min:10,max:30,ticks:{callback:v=>fH(v),color:'#5a5852',stepSize:2},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#8a8880',font:{size:12}},grid:{display:false}}}}});
+  }
+})();
+// ===== SLOT HEATMAP =====
+(function(){
+  function renderSlotHeatmap(containerId, slotsData, label) {
+    if (!slotsData || !slotsData.length) return;
+    // Sort by occupancy desc, then name
+    const sorted = [...slotsData].sort((a,b) => b.occupancy_pct - a.occupancy_pct || a.name.localeCompare(b.name));
+    // Find global time range for axis
+    const allTimes = new Set();
+    sorted.forEach(s => s.slot_detail.forEach(d => allTimes.add(d.time)));
+    // Build time axis labels (show every 30 min)
+    const firstSlots = sorted[0]?.slot_detail || [];
+    const axisLabels = firstSlots.filter((_, i) => i % 6 === 0).map(s => fT(s.time));
+
+    let h = '<div class="sh-wrap">';
+    // Axis
+    h += '<div class="sh-axis">';
+    axisLabels.forEach(t => { h += `<span>${t}</span>`; });
+    h += '</div>';
+    // Rows
+    sorted.forEach(s => {
+      const tid = s.therapist_id;
+      h += `<div class="sh-row">`;
+      h += `<div class="sh-name">${nl(s.name, tid)}</div>`;
+      h += `<div class="sh-slots">`;
+      s.slot_detail.forEach(slot => {
+        const cls = slot.booked ? 'booked' : 'free';
+        h += `<div class="sh-cell ${cls}"><div class="sh-tip">${fT(slot.time)} ${slot.booked ? '予約済' : '空き'}</div></div>`;
+      });
+      h += `</div>`;
+      h += `<div class="sh-occ" style="color:${occClr(s.occupancy_pct)}">${Math.round(s.occupancy_pct)}%</div>`;
+      h += `</div>`;
+    });
+    h += '</div>';
+
+    document.getElementById(containerId).innerHTML = h;
+  }
+
+  renderSlotHeatmap('t-slot-heatmap', D.realtime_slots_today, 'Today');
+
+  // Tomorrow (if data exists)
+  const tmr = D.realtime_slots_tomorrow || [];
+  if (tmr.length) {
+    document.getElementById('t-slot-heatmap-tmr').innerHTML =
+      `<div class="cc"><div class="ct2">Slot timeline — tomorrow</div><div class="cs">Advance bookings already placed for tomorrow.</div><div id="t-slot-hm-tmr-inner"></div></div>`;
+    renderSlotHeatmap('t-slot-hm-tmr-inner', tmr, 'Tomorrow');
   }
 })();
 // ===== WEEKLY =====

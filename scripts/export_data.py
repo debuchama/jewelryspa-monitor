@@ -127,6 +127,30 @@ def export_dashboard_data():
     """).fetchall()
     data["scrape_logs"] = [dict(r) for r in rows]
 
+    # ── 7b. リアルタイムスロット詳細（当日+翌日）──
+    try:
+        from slot_scraper import scrape_slots_today, scrape_slots_tomorrow
+        today_slots = scrape_slots_today()
+        tomorrow_slots = []
+        try:
+            tomorrow_slots = scrape_slots_tomorrow()
+        except Exception:
+            pass
+        # therapist名をJOIN
+        tid_name = {t["therapist_id"]: t["name"] for t in data["therapists"]}
+        for s in today_slots + tomorrow_slots:
+            s["name"] = tid_name.get(s["therapist_id"], f"ID:{s['therapist_id']}")
+            # slot_detail の booked を int に (JSON互換)
+            for slot in s.get("slot_detail", []):
+                slot["booked"] = int(slot["booked"])
+        data["realtime_slots_today"] = today_slots
+        data["realtime_slots_tomorrow"] = tomorrow_slots
+        print(f"  realtime_slots: today={len(today_slots)}, tomorrow={len(tomorrow_slots)}")
+    except Exception as e:
+        data["realtime_slots_today"] = []
+        data["realtime_slots_tomorrow"] = []
+        print(f"  ⚠️ slot fetch skipped: {e}")
+
     # ── 8. 人気度分析（予約が埋まるスピード）──
     # 各セラピストの「available → fully_booked」遷移を検出し、
     # シフト開始からの経過時間で人気度スコアを算出

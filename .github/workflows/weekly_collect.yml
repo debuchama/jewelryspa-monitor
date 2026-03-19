@@ -38,6 +38,9 @@ jobs:
       - name: Run daily monitor (snapshot)
         run: python scripts/daily_monitor.py
 
+      - name: Run slot monitor
+        run: python scripts/slot_monitor.py
+
       - name: Export dashboard data
         run: python scripts/export_data.py
 
