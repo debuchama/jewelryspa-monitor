@@ -37,8 +37,11 @@ def init_db():
         height_cm     INTEGER,
         cup_size      TEXT,
         profile_text  TEXT,
+        photo_url     TEXT,                   -- 高解像度写真URL
+        sns_links     TEXT,                   -- JSON array of SNS URLs
         first_seen    TEXT NOT NULL DEFAULT '',
         last_seen     TEXT NOT NULL DEFAULT '',
+        retired_at    TEXT DEFAULT NULL,       -- 引退検出日（NULLなら在籍中）
         is_active     INTEGER NOT NULL DEFAULT 1
     )
     """)

@@ -36,13 +36,15 @@ def export_dashboard_data():
 
     # ── 1. セラピスト一覧 ──
     rows = conn.execute("""
-        SELECT therapist_id, name, age, height_cm, cup_size, is_active, first_seen, last_seen
+        SELECT therapist_id, name, age, height_cm, cup_size, is_active,
+               first_seen, last_seen, photo_url, sns_links, retired_at
         FROM therapists ORDER BY name
     """).fetchall()
     data["therapists"] = [dict(r) for r in rows]
 
-    # ── 2. 今週のスケジュール ──
+    # ── 2. 14日分のスケジュール ──
     today = _now_jst().strftime("%Y-%m-%d")
+    fortnight_end = (_now_jst() + timedelta(days=13)).strftime("%Y-%m-%d")
     week_end = (_now_jst() + timedelta(days=6)).strftime("%Y-%m-%d")
     rows = conn.execute("""
         SELECT ds.*, t.name as therapist_name
@@ -50,7 +52,7 @@ def export_dashboard_data():
         JOIN therapists t ON ds.therapist_id = t.therapist_id
         WHERE ds.schedule_date BETWEEN ? AND ?
         ORDER BY ds.schedule_date, ds.start_time
-    """, (today, week_end)).fetchall()
+    """, (today, fortnight_end)).fetchall()
     data["weekly_schedules"] = [dict(r) for r in rows]
 
     # ── 3. 店舗別・日別集計 ──
@@ -65,7 +67,7 @@ def export_dashboard_data():
         WHERE schedule_date BETWEEN ? AND ?
         GROUP BY schedule_date, location
         ORDER BY schedule_date, location
-    """, (today, week_end)).fetchall()
+    """, (today, fortnight_end)).fetchall()
     data["daily_location_summary"] = [dict(r) for r in rows]
 
     # ── 4. セラピスト別出勤回数（直近30日） ──
@@ -102,7 +104,7 @@ def export_dashboard_data():
         WHERE schedule_date BETWEEN ? AND ?
         GROUP BY schedule_date
         ORDER BY schedule_date
-    """, (today, week_end)).fetchall()
+    """, (today, fortnight_end)).fetchall()
     data["shift_coverage"] = [dict(r) for r in rows]
 
     # ── 6. 当日の空き状況スナップショット履歴 ──
@@ -213,7 +215,7 @@ def export_dashboard_data():
             WHERE ds.therapist_id IN ({placeholders})
               AND ds.schedule_date BETWEEN ? AND ?
             ORDER BY ds.schedule_date, ds.start_time
-        """, fav_ids + [today, week_end]).fetchall()
+        """, fav_ids + [today, fortnight_end]).fetchall()
         data["favorites_schedule"] = [dict(r) for r in rows]
     else:
         data["favorites_schedule"] = []
@@ -247,7 +249,7 @@ def export_dashboard_data():
         JOIN therapists t ON ds.therapist_id = t.therapist_id
         WHERE ds.schedule_date BETWEEN ? AND ?
         ORDER BY t.name, ds.schedule_date
-    """, (today, week_end)).fetchall()
+    """, (today, fortnight_end)).fetchall()
     data["weekly_booked_matrix"] = [dict(r) for r in rows]
 
     # ── 12. 過去全期間の事前満了履歴（トレンド用）──
@@ -439,6 +441,26 @@ def export_dashboard_data():
         ORDER BY avg_occupancy DESC
     """, (today, today)).fetchall()
     data["newcomers"] = [dict(r) for r in rows]
+
+    # ── 22. 引退・離脱セラピスト ──
+    rows = conn.execute("""
+        SELECT therapist_id, name, first_seen, retired_at,
+               CAST(julianday(retired_at) - julianday(first_seen) AS INT) as tenure_days
+        FROM therapists
+        WHERE retired_at IS NOT NULL
+        ORDER BY retired_at DESC
+    """).fetchall()
+    data["retired_therapists"] = [dict(r) for r in rows]
+
+    # ── 23. ロスター統計 ──
+    row = conn.execute("""
+        SELECT
+            COUNT(*) as total_ever,
+            SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_now,
+            SUM(CASE WHEN retired_at IS NOT NULL THEN 1 ELSE 0 END) as retired
+        FROM therapists
+    """).fetchone()
+    data["roster_stats"] = dict(row) if row else {"total_ever": 0, "active_now": 0, "retired": 0}
 
     data["generated_at"] = _now_jst().strftime("%Y-%m-%d %H:%M:%S")
 
