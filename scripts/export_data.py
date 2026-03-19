@@ -511,10 +511,21 @@ def export_dashboard_data():
     composite.sort(key=lambda x: x["composite_score"], reverse=True)
     data["composite_popularity"] = composite
 
-    # ── 19. キャンセル検出（占有率が下がったイベント）──
+    # ── 19. キャンセル検出（本物のキャンセルのみ）──
+    # 偽陽性の排除: Caskanは過ぎた時間のスロットを返さないため、
+    # total_slotsが減りbooked_slotsも同量減る → これは時間経過であってキャンセルではない。
+    # 本物のキャンセル = booked_slotsがtotal_slots以上に減った場合のみ。
     rows = conn.execute("""
         WITH ranked AS (
             SELECT ss.*, t.name,
+                   LAG(ss.booked_slots) OVER (
+                       PARTITION BY ss.therapist_id, ss.schedule_date
+                       ORDER BY ss.checked_at
+                   ) as prev_booked,
+                   LAG(ss.total_slots) OVER (
+                       PARTITION BY ss.therapist_id, ss.schedule_date
+                       ORDER BY ss.checked_at
+                   ) as prev_total,
                    LAG(ss.occupancy_pct) OVER (
                        PARTITION BY ss.therapist_id, ss.schedule_date
                        ORDER BY ss.checked_at
@@ -529,13 +540,22 @@ def export_dashboard_data():
         )
         SELECT therapist_id, name, schedule_date, checked_at,
                prev_occ, occupancy_pct as new_occ,
-               ROUND(occupancy_pct - prev_occ, 1) as delta
+               prev_booked, booked_slots as new_booked,
+               prev_total, total_slots as new_total,
+               (booked_slots - prev_booked) as delta_booked,
+               (total_slots - prev_total) as delta_total
         FROM ranked
-        WHERE prev_occ IS NOT NULL AND occupancy_pct < prev_occ
+        WHERE prev_booked IS NOT NULL
+          AND (booked_slots - prev_booked) < 0
+          AND (booked_slots - prev_booked) < (total_slots - prev_total)
         ORDER BY checked_at DESC
         LIMIT 50
     """, (today,)).fetchall()
-    data["cancellation_events"] = [dict(r) for r in rows]
+    data["cancellation_events"] = [{
+        **dict(r),
+        "delta": round(r["new_occ"] - r["prev_occ"], 1),
+        "freed_slots": -(r["delta_booked"] - min(r["delta_total"], 0)),
+    } for r in rows]
 
     # ── 20. お気に入り推奨タイミング ──
     if favorites:

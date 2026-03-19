@@ -394,9 +394,11 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
   // Convert live scrape data → abstract format, with elapsed time from full_ranges
   function fromLiveData(slotsData, dateStr) {
     const allTimesSet = new Set();
+    const liveTids = new Set();
 
     const therapists = slotsData.map(s => {
       const tid = s.therapist_id;
+      liveTids.add(tid);
       const map = {};
 
       // Current slots from live data
@@ -410,7 +412,6 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
         fullSlots.forEach(t => {
           allTimesSet.add(t);
           if (!(t in map)) {
-            // This slot is outside current live data = elapsed
             map[t] = isInRanges(t, earliestRanges) ? 3 : 2;
           }
         });
@@ -418,6 +419,44 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
 
       return { name: s.name, tid, slotMap: map, occ: s.occupancy_pct, booked: s.booked_slots, total: s.total_slots };
     });
+
+    // Add therapists who are in history but NOT in live data (shift already ended)
+    const hist = slotHistory[dateStr];
+    if (hist && hist.full_ranges) {
+      // Get name from first available snapshot
+      const nameMap = {};
+      for (const t of hist.check_times) {
+        for (const snap of (hist.snapshots[t] || [])) {
+          if (!nameMap[snap.tid]) nameMap[snap.tid] = snap.n;
+        }
+      }
+
+      for (const [tidStr, fr] of Object.entries(hist.full_ranges)) {
+        const tid = parseInt(tidStr);
+        if (liveTids.has(tid)) continue; // already in live data
+
+        const fullSlots = genSlots(fr.fs, fr.ls);
+        const earliestRanges = getFirstSnapshotRanges(dateStr, tid);
+        const map = {};
+        fullSlots.forEach(t => {
+          allTimesSet.add(t);
+          map[t] = isInRanges(t, earliestRanges) ? 3 : 2; // all elapsed
+        });
+
+        // Get peak occupancy from history for this therapist
+        let peakOcc = 0, peakBooked = 0, peakTotal = 0;
+        for (const t of hist.check_times) {
+          const snap = (hist.snapshots[t] || []).find(s => s.tid === tid);
+          if (snap && snap.occ > peakOcc) { peakOcc = snap.occ; peakBooked = snap.bk; peakTotal = snap.tot; }
+        }
+
+        therapists.push({
+          name: nameMap[tid] || `ID:${tid}`,
+          tid, slotMap: map,
+          occ: peakOcc, booked: peakBooked, total: peakTotal,
+        });
+      }
+    }
 
     const allTimes = [...allTimesSet].sort((a,b) => timeToNum(a) - timeToNum(b));
     return { therapists, allTimes };
@@ -457,11 +496,11 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
 
   // Expose for date tabs
   window.renderSlotHeatmap = function(containerId, slotsData, dateStr) {
-    if (!slotsData || !slotsData.length) {
+    const { therapists, allTimes } = fromLiveData(slotsData || [], dateStr);
+    if (!therapists.length) {
       document.getElementById(containerId).innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No slot data for this date.</p>';
       return;
     }
-    const { therapists, allTimes } = fromLiveData(slotsData, dateStr);
     renderCore(containerId, therapists, allTimes, dateStr);
   };
 
@@ -511,12 +550,8 @@ function switchSlotDate(date, btn) {
   const slotHistory = D.slot_history || {};
   const liveData = slotsByDate[date];
 
-  // Render latest data
-  if (liveData && liveData.length) {
-    renderSlotHeatmap('slot-hm-body', liveData, date);
-  } else {
-    document.getElementById('slot-hm-body').innerHTML = '<p style="color:var(--td);font-size:13px;padding:8px 0">No live slot data for this date.</p>';
-  }
+  // Render: always call - function merges live + history (elapsed therapists)
+  renderSlotHeatmap('slot-hm-body', liveData || [], date);
 
   // Setup slider
   const hist = slotHistory[date];
@@ -636,10 +671,10 @@ document.getElementById('ss-slider').addEventListener('input', function() {
   // Cancellations
   const cx=D.cancellation_events||[];
   if(cx.length){
-    let h='<div class="ic"><div class="ic-t">🔄 Cancellation detected</div><div class="ic-s">Occupancy dropped — possible cancellation, slot opened up!</div>';
-    cx.slice(0,10).forEach(c=>{h+=`<div class="al al-cancel">${nl(c.name,c.therapist_id)} — ${c.prev_occ}% → ${c.new_occ}% (${c.delta}%) at ${c.checked_at.split(' ')[1]||''}</div>`});
+    let h='<div class="ic"><div class="ic-t">🔄 Cancellation detected</div><div class="ic-s">Real cancellations — booked slots freed up (not just time passing).</div>';
+    cx.slice(0,10).forEach(c=>{const freed=c.freed_slots||0;const time=(c.checked_at||'').split(' ')[1]||'';h+=`<div class="al al-cancel">${nl(c.name,c.therapist_id)} — ${freed} slot${freed>1?'s':''} freed at ${time.slice(0,5)}</div>`});
     h+='</div>';document.getElementById('i-cancellations').innerHTML=h
-  }else{document.getElementById('i-cancellations').innerHTML='<div class="ic"><div class="ic-t">🔄 Cancellations</div><div class="ic-s">No cancellations detected yet. Slot monitor needs to run multiple times to detect changes.</div></div>'}
+  }else{document.getElementById('i-cancellations').innerHTML='<div class="ic"><div class="ic-t">🔄 Cancellations</div><div class="ic-s">No real cancellations detected. Time-passing slot changes are filtered out.</div></div>'}
   // Newcomers
   const nw=D.newcomers||[];const actualNew=nw.filter(n=>n.days_since_first!==null&&n.days_since_first<=30&&n.days_since_first>=0);
   if(actualNew.length){
