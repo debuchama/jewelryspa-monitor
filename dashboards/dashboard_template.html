@@ -536,22 +536,45 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
     });
     tabsEl.innerHTML = tabsHtml;
 
-    // Initial render via switchSlotDate (sets up both heatmap and slider)
-    switchSlotDate(allDates[0], tabsEl.querySelector('.sdt-btn'));
+    // Initial render directly (don't rely on querySelector)
+    const firstDate = allDates[0];
+    window.renderSlotHeatmap('slot-hm-body', (slotsByDate[firstDate] || []), firstDate);
+
+    // Setup slider for first date
+    const firstHist = slotHistory[firstDate];
+    const wrap = document.getElementById('slot-slider-wrap');
+    if (firstHist && firstHist.check_times.length > 1) {
+      const times = firstHist.check_times;
+      window._sliderDate = firstDate;
+      window._sliderTimes = times;
+      window._sliderHistory = firstHist;
+      const sl = document.getElementById('ss-slider');
+      sl.min = 0; sl.max = times.length - 1; sl.value = times.length - 1;
+      document.getElementById('ss-label-start').textContent = times[0];
+      document.getElementById('ss-label-end').textContent = times[times.length - 1];
+      document.getElementById('ss-label-current').textContent = times[times.length - 1] + ' (latest)';
+      const step = Math.max(1, Math.floor(times.length / 8));
+      let tH = '';
+      times.forEach((t, i) => { tH += '<span>' + ((i === 0 || i === times.length-1 || i % step === 0) ? t : '') + '</span>'; });
+      document.getElementById('ss-ticks').innerHTML = tH;
+      wrap.style.display = 'block';
+    } else {
+      wrap.style.display = 'none';
+    }
   }
 })();
 
 // Global: switch slot date tab
 function switchSlotDate(date, btn) {
   document.querySelectorAll('.sdt-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  if (btn && btn.classList) btn.classList.add('active');
 
   const slotsByDate = D.slots_by_date || {};
   const slotHistory = D.slot_history || {};
   const liveData = slotsByDate[date];
 
   // Render: always call - function merges live + history (elapsed therapists)
-  renderSlotHeatmap('slot-hm-body', liveData || [], date);
+  window.renderSlotHeatmap('slot-hm-body', liveData || [], date);
 
   // Setup slider
   const hist = slotHistory[date];
@@ -593,7 +616,7 @@ document.getElementById('ss-slider').addEventListener('input', function() {
   if (isLatest) {
     const liveData = (D.slots_by_date || {})[date];
     if (liveData && liveData.length) {
-      renderSlotHeatmap('slot-hm-body', liveData, date);
+      window.renderSlotHeatmap('slot-hm-body', liveData, date);
       return;
     }
   }
