@@ -424,29 +424,35 @@ def export_dashboard_data():
     """).fetchall()
     data["dow_demand"] = [dict(r) for r in rows]
 
-    # ── 18. 総合人気スコア（v5: 偽満了フィルタ付き）──
+    # ── 18. 総合人気スコア（v6: クリティカルシンキング全面改訂）──
     #
-    # 偽満了の除外:
-    #   1. is_fully_booked だが scraped_at がシフト終了後 → シフト終了=当然「満了」→ 除外
-    #   2. スロット100%だが残り時間 < 80分（最短コース）→ Caskanが予約不可にしただけ → 除外
-    #   3. is_fully_booked で scraped_at がシフト開始2h以上前 or シフト残り3h以上 → 本物
+    # 発見された問題と対策:
+    #   Bug1: is_fully_booked=1 だが同日のスロットデータが0% → スロットを正とする
+    #   Bug2: 占有率の膨張（total_slots縮小）→ 初回スナップの total_slots で補正
+    #   Bug3: 残時間<80分で全枠× → 偽100%として除外
     #
-    # 占有率の補正:
-    #   - スロットの booked_ranges の先頭が first_slot と一致 + 全枠booked → 偽満了チェック
-    #   - 最初のスナップショットでの total_slots を「フル枠数」として occupancy を再計算
+    # 新シグナル:
+    #   ⭐ first_check_booked: 初回チェック時点で予約あり = 監視開始前に予約された = 最強証拠
+    #   📈 booking_velocity: 占有率の上昇速度 (%/h) = リアルタイム需要の強さ
+    #
+    # スコア構成 (0-100):
+    #   demand_signal × confidence × 0.55  ← 補正済みピーク占有率
+    #   + pre_signal × 0.20                ← 初回チェック予約率 or 事前満了フラグ
+    #   + velocity_signal × 0.10           ← 予約速度
+    #   + volume_bonus × 0.15              ← 出勤頻度
 
     import math as _math
+    from collections import defaultdict
 
-    MIN_COURSE_MIN = 80  # 最短コース80分
+    MIN_COURSE_MIN = 80
 
-    def _time_to_min(t):
-        """HH:MM → 分（深夜は+24h）"""
+    def _tm(t):
         if not t: return 0
         h, m = map(int, t.split(':'))
         if h < 6: h += 24
         return h * 60 + m
 
-    # Step A: スケジュール + scraped_at でフィルタ
+    # ── A: スケジュールデータ ──
     sched_rows = conn.execute("""
         SELECT ds.therapist_id, t.name, ds.schedule_date, ds.location,
                ds.is_fully_booked, ds.start_time, ds.end_time, ds.scraped_at
@@ -454,117 +460,174 @@ def export_dashboard_data():
         JOIN therapists t ON ds.therapist_id = t.therapist_id
     """).fetchall()
 
-    # Step B: スロット — セラピスト×日 の「フル枠数」（最初のスナップショット）と ピーク
-    slot_full_totals = {}  # (tid, date) → 最初のスナップショットの total_slots
-    slot_peaks = {}        # (tid, date) → ピーク情報
-
+    # ── B: スロットデータ全量取得 ──
     slot_rows = conn.execute("""
         SELECT therapist_id, schedule_date, checked_at,
                total_slots, booked_slots, occupancy_pct,
-               first_slot, last_slot, booked_ranges,
+               first_slot, last_slot,
                ROW_NUMBER() OVER (PARTITION BY therapist_id, schedule_date
-                                  ORDER BY checked_at ASC) as rn_first,
-               ROW_NUMBER() OVER (PARTITION BY therapist_id, schedule_date
-                                  ORDER BY booked_slots DESC) as rn_peak
+                                  ORDER BY checked_at ASC) as rn
         FROM slot_summaries
+        ORDER BY therapist_id, schedule_date, checked_at
     """).fetchall()
+
+    # B1: 初回スナップショットのフル枠数 + 初回予約状況
+    slot_first = {}     # (tid, date) → {full_total, first_booked, first_occ}
+    # B2: ピーク予約数
+    slot_peak_bk = {}   # (tid, date) → max booked_slots
+    # B3: 全スナップショット（velocity計算用）
+    slot_all = defaultdict(list)  # (tid, date) → [{checked_at, booked, total, occ}, ...]
 
     for sr in slot_rows:
         key = (sr["therapist_id"], sr["schedule_date"])
-        if sr["rn_first"] == 1:
-            slot_full_totals[key] = sr["total_slots"]
-        if sr["rn_peak"] == 1:
-            full_total = slot_full_totals.get(key, sr["total_slots"])
-            peak_booked = sr["booked_slots"]
-
-            # 偽満了チェック: 100%だが残り時間 < 最短コース
-            is_fake = False
-            if sr["occupancy_pct"] >= 100:
-                remaining_min = (_time_to_min(sr["last_slot"]) - _time_to_min(sr["first_slot"])) + 5
-                if remaining_min < MIN_COURSE_MIN:
-                    is_fake = True
-
-            # フル枠ベースの補正占有率
-            corrected_occ = round(100.0 * peak_booked / full_total, 1) if full_total > 0 else 0.0
-
-            slot_peaks[key] = {
-                "peak_occ": corrected_occ if not is_fake else 0.0,
-                "peak_booked": peak_booked if not is_fake else 0,
-                "total_slots": full_total,
-                "is_fake": is_fake,
-                "raw_occ": sr["occupancy_pct"],
+        slot_all[key].append({
+            "at": sr["checked_at"], "bk": sr["booked_slots"],
+            "tot": sr["total_slots"], "occ": sr["occupancy_pct"],
+            "fs": sr["first_slot"], "ls": sr["last_slot"],
+        })
+        if sr["rn"] == 1:
+            slot_first[key] = {
+                "full_total": sr["total_slots"],
+                "first_booked": sr["booked_slots"],
+                "first_occ": round(100.0 * sr["booked_slots"] / sr["total_slots"], 1) if sr["total_slots"] > 0 else 0,
             }
+        # Track peak booked_slots (absolute, not pct)
+        prev = slot_peak_bk.get(key, 0)
+        if sr["booked_slots"] > prev:
+            slot_peak_bk[key] = sr["booked_slots"]
 
-    # Step C: セラピストごとにピーク需要を集計
-    from collections import defaultdict
-    therapist_data = defaultdict(lambda: {
-        "name": "", "dates": [], "demand_scores": [],
-        "total_shifts": 0, "locations": set(),
-        "slot_data_days": 0, "prebooked_days": 0, "fake_booked_days": 0,
+    # B4: 偽100%チェック + 補正占有率
+    slot_corrected = {}  # (tid, date) → corrected peak occ
+    for key, snaps in slot_all.items():
+        ft = slot_first.get(key, {}).get("full_total", 1)
+        peak_bk = slot_peak_bk.get(key, 0)
+        corrected = round(100.0 * peak_bk / ft, 1) if ft > 0 else 0.0
+
+        # 偽100%チェック: ピーク時のスナップで残り < 80分?
+        is_fake = False
+        for sn in reversed(snaps):
+            if sn["bk"] == peak_bk:
+                remaining = (_tm(sn["ls"]) - _tm(sn["fs"])) + 5 if sn["fs"] and sn["ls"] else 999
+                if sn["occ"] >= 99.9 and remaining < MIN_COURSE_MIN:
+                    is_fake = True
+                break
+
+        slot_corrected[key] = 0.0 if is_fake else corrected
+
+    # B5: Velocity (%/h) — 占有率の最大上昇速度
+    slot_velocity = {}  # (tid, date) → max velocity %/h
+    for key, snaps in slot_all.items():
+        ft = slot_first.get(key, {}).get("full_total", 1)
+        max_vel = 0.0
+        for i in range(1, len(snaps)):
+            bk_delta = snaps[i]["bk"] - snaps[i-1]["bk"]
+            if bk_delta <= 0:
+                continue
+            t1 = snaps[i-1]["at"]
+            t2 = snaps[i]["at"]
+            # Parse time difference in hours
+            try:
+                from datetime import datetime as dt2
+                d1 = dt2.strptime(t1, "%Y-%m-%d %H:%M:%S")
+                d2 = dt2.strptime(t2, "%Y-%m-%d %H:%M:%S")
+                hours = (d2 - d1).total_seconds() / 3600
+                if hours > 0:
+                    pct_per_h = (bk_delta / ft * 100) / hours
+                    if pct_per_h > max_vel:
+                        max_vel = pct_per_h
+            except:
+                pass
+        slot_velocity[key] = round(max_vel, 1)
+
+    # ── C: セラピストごとに集計 ──
+    td_map = defaultdict(lambda: {
+        "name": "", "total_shifts": 0, "locations": set(),
+        "corrected_peaks": [],       # 補正済みピーク占有率リスト
+        "first_check_booked": [],    # 初回チェック予約率リスト
+        "velocities": [],            # booking velocity リスト
+        "prebooked_days": 0,
+        "fake_booked_days": 0,
+        "slot_data_days": 0,
     })
 
     for row in sched_rows:
         tid = row["therapist_id"]
         date = row["schedule_date"]
-        td = therapist_data[tid]
+        td = td_map[tid]
         td["name"] = row["name"]
         td["total_shifts"] += 1
-        td["dates"].append(date)
         if row["location"] and row["location"] != "不明":
             td["locations"].add(row["location"])
 
         key = (tid, date)
-        if key in slot_peaks:
-            sp = slot_peaks[key]
-            if sp["is_fake"]:
-                td["fake_booked_days"] += 1
-                # 偽満了 → 除外（不明扱い）
-            else:
-                td["demand_scores"].append(sp["peak_occ"])
+        has_slot = key in slot_corrected
+
+        if has_slot:
+            cpeak = slot_corrected[key]
+            if cpeak > 0 or slot_peak_bk.get(key, 0) == 0:
+                # 有効なスロットデータ（偽100%除外済み）
+                td["corrected_peaks"].append(cpeak)
                 td["slot_data_days"] += 1
+
+                # 初回チェック予約
+                sf = slot_first.get(key, {})
+                if sf.get("first_booked", 0) > 0:
+                    td["first_check_booked"].append(sf["first_occ"])
+
+                # Velocity
+                vel = slot_velocity.get(key, 0)
+                if vel > 0:
+                    td["velocities"].append(vel)
+            else:
+                td["fake_booked_days"] += 1
         elif row["is_fully_booked"]:
-            # is_fully_booked の信頼性チェック
-            scraped_min = _time_to_min(
+            # スロットなし → is_fully_booked を条件付きで信頼
+            scraped_min = _tm(
                 row["scraped_at"].split(" ")[1][:5] if row["scraped_at"] and " " in row["scraped_at"] else "12:00"
             )
-            end_min = _time_to_min(row["end_time"]) if row["end_time"] else 0
-            remaining_at_scrape = end_min - scraped_min
-
-            if remaining_at_scrape >= MIN_COURSE_MIN + 60:
-                # シフト残り2h20m以上 → 本物の事前満了
-                td["demand_scores"].append(100.0)
+            end_min = _tm(row["end_time"]) if row["end_time"] else 0
+            remaining = end_min - scraped_min
+            if remaining >= MIN_COURSE_MIN + 60:
                 td["prebooked_days"] += 1
             else:
-                # シフト終了間際 or 終了後 → 偽満了
                 td["fake_booked_days"] += 1
-        else:
-            # スロットなし + 未満了 → 不明
-            pass
 
-    # Step D: スコア計算
-    max_shifts = max((td["total_shifts"] for td in therapist_data.values()), default=1)
+    # ── D: スコア計算 ──
+    max_shifts = max((td["total_shifts"] for td in td_map.values()), default=1)
     composite = []
 
-    for tid, td in therapist_data.items():
-        scores = td["demand_scores"]
+    for tid, td in td_map.items():
+        peaks = td["corrected_peaks"]
         total_shifts = td["total_shifts"]
+        pb_days = td["prebooked_days"]
+        fcb = td["first_check_booked"]
+        vels = td["velocities"]
 
-        # 平均需要（判定可能な日のみ）
-        avg_demand = sum(scores) / len(scores) if scores else 0.0
-        max_demand = max(scores) if scores else 0.0
+        # 1. Demand signal: 補正済みピーク占有率の平均
+        demand_days = peaks + [100.0] * pb_days  # スロット日 + 事前満了日
+        avg_demand = sum(demand_days) / len(demand_days) if demand_days else 0.0
+        max_demand = max(demand_days) if demand_days else 0.0
 
-        # 信頼度: 判定可能日数 / max(全出勤日数, 3)
-        evidence_days = len(scores)
-        confidence = min(evidence_days / max(total_shifts, 3), 1.0)
+        # 2. Pre-booking signal: 初回チェック予約率
+        avg_fcb = sum(fcb) / len(fcb) if fcb else 0.0
 
-        # 出勤量ボーナス (0-1): 正規化 + log dampening
-        volume_raw = total_shifts / max(max_shifts, 1)
+        # 3. Velocity signal: 最大上昇速度 (cap at 100)
+        max_vel = min(max(vels) if vels else 0.0, 100.0)
+
+        # 4. Volume: log normalized
         volume = min(_math.log(total_shifts + 1) / _math.log(max_shifts + 1), 1.0)
 
-        # 最終スコア (0-100)
-        # demand_signal(70%) × confidence + volume_bonus(30%)
-        demand_signal = avg_demand * 0.6 + max_demand * 0.4
-        score = round(demand_signal * confidence * 0.70 + volume * 100 * 0.30, 1)
+        # 5. Confidence
+        evidence_days = len(demand_days)
+        confidence = min(evidence_days / max(total_shifts, 3), 1.0)
+
+        # Final score
+        demand_s = (avg_demand * 0.6 + max_demand * 0.4) * confidence
+        pre_s = avg_fcb * confidence  # FCBは強いシグナルだが信頼度で減衰
+        vel_s = max_vel
+        vol_s = volume * 100
+
+        score = round(demand_s * 0.55 + pre_s * 0.20 + vel_s * 0.10 + vol_s * 0.15, 1)
 
         composite.append({
             "therapist_id": tid,
@@ -572,14 +635,16 @@ def export_dashboard_data():
             "composite_score": score,
             "avg_demand": round(avg_demand, 1),
             "max_demand": round(max_demand, 1),
+            "avg_fcb": round(avg_fcb, 1),
+            "max_velocity": round(max_vel, 1),
             "confidence": round(confidence, 2),
             "evidence_days": evidence_days,
             "slot_data_days": td["slot_data_days"],
-            "prebooked_days": td["prebooked_days"],
+            "prebooked_days": pb_days,
             "fake_booked_days": td["fake_booked_days"],
             "total_shifts": total_shifts,
             "shift_count": total_shifts,
-            "prebooked_rate": round(100.0 * td["prebooked_days"] / total_shifts, 1) if total_shifts else 0,
+            "prebooked_rate": round(100.0 * pb_days / total_shifts, 1) if total_shifts else 0,
             "avg_occupancy": round(avg_demand, 1),
             "max_occupancy": round(max_demand, 1),
             "locations": ",".join(sorted(td["locations"])) if td["locations"] else "",
