@@ -47,37 +47,53 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;-w
 .om-vel{font-size:11px;min-width:28px;text-align:center}
 /* Slot heatmap */
 .sh-wrap{overflow-x:auto;margin-bottom:8px}
-.sh-row{display:flex;align-items:center;margin-bottom:3px;min-width:600px}
-.sh-name{min-width:60px;max-width:60px;font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:6px;flex-shrink:0}
-.sh-slots{display:flex;flex:1;gap:1px;align-items:center}
-.sh-cell{height:18px;min-width:4px;flex:1;border-radius:1px;position:relative;cursor:default}
-.sh-cell.booked{background:var(--red);opacity:.7}
-.sh-cell.free{background:var(--grn);opacity:.25}
-.sh-cell.off{background:var(--s2);opacity:.15}
-.sh-cell.elapsed{background:var(--tm);opacity:.12}
-.sh-cell.elapsed-booked{background:var(--red);opacity:.25;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px)}
-.sh-cell:hover{opacity:1;z-index:1;transform:scaleY(1.4)}
-.sh-occ{min-width:40px;text-align:right;font-size:11px;font-weight:600;padding-left:6px;flex-shrink:0}
-.sh-axis{display:flex;min-width:600px;margin-bottom:4px;padding-left:66px}
+.sh-row{display:flex;align-items:center;margin-bottom:2px;min-width:600px}
+.sh-name{min-width:64px;max-width:64px;font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;flex-shrink:0}
+.sh-slots{display:flex;flex:1;gap:0;align-items:center}
+.sh-cell{height:20px;min-width:3px;flex:1;position:relative;cursor:default;transition:opacity .1s}
+.sh-cell.booked{background:#e05555;opacity:.8;border-right:1px solid rgba(0,0,0,.1)}
+.sh-cell.free{background:#4caf7d;opacity:.22;border-right:1px solid rgba(76,175,125,.05)}
+.sh-cell.off{background:var(--s2);opacity:.12}
+.sh-cell.elapsed{background:var(--tm);opacity:.1}
+.sh-cell.elapsed-booked{background:#e05555;opacity:.2;background-image:repeating-linear-gradient(135deg,transparent,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px)}
+.sh-cell:hover{opacity:1!important;z-index:1;transform:scaleY(1.5);border-radius:2px}
+.sh-occ{min-width:42px;text-align:right;font-size:12px;font-weight:600;padding-left:8px;flex-shrink:0}
+.sh-axis{display:flex;min-width:600px;margin-bottom:3px;padding-left:72px;padding-right:50px}
 .sh-axis span{flex:1;font-size:9px;color:var(--td);text-align:center}
-.sh-tip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--s2);color:var(--t);font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;display:none;z-index:10;border:1px solid var(--bd2)}
+.sh-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1e1e24;color:var(--t);font-size:11px;padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;display:none;z-index:10;border:1px solid var(--bd2);box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .sh-cell:hover .sh-tip{display:block}
-/* Slot date tabs */
+/* Visual legend */
+.sl-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--tm)}
+.sl-legend span{display:flex;align-items:center;gap:3px}
+.sl-swatch{display:inline-block;width:14px;height:10px;border-radius:2px}
+.sl-sw-free{background:#4caf7d;opacity:.35}
+.sl-sw-bk{background:#e05555;opacity:.85}
+.sl-sw-el{background:var(--tm);opacity:.15}
+.sl-sw-elb{background:#e05555;opacity:.25;background-image:repeating-linear-gradient(135deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px)}
+.sl-sw-off{background:var(--s2);opacity:.2}
+/* Date tabs */
 .sdt{display:flex;gap:4px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
-.sdt-btn{padding:6px 12px;font-size:12px;font-weight:500;color:var(--tm);cursor:pointer;border-radius:6px;border:1px solid var(--bd);background:none;font-family:var(--f);white-space:nowrap;transition:all .15s}
-.sdt-btn:hover{color:var(--t);border-color:var(--bd2)}
-.sdt-btn.active{background:var(--s2);color:var(--acc);border-color:var(--acc)}
-.sdt-btn .sdt-occ{font-size:10px;display:block;margin-top:1px}
-.sdt-btn.sdt-today{border-color:var(--acc);color:var(--acc)}
-/* Time slider */
-.ss-wrap{margin:12px 0 16px;padding:0 4px}
-.ss-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:var(--td)}
-.ss-cur{font-size:14px;font-weight:600;color:var(--acc);background:var(--s2);padding:2px 10px;border-radius:12px}
-.ss-range{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--s2);outline:none;cursor:pointer}
-.ss-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 4px rgba(201,169,110,.4)}
-.ss-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg)}
-.ss-ticks{display:flex;justify-content:space-between;margin-top:2px;padding:0 8px}
-.ss-ticks span{font-size:9px;color:var(--td)}
+.sdt-btn{padding:7px 14px;font-size:12px;font-weight:500;color:var(--tm);cursor:pointer;border-radius:8px;border:1px solid var(--bd);background:none;font-family:var(--f);white-space:nowrap;transition:all .15s;text-align:center}
+.sdt-btn:hover{color:var(--t);border-color:var(--bd2);background:var(--s2)}
+.sdt-btn.active{background:var(--s2);color:var(--acc);border-color:rgba(201,169,110,.4)}
+.sdt-btn .sdt-sub{font-size:10px;display:block;margin-top:2px;opacity:.7}
+.sdt-btn.sdt-today{border-color:var(--acc)}
+.sdt-btn.sdt-today::after{content:'TODAY';font-size:8px;display:block;color:var(--acc);letter-spacing:.5px;margin-top:1px}
+/* Player / Slider */
+.sp{background:var(--s2);border-radius:10px;padding:12px 16px;margin-bottom:16px;border:1px solid var(--bd)}
+.sp-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sp-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--bd2);background:none;color:var(--acc);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;font-family:var(--f)}
+.sp-btn:hover{background:rgba(201,169,110,.1);border-color:var(--acc)}
+.sp-btn.playing{background:rgba(201,169,110,.15);border-color:var(--acc)}
+.sp-time{font-size:22px;font-weight:600;color:var(--t);letter-spacing:-.5px;min-width:56px}
+.sp-occ-badge{font-size:13px;font-weight:600;padding:3px 10px;border-radius:16px;min-width:48px;text-align:center}
+.sp-hint{font-size:11px;color:var(--td);margin-left:auto}
+.sp-slider-row{display:flex;align-items:center;gap:8px}
+.sp-edge{font-size:10px;color:var(--td);min-width:36px;flex-shrink:0}
+.sp-edge:last-child{text-align:right}
+.ss-range{-webkit-appearance:none;flex:1;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--bd) 0%,rgba(201,169,110,.2) 100%);outline:none;cursor:pointer}
+.ss-range::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 6px rgba(201,169,110,.4)}
+.ss-range::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg)}
 /* Location cards */
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
 @media(max-width:700px){.tg{grid-template-columns:1fr}}
@@ -151,13 +167,29 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
     <div class="mc" id="t-metrics"></div>
     <div class="cc"><div class="ct2">Slot occupancy — realtime</div><div class="cs">Bar = booked%. Arrow = velocity since last check.</div><div id="t-occ-meters"></div></div>
     <div class="cc">
-      <div class="ct2">Slot timeline</div>
-      <div class="cs">Each cell = 5min slot. <span style="color:var(--red)">Red</span>=booked, <span style="color:var(--grn)">green</span>=available, <span style="color:var(--tm);opacity:.5">dim</span>=elapsed, <span style="color:var(--red);opacity:.4">striped</span>=was booked. Drag slider to replay.</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <div class="ct2" style="margin:0">Slot Timeline</div>
+        <div class="sl-legend">
+          <span><i class="sl-swatch sl-sw-free"></i>空き</span>
+          <span><i class="sl-swatch sl-sw-bk"></i>予約済</span>
+          <span><i class="sl-swatch sl-sw-el"></i>終了</span>
+          <span><i class="sl-swatch sl-sw-elb"></i>終了(予約有)</span>
+          <span><i class="sl-swatch sl-sw-off"></i>シフト外</span>
+        </div>
+      </div>
       <div id="slot-date-tabs" class="sdt"></div>
-      <div id="slot-slider-wrap" class="ss-wrap" style="display:none">
-        <div class="ss-labels"><span id="ss-label-start"></span><span id="ss-label-current" class="ss-cur"></span><span id="ss-label-end"></span></div>
-        <input type="range" id="ss-slider" class="ss-range" min="0" max="0" value="0">
-        <div class="ss-ticks" id="ss-ticks"></div>
+      <div id="slot-player" class="sp" style="display:none">
+        <div class="sp-top">
+          <button id="sp-play" class="sp-btn" title="自動再生">▶</button>
+          <div class="sp-time" id="sp-time">--:--</div>
+          <div class="sp-occ-badge" id="sp-occ">0%</div>
+          <div class="sp-hint" id="sp-hint">← スライダーで時刻を変えて予約の埋まり方を確認</div>
+        </div>
+        <div class="sp-slider-row">
+          <span class="sp-edge" id="sp-start">--:--</span>
+          <input type="range" id="ss-slider" class="ss-range" min="0" max="0" value="0">
+          <span class="sp-edge" id="sp-end">--:--</span>
+        </div>
       </div>
       <div id="slot-hm-body"></div>
     </div>
@@ -510,122 +542,104 @@ const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){co
     renderCore(containerId, therapists, allTimes, dateStr);
   };
 
-  // ── Date tabs ──
+  // ── Date tabs + Player ──
   const slotDates = D.slot_dates || [];
   const slotsByDate = D.slots_by_date || {};
   const tabsEl = document.getElementById('slot-date-tabs');
+  const allDatesSet2 = new Set([...slotDates, ...Object.keys(slotHistory)]);
+  const allDates = [...allDatesSet2].sort();
 
-  // Merge dates from live scrape and history
-  const allDatesSet = new Set([...slotDates, ...Object.keys(slotHistory)]);
-  const allDates = [...allDatesSet].sort();
+  function updatePlayerUI(time, occ, isLatest) {
+    const te = document.getElementById('sp-time');
+    const oe = document.getElementById('sp-occ');
+    const he = document.getElementById('sp-hint');
+    if (te) te.textContent = time;
+    if (oe) {
+      oe.textContent = occ + '%';
+      oe.style.background = occ >= 50 ? 'rgba(224,85,85,.15)' : occ > 0 ? 'rgba(212,164,58,.12)' : 'rgba(255,255,255,.05)';
+      oe.style.color = occ >= 50 ? 'var(--red)' : occ > 0 ? 'var(--amb)' : 'var(--td)';
+    }
+    if (he) he.textContent = isLatest ? '最新' : '';
+  }
+
+  window._setupPlayer = function(date) {
+    const hist = slotHistory[date];
+    const player = document.getElementById('slot-player');
+    const slider = document.getElementById('ss-slider');
+    if (!hist || hist.check_times.length <= 1) { if (player) player.style.display = 'none'; return; }
+    const times = hist.check_times;
+    window._sliderDate = date; window._sliderTimes = times; window._sliderHistory = hist;
+    slider.min = 0; slider.max = times.length - 1; slider.value = times.length - 1;
+    document.getElementById('sp-start').textContent = times[0];
+    document.getElementById('sp-end').textContent = times[times.length - 1];
+    const liveSlots = (D.slots_by_date || {})[date] || [];
+    let tb=0,tt=0; liveSlots.forEach(s=>{tb+=s.booked_slots||0;tt+=s.total_slots||0});
+    updatePlayerUI(times[times.length-1], tt>0?Math.round(100*tb/tt):0, true);
+    if (player) player.style.display = 'block';
+  };
 
   if (allDates.length > 0) {
     let tabsHtml = '';
     allDates.forEach((d, i) => {
       const liveSlots = slotsByDate[d] || [];
-      const hist = slotHistory[d];
-      const snapCount = hist ? hist.check_times.length : 0;
-      const avgOcc = liveSlots.length ? Math.round(liveSlots.reduce((s, t) => s + t.occupancy_pct, 0) / liveSlots.length) : 0;
+      const hist2 = slotHistory[d];
       const isToday = d === tS();
-      const occClrV = avgOcc >= 70 ? 'var(--red)' : avgOcc >= 30 ? 'var(--amb)' : avgOcc > 0 ? 'var(--grn)' : 'var(--td)';
-      const staffCount = liveSlots.length || (hist ? Math.max(...hist.check_times.map(t => (hist.snapshots[t]||[]).length), 0) : 0);
+      const staffCount = liveSlots.length || (hist2 ? Math.max(...hist2.check_times.map(t => (hist2.snapshots[t]||[]).length), 0) : 0);
       tabsHtml += `<button class="sdt-btn ${i === 0 ? 'active' : ''} ${isToday ? 'sdt-today' : ''}" onclick="switchSlotDate('${d}', this)">`;
       tabsHtml += dL(d);
-      tabsHtml += `<span class="sdt-occ" style="color:${occClrV}">${staffCount}名 ${snapCount > 1 ? snapCount + 'snaps' : ''}</span>`;
+      tabsHtml += `<span class="sdt-sub">${staffCount}名</span>`;
       tabsHtml += `</button>`;
     });
     tabsEl.innerHTML = tabsHtml;
-
-    // Initial render directly (don't rely on querySelector)
     const firstDate = allDates[0];
     window.renderSlotHeatmap('slot-hm-body', (slotsByDate[firstDate] || []), firstDate);
-
-    // Setup slider for first date
-    const firstHist = slotHistory[firstDate];
-    const wrap = document.getElementById('slot-slider-wrap');
-    if (firstHist && firstHist.check_times.length > 1) {
-      const times = firstHist.check_times;
-      window._sliderDate = firstDate;
-      window._sliderTimes = times;
-      window._sliderHistory = firstHist;
-      const sl = document.getElementById('ss-slider');
-      sl.min = 0; sl.max = times.length - 1; sl.value = times.length - 1;
-      document.getElementById('ss-label-start').textContent = times[0];
-      document.getElementById('ss-label-end').textContent = times[times.length - 1];
-      document.getElementById('ss-label-current').textContent = times[times.length - 1] + ' (latest)';
-      const step = Math.max(1, Math.floor(times.length / 8));
-      let tH = '';
-      times.forEach((t, i) => { tH += '<span>' + ((i === 0 || i === times.length-1 || i % step === 0) ? t : '') + '</span>'; });
-      document.getElementById('ss-ticks').innerHTML = tH;
-      wrap.style.display = 'block';
-    } else {
-      wrap.style.display = 'none';
-    }
+    window._setupPlayer(firstDate);
   }
 })();
 
-// Global: switch slot date tab
 function switchSlotDate(date, btn) {
   document.querySelectorAll('.sdt-btn').forEach(b => b.classList.remove('active'));
   if (btn && btn.classList) btn.classList.add('active');
-
-  const slotsByDate = D.slots_by_date || {};
-  const slotHistory = D.slot_history || {};
-  const liveData = slotsByDate[date];
-
-  // Render: always call - function merges live + history (elapsed therapists)
-  window.renderSlotHeatmap('slot-hm-body', liveData || [], date);
-
-  // Setup slider
-  const hist = slotHistory[date];
-  const wrap = document.getElementById('slot-slider-wrap');
-  const slider = document.getElementById('ss-slider');
-
-  if (hist && hist.check_times.length > 1) {
-    const times = hist.check_times;
-    window._sliderDate = date;
-    window._sliderTimes = times;
-    window._sliderHistory = hist;
-    slider.min = 0; slider.max = times.length - 1; slider.value = times.length - 1;
-    document.getElementById('ss-label-start').textContent = times[0];
-    document.getElementById('ss-label-end').textContent = times[times.length - 1];
-    document.getElementById('ss-label-current').textContent = times[times.length - 1] + ' (latest)';
-    // Ticks
-    let tH = '';
-    const step = Math.max(1, Math.floor(times.length / 8));
-    times.forEach((t, i) => { tH += `<span>${(i === 0 || i === times.length-1 || i % step === 0) ? t : ''}</span>`; });
-    document.getElementById('ss-ticks').innerHTML = tH;
-    wrap.style.display = 'block';
-  } else {
-    wrap.style.display = 'none';
-  }
+  if (window._playInterval) { clearInterval(window._playInterval); window._playInterval = null; }
+  const pb = document.getElementById('sp-play');
+  if (pb) { pb.textContent = '▶'; pb.classList.remove('playing'); }
+  window.renderSlotHeatmap('slot-hm-body', (D.slots_by_date || {})[date] || [], date);
+  window._setupPlayer(date);
 }
 
-// Slider event: replay snapshots
 document.getElementById('ss-slider').addEventListener('input', function() {
   const idx = parseInt(this.value);
   const times = window._sliderTimes || [];
   const hist = window._sliderHistory;
   const date = window._sliderDate;
   if (!times.length || !hist) return;
-
   const checkTime = times[idx];
   const isLatest = idx === times.length - 1;
-  document.getElementById('ss-label-current').textContent = checkTime + (isLatest ? ' (latest)' : '');
-
   if (isLatest) {
-    const liveData = (D.slots_by_date || {})[date];
-    if (liveData && liveData.length) {
-      window.renderSlotHeatmap('slot-hm-body', liveData, date);
-      return;
-    }
+    const ld = (D.slots_by_date || {})[date];
+    if (ld && ld.length) { window.renderSlotHeatmap('slot-hm-body', ld, date); let b=0,t=0;ld.forEach(s=>{b+=s.booked_slots||0;t+=s.total_slots||0});const p=t>0?Math.round(100*b/t):0;document.getElementById('sp-time').textContent=checkTime;document.getElementById('sp-occ').textContent=p+'%';document.getElementById('sp-hint').textContent='最新';return; }
   }
-
-  // Render historical snapshot
   const snapList = hist.snapshots[checkTime];
   if (snapList && snapList.length) {
     window._renderSnapshot('slot-hm-body', snapList, date);
+    let b=0,t=0;snapList.forEach(s=>{b+=s.bk||0;t+=s.tot||0});const p=t>0?Math.round(100*b/t):0;
+    const oe=document.getElementById('sp-occ');
+    document.getElementById('sp-time').textContent=checkTime;
+    oe.textContent=p+'%';oe.style.background=p>=50?'rgba(224,85,85,.15)':p>0?'rgba(212,164,58,.12)':'rgba(255,255,255,.05)';oe.style.color=p>=50?'var(--red)':p>0?'var(--amb)':'var(--td)';
+    document.getElementById('sp-hint').textContent='';
   }
+});
+
+document.getElementById('sp-play').addEventListener('click', function() {
+  const slider = document.getElementById('ss-slider');
+  if (window._playInterval) { clearInterval(window._playInterval); window._playInterval = null; this.textContent = '▶'; this.classList.remove('playing'); return; }
+  slider.value = 0; slider.dispatchEvent(new Event('input'));
+  this.textContent = '⏸'; this.classList.add('playing');
+  window._playInterval = setInterval(() => {
+    const v = parseInt(slider.value), mx = parseInt(slider.max);
+    if (v >= mx) { clearInterval(window._playInterval); window._playInterval = null; document.getElementById('sp-play').textContent = '▶'; document.getElementById('sp-play').classList.remove('playing'); return; }
+    slider.value = v + 1; slider.dispatchEvent(new Event('input'));
+  }, 800);
 });
 // ===== WEEKLY =====
 (function(){
