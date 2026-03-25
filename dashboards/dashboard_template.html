@@ -277,7 +277,10 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
   </div>
   <!-- STATS -->
   <div id="p-stats" class="pn">
-    <div class="cc"><div class="ct2">Composite popularity ranking</div><div class="cs">Score = prebooked×conf 35% + slot occupancy(avg·max) 45% + volume 20%. Confidence scales with shift count.</div><div id="s-composite"></div></div>
+    <div class="mc" id="s-rev-metrics"></div>
+    <div class="cc"><div class="ct2">Weekly revenue trend</div><div class="cs">Slot booking data × course pricing. Projected = daily avg × 7.</div><div class="cw" style="height:220px"><canvas id="c-rev-weekly"></canvas></div></div>
+    <div class="cc"><div class="ct2">Daily revenue</div><div class="cs">Sessions × estimated course price (80min¥16k / 100min¥20k / 120min¥24k + nomination)</div><div class="cw" style="height:200px"><canvas id="c-rev-daily"></canvas></div></div>
+    <div class="cc"><div class="ct2">Composite popularity ranking</div><div class="cs">Demand×conf 55% + first-check booking 20% + velocity 10% + volume 15%</div><div id="s-composite"></div></div>
     <div class="cc"><div class="ct2">Shift frequency</div><div class="cw" style="height:340px"><canvas id="c-freq"></canvas></div></div>
     <div class="sh">Detail table</div>
     <div class="cc" style="padding:0;overflow-x:auto"><table class="st" id="s-table"><thead><tr><th>Name</th><th>Score</th><th>Conf</th><th>Avg%</th><th>Peak%</th><th>PB%</th><th>Shifts</th><th>Loc</th></tr></thead><tbody></tbody></table></div>
@@ -731,6 +734,81 @@ document.getElementById('sp-play').addEventListener('click', function() {
 })();
 // ===== STATS =====
 (function(){
+  // ── Revenue Estimation ──
+  const rd = D.revenue_daily || [];
+  const rw = D.revenue_weekly || [];
+  const rme = D.revenue_monthly_est || 0;
+  const rawAvg = D.revenue_avg_weekly || 0;
+
+  // Metrics cards
+  const totalSessions = rd.reduce((s,d) => s + d.sessions, 0);
+  const totalRev = rd.reduce((s,d) => s + d.revenue, 0);
+  const avgDaily = rd.length ? Math.round(totalRev / rd.length) : 0;
+  const fmtY = v => v >= 1000000 ? (v/10000).toFixed(0)+'万' : v >= 10000 ? (v/10000).toFixed(1)+'万' : '¥'+v.toLocaleString();
+  
+  document.getElementById('s-rev-metrics').innerHTML = `
+    <div class="m acc"><div class="ml">Weekly Est.</div><div class="mv">${fmtY(rawAvg)}</div><div class="ms">avg projected</div></div>
+    <div class="m pur"><div class="ml">Monthly Est.</div><div class="mv">${fmtY(rme)}</div><div class="ms">×4.3 weeks</div></div>
+    <div class="m grn"><div class="ml">Sessions</div><div class="mv">${totalSessions}</div><div class="ms">${rd.length}d observed</div></div>
+    <div class="m blu"><div class="ml">Avg Daily</div><div class="mv">${fmtY(avgDaily)}</div></div>`;
+
+  // Weekly trend chart (last 6 weeks)
+  if (rw.length) {
+    const wLabels = rw.map(w => w.week_start + '~');
+    new Chart(document.getElementById('c-rev-weekly'), {
+      type: 'bar', data: {
+        labels: wLabels,
+        datasets: [
+          { label: 'Actual', data: rw.map(w => w.actual_revenue), backgroundColor: '#c9a96e66', borderColor: '#c9a96e', borderWidth: 1, borderRadius: 4, order: 2 },
+          { label: 'Projected', data: rw.map(w => w.projected_weekly), type: 'line', borderColor: '#c9a96ebb', borderWidth: 2, borderDash: [6,3], pointRadius: 4, pointBackgroundColor: '#c9a96e', fill: false, tension: 0.3, order: 1 }
+        ]
+      }, options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'top', labels: { color: '#8a8880', font: { size: 11 }, boxWidth: 14 } },
+          tooltip: { callbacks: { label: c => c.dataset.label + ': ¥' + (c.raw||0).toLocaleString() } }
+        },
+        scales: {
+          x: { ticks: { color: '#5a5852' }, grid: { display: false } },
+          y: { ticks: { color: '#5a5852', callback: v => fmtY(v) }, grid: { color: 'rgba(255,255,255,.04)' }, beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  // Daily revenue chart
+  if (rd.length) {
+    const dLabels = rd.map(d => { const dt = new Date(d.date + 'T00:00:00'); return (dt.getMonth()+1)+'/'+dt.getDate(); });
+    new Chart(document.getElementById('c-rev-daily'), {
+      type: 'bar', data: {
+        labels: dLabels,
+        datasets: [{
+          data: rd.map(d => d.revenue),
+          backgroundColor: rd.map(d => {
+            const dow = new Date(d.date + 'T00:00:00').getDay();
+            return dow === 0 || dow === 6 ? '#e0555566' : '#5b8fd966';
+          }),
+          borderColor: rd.map(d => {
+            const dow = new Date(d.date + 'T00:00:00').getDay();
+            return dow === 0 || dow === 6 ? '#e05555' : '#5b8fd9';
+          }),
+          borderWidth: 1, borderRadius: 3
+        }]
+      }, options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { 
+            title: c => rd[c[0].dataIndex].date,
+            label: c => '¥' + (c.raw||0).toLocaleString() + ' (' + rd[c.dataIndex].sessions + ' sessions)'
+          }}
+        },
+        scales: {
+          x: { ticks: { color: '#5a5852' }, grid: { display: false } },
+          y: { ticks: { color: '#5a5852', callback: v => fmtY(v) }, grid: { color: 'rgba(255,255,255,.04)' }, beginAtZero: true }
+        }
+      }
+    });
+  }
+
   const cp=D.composite_popularity||[];const cpActive=cp.filter(c=>c.shift_count>0&&c.composite_score>0);
   // Composite cards
   let h='<div class="pg">';

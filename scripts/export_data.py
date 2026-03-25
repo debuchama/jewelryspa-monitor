@@ -653,6 +653,122 @@ def export_dashboard_data():
     composite.sort(key=lambda x: x["composite_score"], reverse=True)
     data["composite_popularity"] = composite
 
+    # ── 18b. 売上推計 ──
+    # コース: 80分=16,000円, 100分=20,000円, 120分=24,000円
+    # 指名料: 1,000円 (推定60%指名率)
+    # ブロック時間からコースを推定し、日次/週次/月次の売上を算出
+
+    COURSE_MAP = [
+        (140, 24000, '120min'),
+        (110, 20000, '100min'),
+        (70, 16000, '80min'),
+        (40, 16000, '80min'),  # short capture → assume 80min
+    ]
+    NOM_FEE = 600  # 1000 * 0.6 avg
+
+    rev_rows = conn.execute("""
+        SELECT ss.therapist_id, ss.schedule_date, ss.booked_ranges, ss.booked_slots,
+               ROW_NUMBER() OVER (PARTITION BY ss.therapist_id, ss.schedule_date
+                                  ORDER BY ss.booked_slots DESC) as rn
+        FROM slot_summaries ss
+        WHERE ss.booked_slots > 0
+    """).fetchall()
+
+    sched_counts = {}
+    for sr in conn.execute("SELECT schedule_date, COUNT(*) as cnt FROM daily_schedules GROUP BY schedule_date").fetchall():
+        sched_counts[sr["schedule_date"]] = sr["cnt"]
+
+    from collections import defaultdict as _dd
+    daily_rev = _dd(lambda: {"revenue": 0, "sessions": 0, "courses": _dd(int), "staff": 0, "booked_staff": 0})
+    _seen_rev = set()
+
+    for r in rev_rows:
+        if r["rn"] != 1:
+            continue
+        key = (r["therapist_id"], r["schedule_date"])
+        if key in _seen_rev:
+            continue
+        _seen_rev.add(key)
+        date = r["schedule_date"]
+        daily_rev[date]["booked_staff"] += 1
+        ranges = json.loads(r["booked_ranges"]) if r["booked_ranges"] else []
+        for rng in ranges:
+            dur = (_tm(rng[1]) - _tm(rng[0])) + 5
+            if dur < 40:
+                continue
+            price = 16000
+            course = '80min'
+            for min_dur, p, c in COURSE_MAP:
+                if dur >= min_dur:
+                    price = p
+                    course = c
+                    break
+            daily_rev[date]["sessions"] += 1
+            daily_rev[date]["revenue"] += price + NOM_FEE
+            daily_rev[date]["courses"][course] += 1
+
+    for date in daily_rev:
+        daily_rev[date]["staff"] = sched_counts.get(date, 0)
+
+    # Build weekly aggregation
+    from datetime import datetime as _dt
+    weekly_rev = _dd(lambda: {"revenue": 0, "sessions": 0, "days_observed": 0,
+                               "staff_days": 0, "week_start": "", "courses": _dd(int)})
+    for date_str, dr in daily_rev.items():
+        d = _dt.strptime(date_str, "%Y-%m-%d")
+        yr, wk, _ = d.isocalendar()
+        wk_key = f"{yr}-W{wk:02d}"
+        ws = d - timedelta(days=d.weekday())
+        weekly_rev[wk_key]["revenue"] += dr["revenue"]
+        weekly_rev[wk_key]["sessions"] += dr["sessions"]
+        weekly_rev[wk_key]["days_observed"] += 1
+        weekly_rev[wk_key]["staff_days"] += dr["staff"]
+        weekly_rev[wk_key]["week_start"] = ws.strftime("%m/%d")
+        for c, n in dr["courses"].items():
+            weekly_rev[wk_key]["courses"][c] += n
+
+    # Project weekly
+    weekly_list = []
+    for wk in sorted(weekly_rev.keys()):
+        wr = weekly_rev[wk]
+        avg_daily = wr["revenue"] / max(wr["days_observed"], 1)
+        projected = round(avg_daily * 7)
+        weekly_list.append({
+            "week": wk,
+            "week_start": wr["week_start"],
+            "days_observed": wr["days_observed"],
+            "actual_revenue": wr["revenue"],
+            "projected_weekly": projected,
+            "sessions": wr["sessions"],
+            "avg_daily": round(avg_daily),
+            "staff_days": wr["staff_days"],
+            "courses": dict(wr["courses"]),
+        })
+
+    # Monthly: average weekly projected × 4.3
+    total_weeks = len(weekly_list)
+    avg_weekly = sum(w["projected_weekly"] for w in weekly_list) / max(total_weeks, 1)
+    monthly_est = round(avg_weekly * 4.3)
+
+    # Daily list for chart
+    daily_list = []
+    for date in sorted(daily_rev.keys()):
+        dr = daily_rev[date]
+        daily_list.append({
+            "date": date,
+            "revenue": dr["revenue"],
+            "sessions": dr["sessions"],
+            "staff": dr["staff"],
+            "booked_staff": dr["booked_staff"],
+            "courses": dict(dr["courses"]),
+        })
+
+    data["revenue_daily"] = daily_list
+    data["revenue_weekly"] = weekly_list
+    data["revenue_monthly_est"] = monthly_est
+    data["revenue_avg_weekly"] = round(avg_weekly)
+    print(f"  revenue: {len(daily_list)} days, {len(weekly_list)} weeks, monthly ~¥{monthly_est:,}")
+
     # ── 19. キャンセル検出（本物のキャンセルのみ）──
     # 偽陽性の排除: Caskanは過ぎた時間のスロットを返さないため、
     # total_slotsが減りbooked_slotsも同量減る → これは時間経過であってキャンセルではない。
