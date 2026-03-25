@@ -424,7 +424,7 @@ def export_dashboard_data():
     """).fetchall()
     data["dow_demand"] = [dict(r) for r in rows]
 
-    # ── 18. 総合人気スコア（v6: クリティカルシンキング全面改訂）──
+    # ── 18. 総合人気スコア（v7: HP満了×スロット空=電話予約を信頼）──
     #
     # 発見された問題と対策:
     #   Bug1: is_fully_booked=1 だが同日のスロットデータが0% → スロットを正とする
@@ -540,12 +540,23 @@ def export_dashboard_data():
         slot_velocity[key] = round(max_vel, 1)
 
     # ── C: セラピストごとに集計 ──
+    # 
+    # データソース優先順位:
+    #   1. HP満了(シフト開始1h+前にスクレイプ) + スロット空 → 電話予約で埋まった(phone_booked)
+    #      スロットはWEB予約のみだが、HPは電話予約も反映 → HP満了を信頼
+    #   2. スロットデータのみ → 補正済みピーク占有率を使用
+    #   3. HP満了(スロットなし) → 条件付きで信頼
+    #   4. どちらもなし → 不明
+    #
+    PHONE_BOOKED_DEMAND = 85.0  # 電話予約で満了 → 85%需要と推定（100%ではない: 一部は取り置き等の可能性）
+
     td_map = defaultdict(lambda: {
         "name": "", "total_shifts": 0, "locations": set(),
         "corrected_peaks": [],       # 補正済みピーク占有率リスト
         "first_check_booked": [],    # 初回チェック予約率リスト
         "velocities": [],            # booking velocity リスト
         "prebooked_days": 0,
+        "phone_booked_days": 0,      # NEW: 電話予約で満了と推定された日
         "fake_booked_days": 0,
         "slot_data_days": 0,
     })
@@ -562,32 +573,59 @@ def export_dashboard_data():
         key = (tid, date)
         has_slot = key in slot_corrected
 
+        # HP満了の信頼性判定
+        hp_booked = False
+        hp_early = False
+        if row["is_fully_booked"]:
+            scraped_min = _tm(
+                row["scraped_at"].split(" ")[1][:5] if row["scraped_at"] and " " in row["scraped_at"] else "12:00"
+            )
+            start_min = _tm(row["start_time"]) if row["start_time"] else 0
+            end_min = _tm(row["end_time"]) if row["end_time"] else 0
+            before_start = start_min - scraped_min
+            remaining = end_min - scraped_min
+            hp_booked = True
+            hp_early = before_start >= 60  # シフト開始1h以上前にスクレイプ
+
         if has_slot:
             cpeak = slot_corrected[key]
-            if cpeak > 0 or slot_peak_bk.get(key, 0) == 0:
-                # 有効なスロットデータ（偽100%除外済み）
+            sf = slot_first.get(key, {})
+            first_occ = sf.get("first_occ", 0)
+
+            # KEY: HP満了(事前) + スロット初回0% → 電話予約で埋まった
+            if hp_booked and hp_early and first_occ < 10:
+                # 電話予約で満了 — HPを信頼、スロットのWEB予約分も加算
+                effective_demand = max(PHONE_BOOKED_DEMAND, cpeak)
+                td["corrected_peaks"].append(effective_demand)
+                td["phone_booked_days"] += 1
+                td["slot_data_days"] += 1
+
+                # スロット由来のシグナルも収集
+                if sf.get("first_booked", 0) > 0:
+                    td["first_check_booked"].append(first_occ)
+                vel = slot_velocity.get(key, 0)
+                if vel > 0:
+                    td["velocities"].append(vel)
+            elif cpeak > 0 or slot_peak_bk.get(key, 0) == 0:
+                # 通常: スロットデータを使用
                 td["corrected_peaks"].append(cpeak)
                 td["slot_data_days"] += 1
 
-                # 初回チェック予約
-                sf = slot_first.get(key, {})
                 if sf.get("first_booked", 0) > 0:
-                    td["first_check_booked"].append(sf["first_occ"])
-
-                # Velocity
+                    td["first_check_booked"].append(first_occ)
                 vel = slot_velocity.get(key, 0)
                 if vel > 0:
                     td["velocities"].append(vel)
             else:
                 td["fake_booked_days"] += 1
-        elif row["is_fully_booked"]:
-            # スロットなし → is_fully_booked を条件付きで信頼
-            scraped_min = _tm(
+        elif hp_booked:
+            # スロットなし → HP満了を条件付きで信頼
+            scraped_min2 = _tm(
                 row["scraped_at"].split(" ")[1][:5] if row["scraped_at"] and " " in row["scraped_at"] else "12:00"
             )
-            end_min = _tm(row["end_time"]) if row["end_time"] else 0
-            remaining = end_min - scraped_min
-            if remaining >= MIN_COURSE_MIN + 60:
+            end_min2 = _tm(row["end_time"]) if row["end_time"] else 0
+            remaining2 = end_min2 - scraped_min2
+            if remaining2 >= MIN_COURSE_MIN + 60:
                 td["prebooked_days"] += 1
             else:
                 td["fake_booked_days"] += 1
@@ -641,6 +679,7 @@ def export_dashboard_data():
             "evidence_days": evidence_days,
             "slot_data_days": td["slot_data_days"],
             "prebooked_days": pb_days,
+            "phone_booked_days": td["phone_booked_days"],
             "fake_booked_days": td["fake_booked_days"],
             "total_shifts": total_shifts,
             "shift_count": total_shifts,
