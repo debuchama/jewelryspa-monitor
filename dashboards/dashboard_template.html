@@ -280,6 +280,8 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
     <div class="mc" id="s-rev-metrics"></div>
     <div class="cc"><div class="ct2">Weekly revenue trend</div><div class="cs">Slot booking data × course pricing. Projected = daily avg × 7.</div><div class="cw" style="height:220px"><canvas id="c-rev-weekly"></canvas></div></div>
     <div class="cc"><div class="ct2">Daily revenue</div><div class="cs">Sessions × estimated course price (80min¥16k / 100min¥20k / 120min¥24k + nomination)</div><div class="cw" style="height:200px"><canvas id="c-rev-daily"></canvas></div></div>
+    <div class="cc"><div class="ct2">Revenue by therapist</div><div class="cs">Observed booking revenue per therapist (WEB reservation only).</div><div class="cw" id="c-rev-therapist-wrap" style="height:340px"><canvas id="c-rev-therapist"></canvas></div></div>
+    <div id="s-data-conf" class="ic" style="border-color:rgba(212,164,58,.2)"></div>
     <div class="cc"><div class="ct2">Composite popularity ranking</div><div class="cs">Demand×conf 55% + first-check booking 20% + velocity 10% + volume 15%</div><div id="s-composite"></div></div>
     <div class="cc"><div class="ct2">Shift frequency</div><div class="cw" style="height:340px"><canvas id="c-freq"></canvas></div></div>
     <div class="sh">Detail table</div>
@@ -807,6 +809,42 @@ document.getElementById('sp-play').addEventListener('click', function() {
         }
       }
     });
+  }
+
+  // Per-therapist revenue chart
+  const rbt = D.revenue_by_therapist || [];
+  if (rbt.length) {
+    const top = rbt.filter(t => t.sessions > 0).slice(0, 15);
+    const wrap = document.getElementById('c-rev-therapist-wrap');
+    if (wrap) wrap.style.height = Math.max(200, top.length * 28) + 'px';
+    new Chart(document.getElementById('c-rev-therapist'), {
+      type: 'bar', data: {
+        labels: top.map(t => t.name),
+        datasets: [{
+          data: top.map(t => t.revenue),
+          backgroundColor: top.map(t => t.sessions >= 3 ? '#c9a96e66' : '#5b8fd966'),
+          borderColor: top.map(t => t.sessions >= 3 ? '#c9a96e' : '#5b8fd9'),
+          borderWidth: 1, borderRadius: 4, barPercentage: .7
+        }]
+      }, options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: {
+            label: c => { const t = top[c.dataIndex]; return '¥' + t.revenue.toLocaleString() + ' (' + t.sessions + '件 ' + t.active_days + '日)'; }
+          }}
+        },
+        scales: {
+          x: { ticks: { color: '#5a5852', callback: v => fmtY(v) }, grid: { color: 'rgba(255,255,255,.04)' }, beginAtZero: true },
+          y: { ticks: { color: '#8a8880', font: { size: 12 } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  // Data confidence indicator
+  const dc = D.data_confidence || {};
+  if (dc.detection_rate !== undefined) {
+    document.getElementById('s-data-conf').innerHTML = `<div class="ic-t" style="color:var(--amb)">⚠ Data source: ${dc.source}</div><div class="ic-s">${dc.monitored_days}日間のモニタリングで、出勤${dc.therapist_days_scheduled}件中${dc.therapist_days_booked}件で予約検出（検出率${dc.detection_rate}%）。${dc.note}</div>`;
   }
 
   const cp=D.composite_popularity||[];const cpActive=cp.filter(c=>c.shift_count>0&&c.composite_score>0);

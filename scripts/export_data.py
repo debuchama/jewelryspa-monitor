@@ -769,6 +769,70 @@ def export_dashboard_data():
     data["revenue_avg_weekly"] = round(avg_weekly)
     print(f"  revenue: {len(daily_list)} days, {len(weekly_list)} weeks, monthly ~¥{monthly_est:,}")
 
+    # ── 18c. セラピスト別売上推計 ──
+    therapist_rev = _dd(lambda: {"name": "", "revenue": 0, "sessions": 0,
+                                  "dates": set(), "courses": _dd(int)})
+    _seen_trev = set()
+    for r in rev_rows:
+        if r["rn"] != 1:
+            continue
+        key = (r["therapist_id"], r["schedule_date"])
+        if key in _seen_trev:
+            continue
+        _seen_trev.add(key)
+        tid = r["therapist_id"]
+        tr = therapist_rev[tid]
+        tr["name"] = tid_name.get(tid, f"ID:{tid}")
+        tr["dates"].add(r["schedule_date"])
+        ranges = json.loads(r["booked_ranges"]) if r["booked_ranges"] else []
+        for rng in ranges:
+            dur = (_tm(rng[1]) - _tm(rng[0])) + 5
+            if dur < 40:
+                continue
+            price, course = 16000, '80min'
+            for min_dur, p, c in COURSE_MAP:
+                if dur >= min_dur:
+                    price, course = p, c
+                    break
+            tr["sessions"] += 1
+            tr["revenue"] += price + NOM_FEE
+            tr["courses"][course] += 1
+
+    therapist_rev_list = []
+    for tid, tr in therapist_rev.items():
+        therapist_rev_list.append({
+            "therapist_id": tid,
+            "name": tr["name"],
+            "revenue": tr["revenue"],
+            "sessions": tr["sessions"],
+            "active_days": len(tr["dates"]),
+            "courses": dict(tr["courses"]),
+        })
+    therapist_rev_list.sort(key=lambda x: x["revenue"], reverse=True)
+    data["revenue_by_therapist"] = therapist_rev_list
+
+    # ── 18d. データ精度指標 ──
+    # Caskanスロット = WEB予約のみ。電話予約は反映されない。
+    # 実際の売上は推計値より高い可能性が高い。
+    slot_monitored_dates = set()
+    for dr in daily_list:
+        slot_monitored_dates.add(dr["date"])
+    sched_on_monitored = conn.execute("""
+        SELECT COUNT(DISTINCT therapist_id || schedule_date) as cnt
+        FROM daily_schedules WHERE schedule_date IN ({})
+    """.format(",".join(f"'{d}'" for d in slot_monitored_dates))).fetchone()["cnt"] if slot_monitored_dates else 0
+    booked_therapist_days = len(_seen_trev)
+
+    data["data_confidence"] = {
+        "source": "Caskan WEB予約のみ（電話予約は未反映）",
+        "monitored_days": len(slot_monitored_dates),
+        "therapist_days_scheduled": sched_on_monitored,
+        "therapist_days_booked": booked_therapist_days,
+        "detection_rate": round(100 * booked_therapist_days / max(sched_on_monitored, 1), 1),
+        "note": "実際の売上はWEB予約分のみ。電話予約分を加えると1.5〜2.5倍の可能性",
+    }
+    print(f"  therapist revenue: {len(therapist_rev_list)} therapists, detection rate {data['data_confidence']['detection_rate']}%")
+
     # ── 19. キャンセル検出（本物のキャンセルのみ）──
     # 偽陽性の排除: Caskanは過ぎた時間のスロットを返さないため、
     # total_slotsが減りbooked_slotsも同量減る → これは時間経過であってキャンセルではない。
