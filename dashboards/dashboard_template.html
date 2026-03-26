@@ -133,6 +133,8 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;-w
 .pb{height:4px;border-radius:2px;margin-top:6px;background:var(--surface);overflow:hidden}.pb-f{height:100%;border-radius:2px}
 /* Insight cards */
 .ic{background:var(--surface);border:1px solid var(--bd);border-radius:var(--rl);padding:16px 18px;margin-bottom:16px}
+/* X embed */
+.x-embed-wrap{margin-top:12px;border-radius:10px;overflow:hidden;max-width:550px}
 .ic-t{font-size:14px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .ic-s{font-size:12px;color:var(--td);margin-bottom:12px}
 .al{padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:12px;display:flex;align-items:center;gap:8px}
@@ -293,6 +295,13 @@ a.pl{color:inherit;text-decoration:none;border-bottom:1px dotted var(--td);trans
     <div id="i-velocity"></div>
     <div id="i-cancellations"></div>
     <div id="i-newcomers"></div>
+    <div class="cc">
+      <div class="ct2">Shop SNS — @jewel2026s</div>
+      <div class="cs">空き枠情報・出勤変更などリアルタイム情報。Caskanには反映されない電話予約の状況もここで確認できます。</div>
+      <div class="x-embed-wrap">
+        <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders" data-height="500" data-dnt="true" href="https://x.com/jewel2026s">@jewel2026s</a>
+      </div>
+    </div>
   </div>
   <!-- LOG -->
   <div id="p-log" class="pn">
@@ -317,7 +326,7 @@ const nl=(n,id)=>{const tid=id||tidMap[n];return tid?`<a href="${PB}${tid}" targ
 const locBg=l=>{l=l.trim();return`<span class="bg ${l==='赤羽'?'bg-a':l==='王子'?'bg-o':l==='西新井'?'bg-n':''}">${l}</span>`};
 const locsBg=s=>s?s.split(',').map(locBg).join(' '):'';
 const occClr=p=>p>=70?'var(--red)':p>=40?'var(--amb)':p>0?'var(--grn)':'var(--td)';
-function showTab(id,btn){document.querySelectorAll('.pn').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('p-'+id).classList.add('active');btn.classList.add('active')}
+function showTab(id,btn){document.querySelectorAll('.pn').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('p-'+id).classList.add('active');btn.classList.add('active');if(id==='insights'&&!window._xLoaded){window._xLoaded=true;var s=document.createElement('script');s.src='https://platform.twitter.com/widgets.js';s.charset='utf-8';s.async=true;document.head.appendChild(s)}}
 // ===== Header =====
 document.getElementById('gen-time').textContent=D.generated_at;
 const allDates=D.weekly_schedules.map(s=>s.schedule_date);if(allDates.length){const u=[...new Set(allDates)].sort();document.getElementById('data-range').textContent=u[0]+' ~ '+u[u.length-1]}
